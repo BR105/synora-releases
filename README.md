@@ -8,7 +8,7 @@ ecualizador de audio e iluminación RGB nativa (**Synora Lumyx**).
 
 ## Descargar e instalar
 
-1. Descarga **`Synora-0.2.0-portable.zip`**.
+1. Descarga **`Synora-0.2.1-portable.zip`**.
 2. Descomprime la carpeta (no la ejecutes desde dentro del ZIP).
 3. Si Windows muestra «Windows protegió tu PC», ejecuta primero
    **«Confiar en Synora (admin).bat»** (doble clic) y luego abre **`Synora.exe`**.

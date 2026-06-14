@@ -1,6 +1,6 @@
 {
-  "version": "0.2.0",
+  "version": "0.2.1",
   "date": "2026-06-13",
-  "notes": "Primera versión pública. Remapeo de ratón/teclado, macros, perfiles por app, DPI por software. Ecualizador con EQ por aplicación. RGB nativo (Synora Lumyx): Razer HID, Iluminación dinámica de Windows, placa MSI + ventiladores, GPU NVIDIA y RAM (vía PawnIO). Menú de bandeja clásico y autoactualizador.",
+  "notes": "Prueba del autoactualizador. Mismas funciones que 0.2.0 + cache-buster para que las actualizaciones se detecten al instante.",
   "url": "https://raw.githubusercontent.com/BR105/synora-releases/main/Synora.exe"
 }
