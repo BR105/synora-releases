@@ -1,6 +1,6 @@
 {
-  "version": "0.2.1",
-  "date": "2026-06-13",
-  "notes": "Prueba del autoactualizador. Mismas funciones que 0.2.0 + cache-buster para que las actualizaciones se detecten al instante.",
+  "version": "0.2.2",
+  "date": "2026-06-16",
+  "notes": "0.2.2 — Actualización grande: DPI real por hardware en ratones Razer (la barra sigue el botón físico). Batería de inalámbricos en el inicio. RGB unificado en «Lumyx» con activación de Iluminación dinámica de Windows y calibración del diseño. Arreglado el RGB de la RAM en kits de varios módulos. Detección de ratones SinoWealth (experimental). Siluetas nuevas de ratón y teclado. Primera apertura más fácil (menos avisos de Windows).",
   "url": "https://raw.githubusercontent.com/BR105/synora-releases/main/Synora.exe"
 }
