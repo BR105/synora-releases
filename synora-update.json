@@ -1,6 +1,6 @@
 {
-  "version": "0.2.2",
-  "date": "2026-06-16",
-  "notes": "0.2.2 — Actualización grande: DPI real por hardware en ratones Razer (la barra sigue el botón físico). Batería de inalámbricos en el inicio. RGB unificado en «Lumyx» con activación de Iluminación dinámica de Windows y calibración del diseño. Arreglado el RGB de la RAM en kits de varios módulos. Detección de ratones SinoWealth (experimental). Siluetas nuevas de ratón y teclado. Primera apertura más fácil (menos avisos de Windows).",
+  "version": "0.2.3",
+  "date": "2026-06-17",
+  "notes": "0.2.3 — Arreglo de RGB en dispositivos de una sola zona: en ratones y teclados que exponen una única zona a Windows (Iluminación dinámica), cambiar el color ya NO apaga el dispositivo; el color se aplica a todo el aparato a la vez. La interfaz ahora avisa con claridad cuando un dispositivo solo tiene 1 zona (ya no ofrece una rejilla de LEDs que no existe) y explica que el color se aplica mientras Synora está en primer plano.",
   "url": "https://raw.githubusercontent.com/BR105/synora-releases/main/Synora.exe"
 }
