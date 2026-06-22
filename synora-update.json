@@ -1,6 +1,6 @@
 {
   "version": "0.2.4",
-  "date": "2026-06-20",
-  "notes": "0.2.4 — Interfaz estilo Synapse: cada dispositivo tiene pestañas (Mapeo, Iluminación, Macros); el nombre «Zynora» vuelve al inicio y los módulos (Macro, Lumyx, Sincronización) se despliegan con una flecha. RGB de la RAM SIN pedir permiso cada vez (un servicio que se instala una sola vez). Apagado inteligente: el RGB se apaga mientras mueves el ratón. La iluminación se ajusta por dispositivo. Iconos nuevos en las listas. Más backends de RGB nativos (Gigabyte) y motor 100% propio.",
+  "date": "2026-06-21",
+  "notes": "0.2.4 — Nueva interfaz por pestañas estilo Synapse: al seleccionar un dispositivo se abren sus pestañas (Mapeo, Iluminación, Macros, Información). «Zynora» arriba vuelve al inicio y la flecha despliega Macro / Lumyx / Sincronización. RGB: más marcas soportadas con detección automática mejorada (Razer), control de la iluminación de la RAM sin permisos de administrador, y apagado inteligente de la iluminación por inactividad o movimiento del ratón. Varias mejoras de estabilidad.",
   "url": "https://raw.githubusercontent.com/BR105/synora-releases/main/Synora.exe"
 }
