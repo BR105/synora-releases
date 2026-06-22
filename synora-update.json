@@ -1,6 +1,6 @@
 {
-  "version": "0.2.3",
-  "date": "2026-06-17",
-  "notes": "0.2.3 — Arreglo de RGB en dispositivos de una sola zona: en ratones y teclados que exponen una única zona a Windows (Iluminación dinámica), cambiar el color ya NO apaga el dispositivo; el color se aplica a todo el aparato a la vez. La interfaz ahora avisa con claridad cuando un dispositivo solo tiene 1 zona (ya no ofrece una rejilla de LEDs que no existe) y explica que el color se aplica mientras Synora está en primer plano.",
+  "version": "0.2.4",
+  "date": "2026-06-20",
+  "notes": "0.2.4 — Interfaz estilo Synapse: cada dispositivo tiene pestañas (Mapeo, Iluminación, Macros); el nombre «Zynora» vuelve al inicio y los módulos (Macro, Lumyx, Sincronización) se despliegan con una flecha. RGB de la RAM SIN pedir permiso cada vez (un servicio que se instala una sola vez). Apagado inteligente: el RGB se apaga mientras mueves el ratón. La iluminación se ajusta por dispositivo. Iconos nuevos en las listas. Más backends de RGB nativos (Gigabyte) y motor 100% propio.",
   "url": "https://raw.githubusercontent.com/BR105/synora-releases/main/Synora.exe"
 }
