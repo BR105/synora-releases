@@ -1,6 +1,6 @@
 {
-  "version": "0.2.4",
-  "date": "2026-06-21",
-  "notes": "0.2.4 — Nueva interfaz por pestañas estilo Synapse: al seleccionar un dispositivo se abren sus pestañas (Mapeo, Iluminación, Macros, Información). «Zynora» arriba vuelve al inicio y la flecha despliega Macro / Lumyx / Sincronización. RGB: más marcas soportadas con detección automática mejorada (Razer), control de la iluminación de la RAM sin permisos de administrador, y apagado inteligente de la iluminación por inactividad o movimiento del ratón. Varias mejoras de estabilidad.",
-  "url": "https://raw.githubusercontent.com/BR105/synora-releases/main/Synora.exe"
+  "version": "0.2.6",
+  "date": "2026-07-16",
+  "notes": "0.2.6 — Renombrada a Zynora. Interfaz mas limpia (se corrigieron iconos que salian como cuadrados). Lumyx: editor de LEDs libre sobre la silueta del raton, efecto POR-LED (cada LED su propio efecto/color), efectos sin duplicados y color para «Sincronizar todo». Mapeo: teclado con marco, controles extra en el contorno y perilla configurable (forma circulo/cilindro y clic opcional). Probador de teclas arreglado. Portable de un solo ejecutable.",
+  "url": "https://raw.githubusercontent.com/BR105/synora-releases/main/Zynora.exe"
 }
