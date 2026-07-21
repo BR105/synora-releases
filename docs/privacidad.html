@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de privacidad · Zynora</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #0f0f0f; color: #e8e8e8;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.65; padding: 32px 20px;
+  }
+  main { max-width: 760px; margin: 0 auto; }
+  h1 { color: #966cff; font-size: 26px; margin: 0 0 4px; }
+  .updated { color: #888; font-size: 13px; margin-bottom: 28px; }
+  h2 { color: #b79bff; font-size: 18px; margin: 30px 0 8px; }
+  h3 { color: #cfcfcf; font-size: 15px; margin: 18px 0 4px; }
+  a { color: #8ab4ff; }
+  code {
+    background: #1c1c1c; border: 1px solid #2a2a2a; border-radius: 4px;
+    padding: 1px 6px; font-size: 0.9em;
+  }
+  hr { border: none; border-top: 1px solid #262626; margin: 26px 0; }
+  strong { color: #f3f3f3; }
+  ul { padding-left: 20px; }
+  .foot { color: #777; font-size: 12px; margin-top: 40px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+<h1>Política de privacidad de Zynora</h1>
+<div class="updated">Última actualización: 20 de julio de 2026</div>
+
+<p>Zynora es una aplicación de escritorio para Windows, gratuita y portable, para
+remapear la entrada de ratón/teclado/mando, crear macros, controlar la
+iluminación RGB y ecualizar el audio del sistema. Esta política explica qué
+datos maneja la aplicación, con qué fin y cómo los protege. Está escrita en
+lenguaje claro a propósito.</p>
+
+<p><strong>Responsable:</strong> el equipo de Zynora.<br>
+<strong>Contacto:</strong> <a href="mailto:zynorahub105@gmail.com">zynorahub105@gmail.com</a></p>
+
+<hr>
+
+<h2>1. Principio general</h2>
+<p>Zynora funciona <strong>en tu equipo</strong>. Tus perfiles, macros, ajustes de
+ecualizador e iluminación se guardan <strong>localmente</strong>, junto a la
+aplicación. Zynora <strong>no sube esos datos a nuestros servidores</strong> ni
+los comparte con terceros.</p>
+<p>Solo salen de tu equipo tres cosas: una estadística de uso <strong>anónima</strong>,
+los <strong>comentarios</strong> que tú decidas enviarnos, y —solo si inicias
+sesión con Google— tu <strong>dirección de correo</strong>.</p>
+
+<h2>2. Qué datos se recogen y para qué</h2>
+
+<h3>a) Estadística de uso anónima</h3>
+<p>Para saber cuánta gente usa Zynora, la aplicación envía de vez en cuando una
+señal con:</p>
+<ul>
+  <li>un <strong>identificador aleatorio</strong> generado en tu equipo (no está
+  ligado a tu nombre, correo ni hardware),</li>
+  <li>la <strong>versión</strong> de Zynora,</li>
+  <li>tu <strong>país aproximado</strong> (lo deduce nuestro proveedor a partir de
+  la conexión; <strong>no guardamos tu dirección IP</strong>).</li>
+</ul>
+<p>No podemos identificarte con estos datos. Puedes <strong>desactivar</strong> por
+completo esta señal (ver sección 6).</p>
+
+<h3>b) Comentarios (retroalimentación)</h3>
+<p>Si usas el botón <strong>«Comentarios»</strong>, se envía únicamente el
+<strong>texto</strong> que escribes, el <strong>tipo</strong> de comentario
+(falla / idea / otro) y la <strong>versión</strong> de Zynora. No se adjunta tu
+correo ni ningún dato de identificación.</p>
+
+<h3>c) Cuenta de Google (opcional)</h3>
+<p>Iniciar sesión con Google es <strong>voluntario</strong>. Si lo haces, Zynora
+recibe de Google <strong>tu dirección de correo electrónico</strong>, y la usa
+solo para mostrarte con qué cuenta estás conectado. La sesión se guarda
+<strong>cifrada en tu propio equipo</strong> (protección DPAPI de Windows);
+nunca se envía a nuestros servidores. Puedes <strong>cerrar sesión</strong>
+cuando quieras.</p>
+
+<h3>d) Datos que NUNCA salen de tu equipo</h3>
+<p>Perfiles de remapeo, macros grabadas, ajustes de ecualizador, iluminación y
+preferencias se guardan <strong>solo localmente</strong>. Si activas la
+sincronización por carpeta, ese archivo se copia a una carpeta que
+<strong>tú eliges</strong> dentro de tu Google Drive / OneDrive / Dropbox; en
+ese caso lo gestiona <strong>tu</strong> servicio de nube, no Zynora.</p>
+
+<h2>3. Sobre el remapeo de teclado y ratón</h2>
+<p>Para remapear botones y teclas, Zynora observa la entrada del sistema mediante
+los mecanismos estándar de Windows. <strong>Zynora NO registra, guarda ni
+transmite lo que escribes.</strong> Esa información se procesa en el momento, en
+memoria, solo para aplicar tus remapeos, y se descarta. No hay ningún registro
+de pulsaciones («keylogger») y nada de eso se envía a ningún sitio. Las macros
+que grabes se guardan <strong>únicamente en tu equipo</strong>.</p>
+
+<h2>4. Dónde se guardan y cómo se protegen</h2>
+<ul>
+  <li>Las señales anónimas y los comentarios se procesan en <strong>Cloudflare</strong>
+  (Workers + base de datos D1). No se almacena tu IP.</li>
+  <li>Toda comunicación viaja <strong>cifrada por HTTPS</strong>.</li>
+  <li>La sesión de Google se guarda <strong>cifrada</strong> en tu equipo (DPAPI).</li>
+</ul>
+
+<h2>5. Terceros</h2>
+<ul>
+  <li><strong>Cloudflare</strong> — aloja el servicio que recibe la estadística
+  anónima y los comentarios.</li>
+  <li><strong>Google</strong> — solo si inicias sesión; nos entrega tu correo.
+  El uso de datos de Google se rige por la sección 7.</li>
+  <li><strong>GitHub</strong> — aloja las descargas de Zynora. El conteo de
+  descargas es un dato público de GitHub y no te identifica.</li>
+</ul>
+<p>No vendemos, alquilamos ni compartimos tus datos con anunciantes ni con nadie
+más. Zynora puede mostrar anuncios dentro de la aplicación para mantenerse
+gratis; esos anuncios <strong>no</strong> reciben tus datos personales.</p>
+
+<h2>6. Tus opciones y derechos</h2>
+<ul>
+  <li><strong>Desactivar la estadística anónima:</strong> crea un archivo vacío
+  llamado <code>telemetry_off</code> en la carpeta de Zynora.</li>
+  <li><strong>Cerrar sesión de Google:</strong> botón «Cerrar sesión» en la
+  ventana de Sincronización.</li>
+  <li><strong>Borrar tus datos locales:</strong> al ser portable, basta con
+  eliminar la carpeta de Zynora.</li>
+  <li><strong>Solicitudes:</strong> escríbenos a
+  <a href="mailto:zynorahub105@gmail.com">zynorahub105@gmail.com</a>.</li>
+</ul>
+
+<h2>7. Uso de datos de las APIs de Google (Limited Use)</h2>
+<p>El acceso de Zynora a la información de tu cuenta de Google, y su uso, se ajusta
+a la <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Política
+de Datos de Usuario de los Servicios de la API de Google</a>, incluidos sus
+requisitos de <strong>Uso Limitado (Limited Use)</strong>.</p>
+<ul>
+  <li><strong>Hoy</strong> Zynora solicita únicamente tu <strong>dirección de
+  correo</strong> (permiso no sensible), y la usa solo para mostrarte la cuenta
+  conectada.</li>
+  <li><strong>En el futuro</strong>, si activas la sincronización automática con
+  Google Drive, Zynora usará el permiso <code>drive.appdata</code>
+  <strong>exclusivamente</strong> para guardar y leer el archivo de
+  sincronización de tus perfiles en una <strong>carpeta privada de la
+  aplicación</strong> dentro de tu Drive (no accede al resto de tus archivos).
+  Esos datos <strong>no se transfieren a terceros, no se usan para publicidad y
+  no se usan para entrenar modelos de IA</strong>, salvo lo estrictamente
+  necesario para prestarte la función o cuando la ley lo exija.</li>
+</ul>
+
+<h2>8. Menores</h2>
+<p>Zynora no está dirigida a menores de 13 años y no recoge conscientemente datos
+de ellos.</p>
+
+<h2>9. Cambios en esta política</h2>
+<p>Si cambiamos esta política, actualizaremos la fecha de arriba y publicaremos la
+nueva versión en el mismo sitio. Los cambios relevantes se avisarán en las notas
+de la versión.</p>
+
+<h2>10. Contacto</h2>
+<p>¿Dudas sobre tu privacidad? Escríbenos a
+<strong><a href="mailto:zynorahub105@gmail.com">zynorahub105@gmail.com</a></strong>.</p>
+
+<div class="foot">Zynora · Política de privacidad</div>
+</main>
+</body>
+</html>
