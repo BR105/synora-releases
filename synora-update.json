@@ -1,6 +1,6 @@
 {
-  "version": "0.2.7",
-  "date": "2026-07-17",
-  "notes": "0.2.7 — Aviso de actualizacion al abrir (con recordatorio si lo pospones) y panel de uso anonimo. Macros: nuevos pasos de Texto e Iniciar programa/URL, y modo de insercion de tecla para armar combos. Remapeo: botones para Cambiar de perfil y Cambiar el efecto Lumyx (fijo o ciclico). Correcciones de interfaz.",
+  "version": "0.2.8",
+  "date": "2026-07-21",
+  "notes": "0.2.8 — Inicia sesion con Google y sincroniza tus perfiles con tu Google Drive. Nuevo probador de botones del raton con medidor de tasa de sondeo; ahora detecta el clic y la inclinacion de la rueda. Anade botones y controles extra en raton y teclado, con formas a elegir. Envia comentarios desde la app. Varias mejoras y correcciones de interfaz.",
   "url": "https://raw.githubusercontent.com/BR105/synora-releases/main/Zynora.exe"
 }
