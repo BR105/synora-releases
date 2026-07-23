@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Por qué me sale un aviso al abrir Zynora?</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0f0f0f; color: #e8e8e8;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.65; padding: 32px 20px; }
+  main { max-width: 760px; margin: 0 auto; }
+  h1 { color: #966cff; font-size: 25px; margin: 0 0 6px; }
+  .sub { color: #888; font-size: 14px; margin-bottom: 26px; }
+  h2 { color: #b79bff; font-size: 18px; margin: 30px 0 8px; }
+  a { color: #8ab4ff; word-break: break-all; }
+  code { background: #1c1c1c; border: 1px solid #2a2a2a; border-radius: 4px; padding: 1px 6px; font-size: 0.9em; }
+  hr { border: none; border-top: 1px solid #262626; margin: 26px 0; }
+  strong { color: #f3f3f3; }
+  .ok { color: #6ec882; }
+  .foot { color: #777; font-size: 12px; margin-top: 40px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+<h1>¿Por qué me sale un aviso al abrir Zynora?</h1>
+<div class="sub">Zynora es una app nueva e independiente, gratuita y portable. La primera vez, Windows,
+Google o tu antivirus pueden mostrar un aviso de precaución. <strong>No significan que Zynora sea un virus.</strong></div>
+
+<h2>1. «Windows protegió tu PC» (SmartScreen)</h2>
+<p>Windows muestra esta pantalla con cualquier programa que aún no reconoce. Zynora está firmada, pero
+con nuestro propio certificado (no uno comercial de pago), así que Windows todavía no la tiene en su lista
+de programas conocidos. Es un aviso de «no te conozco», no de «esto es peligroso».</p>
+<p><strong>Qué hacer:</strong> clic en <strong>«Más información»</strong> → <strong>«Ejecutar de todas formas»</strong>.
+La primera vez también puedes ejecutar <code>Abrir Zynora (primera vez).bat</code> (incluido en la descarga).</p>
+
+<h2>2. «Google no verificó esta app»</h2>
+<p>Aparece <strong>solo</strong> si activas la sincronización con Google Drive; el inicio de sesión normal (para
+mostrar tu correo) no lo muestra. La verificación de Google para el permiso de Drive es un trámite pendiente.
+<strong>No afecta la seguridad de tu cuenta:</strong> Zynora solo accede a una carpeta privada de la aplicación
+dentro de tu Drive, no al resto de tus archivos.</p>
+<p><strong>Qué hacer:</strong> <strong>«Configuración avanzada»</strong> → <strong>«Ir a Zynora»</strong>.</p>
+
+<h2>3. Algún antivirus podría marcar Zynora</h2>
+<p>Zynora remapea teclas y botones con mecanismos estándar de Windows que también usan apps legítimas
+conocidas (por ejemplo <strong>AutoHotkey</strong>). Algunos antivirus, por precaución, marcan este tipo de
+programas aunque no sean dañinos: un <strong>falso positivo</strong>.</p>
+<p><strong>Resultado real (transparencia):</strong> en el análisis público, <span class="ok"><strong>68 de 69
+motores antivirus dan Zynora limpia</strong></span>. Solo <strong>Microsoft Defender</strong> la marca como
+<code>Trojan:Win32/Wacatac.B!ml</code> — una detección <strong>heurística por inteligencia artificial</strong>
+(el sufijo <code>!ml</code> lo indica), un <strong>falso positivo conocido</strong> en apps independientes,
+firmadas con certificado propio, que remapean teclado/ratón. No es la firma de un virus real. Compruébalo:</p>
+<p>🔎 <strong>Análisis de VirusTotal:</strong><br>
+<a href="https://www.virustotal.com/gui/file/43e07b4dd2d039f69c3c8bbd050d179e2ba8eeef815c307446b03f649eb130eb" target="_blank" rel="noopener">virustotal.com/gui/file/43e07b4dd2…130eb</a></p>
+<p>Si tu Windows Defender llegara a bloquear Zynora, es por ese falso positivo: puedes restaurar el archivo
+desde la cuarentena de Windows y añadir una exclusión para la carpeta de Zynora.</p>
+
+<hr>
+<h2>¿Cómo sé que Zynora es de confianza?</h2>
+<p>Es <strong>portable</strong> (no instala nada, no modifica el registro; para quitarla, borra la carpeta).
+<strong>No es un keylogger:</strong> no registra ni envía lo que escribes
+(<a href="https://br105.github.io/synora-releases/privacidad.html">Política de privacidad</a>).
+Puedes revisar el análisis de VirusTotal y las notas de cada versión.</p>
+<p>¿Dudas? Escríbenos a <strong>zynorahub105@gmail.com</strong> o desde el botón «Comentarios» dentro de la app.</p>
+
+<div class="foot">Zynora · Avisos de seguridad</div>
+</main>
+</body>
+</html>
