@@ -1,6 +1,6 @@
 {
-  "version": "0.2.8",
+  "version": "0.2.9",
   "date": "2026-07-21",
-  "notes": "0.2.8 — Inicia sesion con Google y sincroniza tus perfiles con tu Google Drive. Nuevo probador de botones del raton con medidor de tasa de sondeo; ahora detecta el clic y la inclinacion de la rueda. Anade botones y controles extra en raton y teclado, con formas a elegir. Envia comentarios desde la app. Varias mejoras y correcciones de interfaz.",
+  "notes": "0.2.9 — Ajustes de interfaz y mejoras internas.",
   "url": "https://raw.githubusercontent.com/BR105/synora-releases/main/Zynora.exe"
 }
