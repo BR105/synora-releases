@@ -219,14 +219,12 @@ ul{margin:0;padding:0}
 }
 .play-btn:hover{transform:translateY(-1px);color:#fff}
 .play-btn svg{width:16px;height:16px}
-.eq-bars{display:flex;align-items:flex-end;gap:6px;height:150px;margin-bottom:18px}
+.eq-bars{display:flex;align-items:flex-end;gap:6px;height:184px;margin-bottom:18px}
 .eq-bars .b{
-  flex:1;height:8%;border-radius:4px 4px 0 0;
-  background:linear-gradient(180deg,var(--accent),rgba(150,108,255,.25));
-  transition:height .06s linear;
+  flex:1;height:20%;min-height:5px;border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,var(--accent),rgba(150,108,255,.6));
+  transition:height .5s cubic-bezier(.2,.7,.3,1);
 }
-.eq-bars.idle .b{animation:eqidle 5s ease-in-out infinite}
-@keyframes eqidle{0%,100%{height:11%}50%{height:19%}}
 .eq-presets{display:flex;gap:8px;flex-wrap:wrap}
 .eq-presets .chip{cursor:pointer;transition:color .2s,background .2s,border-color .2s,opacity .2s}
 .eq-presets .chip:hover{color:var(--text);border-color:rgba(255,255,255,.18)}
@@ -281,7 +279,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 
 @media (prefers-reduced-motion:reduce){
   .reveal,.slide-l,.slide-r{opacity:1;transform:none;transition:none}
-  .hero-glow,.rgb-strip,.eq-bars.idle .b,.hero h1 .grad{animation:none}
+  .hero-glow,.rgb-strip,.hero h1 .grad{animation:none}
   html{scroll-behavior:auto}
 }
 
@@ -702,6 +700,18 @@ document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.o
   var NB=22,bars=[];
   for(var i=0;i<NB;i++){var b=document.createElement('div');b.className='b';box.appendChild(b);bars.push(b);}
 
+  // Envolvente de CAMPANA (centro alto, bordes bajos) para darle forma a las barras.
+  var env=[],mid=(NB-1)/2,sig=NB*0.34;
+  for(var e=0;e<NB;e++){env[e]=0.28+0.72*Math.exp(-Math.pow((e-mid)/sig,2));}
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var idleTimer=null;
+  function setTrans(d){bars.forEach(function(b){b.style.transition='height '+d;});}
+  // En reposo: cada barra sube/baja de forma ALEATORIA e independiente (no al unísono).
+  function idleFrame(){for(var i=0;i<NB;i++){bars[i].style.height=(env[i]*(18+Math.random()*30)).toFixed(1)+'%';}}
+  function startIdle(){setTrans('.6s cubic-bezier(.2,.7,.3,1)');idleFrame();if(!reduce&&!idleTimer){idleTimer=setInterval(idleFrame,600);}}
+  function stopIdle(){if(idleTimer){clearInterval(idleTimer);idleTimer=null;}}
+  startIdle();
+
   var ctx,master,filter,analyser,freq,raf,playing=false,seq,stepTimer,step=0;
   var profiles={
     gaming: {type:'peaking',  freq:2200,q:1,  gain:5},   // presencia
@@ -755,7 +765,7 @@ document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.o
     for(var i=0;i<NB;i++){
       var idx=Math.floor(Math.pow(i/NB,1.4)*use);
       var v=freq[idx]/255;
-      bars[i].style.height=(8+v*92)+'%';
+      bars[i].style.height=(env[i]*(14+v*82)).toFixed(1)+'%'; // campana × audio real
     }
     raf=requestAnimationFrame(draw);
   }
@@ -773,6 +783,7 @@ document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.o
     }
     ctx.resume();
     box.classList.remove('idle');
+    stopIdle();setTrans('.09s linear'); // barras reactivas al audio, sin rastro
     if(presets)presets.classList.remove('locked'); // habilita perfiles al dar Play
     step=0;stepTimer=setInterval(scheduler,125); // 16avo ≈125ms → ~120bpm
     draw();
@@ -783,7 +794,7 @@ document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.o
     if(ctx)ctx.suspend();
     box.classList.add('idle');
     if(presets)presets.classList.add('locked'); // vuelven a bloquearse en pausa
-    bars.forEach(function(b){b.style.height='';});
+    startIdle(); // campana aleatoria y lenta en pausa
     playing=false;
   }
 
