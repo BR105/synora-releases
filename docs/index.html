@@ -201,13 +201,14 @@ section{position:relative}
 .arch-stack .dev:nth-child(4){z-index:3;margin-bottom:30px}
 .arch-stack .dev:nth-child(5){z-index:2;margin-bottom:16px}
 .arch-stack .dev:nth-child(6){z-index:1;margin-bottom:0}
-/* entrada ESCALONADA: cada dispositivo aparece un instante después del anterior (uno tras otro) */
-.arch-stack .dev:nth-child(1){transition-delay:0s}
-.arch-stack .dev:nth-child(2){transition-delay:.10s}
-.arch-stack .dev:nth-child(3){transition-delay:.20s}
-.arch-stack .dev:nth-child(4){transition-delay:.30s}
-.arch-stack .dev:nth-child(5){transition-delay:.40s}
-.arch-stack .dev:nth-child(6){transition-delay:.50s}
+/* Entrada por POSICIÓN, AFUERA→ADENTRO: los extremos primero, el centro al final.
+   El delay se basa en la distancia al borde (nth-child desde la izq combinado con
+   nth-last-child desde la der), así queda simétrico tanto con 5 como con 6 dispositivos:
+   pos 1 y N → 0s · pos 2 y N-1 → .32s · centro (3 / 3 y 4) → .74s (los últimos). */
+.arch-stack .dev{transition-duration:.82s}          /* un poco más lento = se ve colocarse */
+.arch-stack .dev:nth-child(1),.arch-stack .dev:nth-last-child(1){transition-delay:0s}
+.arch-stack .dev:nth-child(2),.arch-stack .dev:nth-last-child(2){transition-delay:.32s}
+.arch-stack .dev:nth-child(3),.arch-stack .dev:nth-last-child(3){transition-delay:.74s}
 /* entrada desde arriba (tercer eje del stagger) */
 .slide-u{opacity:0;transform:translateY(-56px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
 .slide-u.in{opacity:1;transform:none}
@@ -522,10 +523,10 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
       <h3>Mouse</h3>
       <div class="arch-stack">
         <img class="dev slide-l" src="assets/devices/device-mouse-ergo-right-transparente.png" alt="Mouse ergonómico" loading="lazy">
-        <img class="dev slide-u" src="assets/devices/device-mouse-ultralight-honeycomb-transparente.png" alt="Mouse ultraligero" loading="lazy">
-        <img class="dev slide-r" src="assets/devices/device-mouse-vertical-transparente.png" alt="Mouse vertical" loading="lazy">
-        <img class="dev slide-l" src="assets/devices/device-mouse-mmo-sidegrid-transparente.png" alt="Mouse MMO" loading="lazy">
-        <img class="dev slide-u" src="assets/devices/device-mouse-palm-large-transparente.png" alt="Mouse palm grande" loading="lazy">
+        <img class="dev slide-l" src="assets/devices/device-mouse-ultralight-honeycomb-transparente.png" alt="Mouse ultraligero" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-mouse-vertical-transparente.png" alt="Mouse vertical" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-mouse-mmo-sidegrid-transparente.png" alt="Mouse MMO" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-mouse-palm-large-transparente.png" alt="Mouse palm grande" loading="lazy">
         <!-- pendiente: device-mouse-fingertip-ultralight-transparente.png -->
       </div>
     </div>
@@ -534,10 +535,10 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
       <h3>Teclados</h3>
       <div class="arch-stack glow-c">
         <img class="dev slide-l" src="assets/devices/device-keyboard-60-transparente.png" alt="Teclado 60%" loading="lazy">
-        <img class="dev slide-u" src="assets/devices/device-keyboard-tkl-transparente.png" alt="Teclado TKL" loading="lazy">
-        <img class="dev slide-r" src="assets/devices/device-keyboard-full-transparente.png" alt="Teclado completo" loading="lazy">
-        <img class="dev slide-l" src="assets/devices/device-keyboard-75-transparente.png" alt="Teclado 75%" loading="lazy">
-        <img class="dev slide-u" src="assets/devices/device-keyboard-65-transparente.png" alt="Teclado 65%" loading="lazy">
+        <img class="dev slide-l" src="assets/devices/device-keyboard-tkl-transparente.png" alt="Teclado TKL" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-keyboard-full-transparente.png" alt="Teclado completo" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-keyboard-75-transparente.png" alt="Teclado 75%" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-keyboard-65-transparente.png" alt="Teclado 65%" loading="lazy">
         <img class="dev slide-r" src="assets/devices/device-keyboard-lowprofile-transparente.png" alt="Teclado bajo perfil" loading="lazy">
       </div>
     </div>
@@ -546,10 +547,10 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
       <h3>Controles</h3>
       <div class="arch-stack">
         <img class="dev slide-l" src="assets/devices/device-gamepad-asymmetric-pro-transparente.png" alt="Control pro" loading="lazy">
-        <img class="dev slide-u" src="assets/devices/device-gamepad-compact-transparente.png" alt="Control compacto" loading="lazy">
-        <img class="dev slide-r" src="assets/devices/device-gamepad-symmetric-transparente.png" alt="Control simétrico" loading="lazy">
-        <img class="dev slide-l" src="assets/devices/device-gamepad-elite-pro-transparente.png" alt="Control elite" loading="lazy">
-        <img class="dev slide-u" src="assets/devices/device-gamepad-fightpad-transparente.png" alt="Control de pelea" loading="lazy">
+        <img class="dev slide-l" src="assets/devices/device-gamepad-compact-transparente.png" alt="Control compacto" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-gamepad-symmetric-transparente.png" alt="Control simétrico" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-gamepad-elite-pro-transparente.png" alt="Control elite" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-gamepad-fightpad-transparente.png" alt="Control de pelea" loading="lazy">
         <img class="dev slide-r" src="assets/devices/device-gamepad-telescopic-mobile-transparente.png" alt="Control telescópico móvil" loading="lazy">
       </div>
     </div>
@@ -770,7 +771,21 @@ document.querySelectorAll('#navlinks a').forEach(function(a){
 var io=new IntersectionObserver(function(entries){
   entries.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});
 },{threshold:.15});
-document.querySelectorAll('.reveal,.slide-l,.slide-r,.slide-u').forEach(function(el){io.observe(el);});
+document.querySelectorAll('.reveal,.slide-l,.slide-r,.slide-u').forEach(function(el){
+  if(el.classList.contains('dev'))return; // la galería tiene su propio observer (abajo)
+  io.observe(el);
+});
+
+// Galería "Sea cual sea tu equipo": observer APARTE con umbral más alto para que la
+// cascada por posición (extremos→centro) se dispare BIEN dentro del viewport, no al
+// asomar. Observa el contenedor y alterna .in en todos sus dispositivos a la vez,
+// así los transition-delay del CSS marcan el orden. Re-anima al salir/entrar.
+var ioDev=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    e.target.querySelectorAll('.dev').forEach(function(d){d.classList.toggle('in',e.isIntersecting);});
+  });
+},{threshold:.35});
+document.querySelectorAll('.arch-stack').forEach(function(el){ioDev.observe(el);});
 
 // Contador REAL de descargas (GitHub Releases) — solo se muestra si supera el umbral.
 (function(){

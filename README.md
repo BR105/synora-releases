@@ -1,5 +1,8 @@
 # Zynora — descargas
 
+### 👉 Sitio web: **https://br105.github.io/synora-releases/**
+Conoce Zynora, mira lo que hace y descárgalo desde la página oficial.
+
 Distribución de **Zynora**: remapeo de ratón/teclado, macros, perfiles por app,
 ecualizador de audio e iluminación RGB nativa (**Zynora Lumyx**).
 
