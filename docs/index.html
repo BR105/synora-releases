@@ -604,9 +604,11 @@ document.querySelectorAll('#navlinks a').forEach(function(a){
   a.addEventListener('click',function(){document.getElementById('navlinks').classList.remove('open');});
 });
 
-// Reveal / entrada lateral al hacer scroll
+// Reveal / entrada lateral al hacer scroll — RE-ANIMA cada vez que el elemento
+// vuelve a entrar al viewport (estilo Game Factor): al salir se resetea y al
+// volver a entrar se anima de nuevo (no una sola vez).
 var io=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  entries.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});
 },{threshold:.15});
 document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.observe(el);});
 
