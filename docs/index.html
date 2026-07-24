@@ -197,6 +197,12 @@ section{position:relative}
 .arch-stack .dev:nth-child(1){z-index:1}
 .arch-stack .dev:nth-child(2){z-index:3;width:clamp(132px,24vw,214px);margin-bottom:16px}
 .arch-stack .dev:nth-child(3){z-index:2}
+/* entrada ESCALONADA: cada dispositivo aparece un instante después del anterior (no todos a la vez) */
+.arch-stack .dev:nth-child(2){transition-delay:.14s}
+.arch-stack .dev:nth-child(3){transition-delay:.28s}
+.arch-stack .dev:nth-child(4){transition-delay:.42s}
+.arch-stack .dev:nth-child(5){transition-delay:.56s}
+.arch-stack .dev:nth-child(6){transition-delay:.70s}
 /* entrada desde arriba (tercer eje del stagger) */
 .slide-u{opacity:0;transform:translateY(-56px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
 .slide-u.in{opacity:1;transform:none}
