@@ -48,11 +48,20 @@ p{margin:0}
 }
 .eyebrow.cyan{color:var(--cyan)}
 
+/* ---- Lockup (marca en CSS) ---- */
+.lockup{display:inline-flex;align-items:center;gap:.5em;line-height:1}
+.lockup img{height:1.15em;width:auto;flex:none}
+.lockup .word{
+  font-weight:800;letter-spacing:-.045em;color:var(--text);
+  font-size:1em;
+}
+.lockup .word .z{color:var(--accent)}
+
 /* ---- Botones ---- */
 .btn{
   display:inline-flex;align-items:center;gap:9px;font-family:var(--font);font-size:15px;font-weight:600;
   padding:13px 22px;border-radius:var(--r-ctrl);border:1px solid transparent;cursor:pointer;
-  transition:transform .15s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease;
+  transition:transform .15s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease,color .2s ease;
 }
 .btn svg{width:18px;height:18px}
 .btn-primary{
@@ -69,8 +78,7 @@ header{
   border-bottom:1px solid var(--hairline-2);
 }
 .nav{display:flex;align-items:center;justify-content:space-between;height:66px}
-.brand{display:flex;align-items:center;gap:10px}
-.brand img{height:30px;width:auto}
+.brand .lockup{font-size:22px}
 .nav-links{display:flex;gap:30px;align-items:center}
 .nav-links a{color:var(--text-dim);font-size:14.5px;font-weight:500;transition:color .2s}
 .nav-links a:hover{color:var(--text)}
@@ -78,24 +86,27 @@ header{
 .menu-btn{display:none;background:none;border:0;color:var(--text);cursor:pointer;padding:6px}
 
 /* ---- Hero ---- */
-.hero{position:relative;padding:96px 0 84px;text-align:center;overflow:hidden}
+.hero{position:relative;padding:104px 0 92px;text-align:center;overflow:hidden}
 .hero-glow{
   position:absolute;top:-160px;left:50%;transform:translateX(-50%);
-  width:900px;height:600px;pointer-events:none;z-index:0;
+  width:900px;height:600px;pointer-events:none;z-index:0;max-width:100%;
   background:radial-gradient(closest-side,rgba(150,108,255,.28),rgba(150,108,255,.05) 55%,transparent 72%);
   filter:blur(20px);animation:breathe 9s ease-in-out infinite;
 }
 @keyframes breathe{0%,100%{opacity:.75;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.08)}}
 .hero .wrap{position:relative;z-index:1}
-.hero-logo{height:104px;width:auto;margin:0 auto 30px;filter:drop-shadow(0 10px 44px rgba(150,108,255,.32))}
+.hero-lockup{
+  font-size:clamp(52px,10vw,88px);margin:0 auto 34px;justify-content:center;
+  filter:drop-shadow(0 10px 44px rgba(150,108,255,.30));
+}
 .hero h1{
-  font-size:clamp(34px,6vw,60px);letter-spacing:-.03em;max-width:15ch;margin:0 auto 20px;
+  font-size:clamp(32px,5.4vw,56px);letter-spacing:-.03em;max-width:16ch;margin:0 auto 20px;
 }
 .hero h1 .grad{
   background:linear-gradient(100deg,#c7b0ff,#966cff 55%,#00dcff);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.hero-sub{font-size:clamp(16px,2.2vw,20px);color:var(--text-dim);max-width:56ch;margin:0 auto 36px}
+.hero-sub{font-size:clamp(16px,2.2vw,20px);color:var(--text-dim);max-width:58ch;margin:0 auto 36px}
 .hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
 .badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .badge{
@@ -104,12 +115,34 @@ header{
 }
 .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
 
+/* ---- Franja ---- */
+.strip{border-top:1px solid var(--hairline-2);border-bottom:1px solid var(--hairline-2);padding:30px 0;background:var(--bg-2)}
+.strip .wrap{display:flex;align-items:center;justify-content:center;gap:12px 34px;flex-wrap:wrap;text-align:center}
+.strip span{color:var(--text-muted);font-size:14px;font-weight:600;letter-spacing:.02em}
+.strip .lead{color:var(--text);font-weight:700}
+
 /* ---- Secciones ---- */
 section{position:relative}
 .section{padding:84px 0}
-.section-head{max-width:640px;margin:0 auto 54px;text-align:center}
+.section-head{max-width:660px;margin:0 auto 54px;text-align:center}
 .section-head h2{font-size:clamp(28px,4vw,42px);margin-bottom:14px}
 .section-head p{color:var(--text-dim);font-size:17px}
+
+/* ---- Showcase a pantalla (scroll reveal alterno) ---- */
+.showcase{min-height:100vh;display:flex;align-items:center;padding:80px 0;overflow:hidden}
+.showcase .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%}
+.showcase.rev .illus{order:2}
+.showcase .illus svg{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 70px rgba(0,0,0,.55))}
+.showcase .copy .step{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.showcase .copy h2{font-size:clamp(30px,4.4vw,46px);margin-bottom:18px;max-width:14ch}
+.showcase .copy p{color:var(--text-dim);font-size:clamp(16px,2vw,19px);max-width:44ch}
+.showcase .copy .sub{color:var(--text-muted);font-size:15px;margin-top:16px;max-width:44ch}
+
+/* entrada lateral */
+.slide-l,.slide-r{opacity:0;transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.slide-l{transform:translateX(-70px)}
+.slide-r{transform:translateX(70px)}
+.slide-l.in,.slide-r.in{opacity:1;transform:none}
 
 /* ---- Grid de features ---- */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -128,12 +161,6 @@ section{position:relative}
 .card h3{font-size:18px;margin-bottom:9px;letter-spacing:-.01em}
 .card p{color:var(--text-dim);font-size:14.5px}
 
-/* ---- Franja de logos/marcas ---- */
-.strip{border-top:1px solid var(--hairline-2);border-bottom:1px solid var(--hairline-2);padding:34px 0;background:var(--bg-2)}
-.strip .wrap{display:flex;align-items:center;justify-content:center;gap:14px 40px;flex-wrap:wrap;text-align:center}
-.strip span{color:var(--text-muted);font-size:14px;font-weight:600;letter-spacing:.02em}
-.strip .lead{color:var(--text);font-weight:700}
-
 /* ---- Lumyx ---- */
 .lumyx{
   background:
@@ -143,10 +170,10 @@ section{position:relative}
   border-top:1px solid var(--hairline-2);border-bottom:1px solid var(--hairline-2);
 }
 .lumyx-inner{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
-.lumyx-logo{height:60px;width:auto;margin-bottom:26px}
-.lumyx-inner h2{font-size:clamp(28px,4vw,40px);margin-bottom:16px}
+.lumyx-logo{height:56px;width:auto;margin-bottom:24px}
+.lumyx-inner h2{font-size:clamp(30px,4.4vw,46px);margin-bottom:16px}
 .lumyx-inner p.big{color:var(--text-dim);font-size:17px;margin-bottom:26px}
-.lumyx-list{display:flex;flex-direction:column;gap:14px;margin-bottom:30px}
+.lumyx-list{display:flex;flex-direction:column;gap:14px;margin-bottom:8px}
 .lumyx-list li{display:flex;gap:13px;align-items:flex-start;list-style:none}
 .lumyx-list .tick{
   flex:none;width:22px;height:22px;border-radius:6px;background:var(--cyan-soft);border:1px solid rgba(0,220,255,.3);
@@ -157,7 +184,7 @@ section{position:relative}
 .lumyx-list span{color:var(--text-dim);font-size:14.5px}
 ul{margin:0;padding:0}
 
-/* Mockup RGB (CSS puro) */
+/* Mockup RGB */
 .rgb-mock{
   background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-card);
   padding:26px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7);
@@ -172,18 +199,36 @@ ul{margin:0;padding:0}
 .leds{display:grid;grid-template-columns:repeat(10,1fr);gap:9px;margin-bottom:22px}
 .led{aspect-ratio:1;border-radius:50%;background:#2a2a34}
 .chips{display:flex;gap:9px;flex-wrap:wrap}
-.chip{font-size:12px;font-weight:600;color:var(--text-dim);background:var(--surface-2);border:1px solid var(--hairline);border-radius:100px;padding:6px 13px}
+.chip{font-size:12px;font-weight:600;color:var(--text-dim);background:var(--surface-2);border:1px solid var(--hairline);border-radius:100px;padding:6px 13px;cursor:default}
 .chip.on{color:#0a0a0c;background:var(--cyan);border-color:var(--cyan)}
 
-/* ---- EQ / mockups genéricos ---- */
+/* ---- Audio / EQ ---- */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
 .split.rev .txt{order:2}
 .eq-mock{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-card);padding:26px}
-.eq-bars{display:flex;align-items:flex-end;gap:8px;height:150px;margin-bottom:18px}
-.eq-bars .b{flex:1;background:linear-gradient(180deg,var(--accent),rgba(150,108,255,.25));border-radius:5px 5px 0 0;animation:eq 1.8s ease-in-out infinite}
-@keyframes eq{0%,100%{opacity:.85}50%{opacity:1}}
+.eq-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.eq-top small{color:var(--text-muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.eq-demo-tag{font-size:11px;color:var(--text-muted);border:1px solid var(--hairline);border-radius:100px;padding:3px 10px;font-weight:600}
+.play-btn{
+  display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#0a0a0c;border:0;
+  font-family:var(--font);font-weight:700;font-size:14px;padding:9px 16px;border-radius:var(--r-ctrl);cursor:pointer;
+  transition:transform .15s ease,color .2s ease,box-shadow .2s ease;box-shadow:0 8px 24px -10px rgba(150,108,255,.6);
+}
+.play-btn:hover{transform:translateY(-1px);color:#fff}
+.play-btn svg{width:16px;height:16px}
+.eq-bars{display:flex;align-items:flex-end;gap:6px;height:150px;margin-bottom:18px}
+.eq-bars .b{
+  flex:1;height:8%;border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,var(--accent),rgba(150,108,255,.25));
+  transition:height .06s linear;
+}
+.eq-bars.idle .b{animation:eqidle 1.8s ease-in-out infinite}
+@keyframes eqidle{0%,100%{height:22%}50%{height:70%}}
 .eq-presets{display:flex;gap:8px;flex-wrap:wrap}
-.split .txt h2{font-size:clamp(26px,3.6vw,36px);margin-bottom:14px}
+.eq-presets .chip{cursor:pointer;transition:color .2s,background .2s,border-color .2s}
+.eq-presets .chip:hover{color:var(--text);border-color:rgba(255,255,255,.18)}
+.eq-presets .chip.on{color:#0a0a0c;background:var(--accent);border-color:var(--accent)}
+.split .txt h2{font-size:clamp(28px,3.8vw,40px);margin-bottom:14px}
 .split .txt p{color:var(--text-dim);font-size:16px;margin-bottom:14px}
 .mini-list{display:flex;flex-direction:column;gap:10px;margin-top:18px}
 .mini-list li{display:flex;gap:11px;color:var(--text-dim);font-size:15px;list-style:none;align-items:flex-start}
@@ -192,28 +237,29 @@ ul{margin:0;padding:0}
 
 /* ---- Aviso anti-cheat ---- */
 .notice{
-  border:1px solid rgba(251,191,36,.28);background:rgba(251,191,36,.06);
+  border:1px solid var(--hairline);background:var(--surface);
   border-radius:var(--r-card);padding:22px 24px;display:flex;gap:16px;align-items:flex-start;
 }
-.notice .ico{flex:none;color:var(--warn);margin-top:2px}
-.notice h3{font-size:16px;margin-bottom:6px;color:var(--warn)}
+.notice .ico{flex:none;color:var(--accent);margin-top:2px}
+.notice h3{font-size:16px;margin-bottom:6px;color:var(--text)}
 .notice p{color:var(--text-dim);font-size:14.5px}
+.notice b{color:var(--text)}
 
 /* ---- CTA final ---- */
 .cta{
   text-align:center;
   background:radial-gradient(600px 300px at 50% 0%,rgba(150,108,255,.16),transparent 65%);
-  padding:96px 0;
+  padding:100px 0;
 }
 .cta h2{font-size:clamp(30px,5vw,48px);margin-bottom:16px}
-.cta p{color:var(--text-dim);font-size:18px;max-width:48ch;margin:0 auto 32px}
-.free-note{color:var(--text-muted);font-size:13px;margin-top:36px}
+.cta p{color:var(--text-dim);font-size:18px;max-width:48ch;margin:0 auto 34px}
+.free-note{color:var(--text-muted);font-size:13.5px;margin-top:48px}
 
 /* ---- Footer ---- */
 footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52px 0 40px}
 .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
 .foot-brand{max-width:320px}
-.foot-brand img{height:26px;margin-bottom:14px}
+.foot-brand .lockup{font-size:20px;margin-bottom:14px}
 .foot-brand p{color:var(--text-muted);font-size:13.5px;line-height:1.6}
 .foot-cols{display:flex;gap:64px;flex-wrap:wrap}
 .foot-col h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin:0 0 14px}
@@ -224,19 +270,24 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 .foot-bottom a{color:var(--text-muted)}
 .foot-bottom a:hover{color:var(--text-dim)}
 
-/* ---- Reveal ---- */
+/* ---- Reveal genérico ---- */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
+
 @media (prefers-reduced-motion:reduce){
-  .reveal{opacity:1;transform:none;transition:none}
-  .hero-glow,.rgb-strip,.eq-bars .b,.hero h1 .grad{animation:none}
+  .reveal,.slide-l,.slide-r{opacity:1;transform:none;transition:none}
+  .hero-glow,.rgb-strip,.eq-bars.idle .b,.hero h1 .grad{animation:none}
+  html{scroll-behavior:auto}
 }
 
 /* ---- Responsive ---- */
 @media (max-width:900px){
   .grid{grid-template-columns:repeat(2,1fr)}
-  .lumyx-inner,.split{grid-template-columns:1fr;gap:34px}
-  .split.rev .txt{order:0}
+  .lumyx-inner,.split,.showcase .wrap{grid-template-columns:1fr;gap:38px}
+  .split.rev .txt,.showcase.rev .illus{order:0}
+  .showcase{min-height:auto;padding:64px 0}
+  .showcase .illus{max-width:440px;margin:0 auto}
+  .showcase .copy h2,.showcase .copy p,.showcase .copy .sub{max-width:none}
   .nav-links{display:none}
   .nav-links.open{
     display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;
@@ -259,10 +310,10 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 <header>
   <div class="wrap nav">
     <a class="brand" href="index.html" aria-label="Zynora inicio">
-      <img src="assets/c1-lockup-horizontal.png" alt="Zynora">
+      <span class="lockup"><img src="assets/icon-b1-circulo.png" alt=""><span class="word"><span class="z">Z</span>ynora</span></span>
     </a>
     <nav class="nav-links" id="navlinks">
-      <a href="#funciones">Funciones</a>
+      <a href="#dispositivos">Dispositivos</a>
       <a href="#lumyx">Lumyx RGB</a>
       <a href="#audio">Audio</a>
       <a href="#descargar">Descargar</a>
@@ -278,9 +329,9 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="wrap">
-    <img class="hero-logo" src="assets/c1-lockup-horizontal.png" alt="Zynora">
-    <h1>Un solo lugar para <span class="grad">tus periféricos gaming</span></h1>
-    <p class="hero-sub">Remapea ratón, teclado y mando de <b>cualquier marca</b>. Crea macros, controla tu RGB con Lumyx y ecualiza el audio de tu PC. Gratis, portable, en un único archivo.</p>
+    <span class="lockup hero-lockup"><img src="assets/icon-b1-circulo.png" alt="Zynora"><span class="word"><span class="z">Z</span>ynora</span></span>
+    <h1>Un solo lugar para <span class="grad">todos tus periféricos</span></h1>
+    <p class="hero-sub">Ratón, teclado y mando de <b>cualquier marca</b>, más tu RGB y el audio de tu PC. Todo lo que normalmente pide varios programas de marca distintos, aquí en un único archivo gratis y portable.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="https://github.com/BR105/synora-releases/releases/latest">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
@@ -299,78 +350,146 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   </div>
 </section>
 
-<!-- FRANJA compatibilidad -->
+<!-- FRANJA compatibilidad (genérica, sin marcas) -->
 <div class="strip reveal">
   <div class="wrap">
-    <span class="lead">Compatible sin drivers de marca:</span>
-    <span>Razer</span><span>Logitech G</span><span>Corsair</span><span>SteelSeries</span><span>y más</span>
+    <span class="lead">Funciona con lo que ya tienes:</span>
+    <span>Sin drivers de marca</span><span>Ratones, teclados y mandos</span><span>De cualquier fabricante</span>
   </div>
 </div>
 
-<!-- FUNCIONES -->
-<section class="section" id="funciones">
+<!-- SHOWCASE: RATÓN (entra desde la izquierda) -->
+<section class="showcase" id="dispositivos">
+  <div class="wrap">
+    <div class="illus slide-l" aria-hidden="true">
+      <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="mBody" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#1c1c24"/><stop offset="1" stop-color="#121218"/>
+          </linearGradient>
+        </defs>
+        <rect x="118" y="30" width="164" height="260" rx="82" fill="url(#mBody)" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
+        <path d="M200 32 v120" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
+        <path d="M118 150 q82 40 164 0" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
+        <!-- rueda -->
+        <rect x="190" y="60" width="20" height="46" rx="10" fill="#0e0e12" stroke="#966cff" stroke-width="2.5"/>
+        <path d="M200 66 v6 M200 96 v6" stroke="#966cff" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- botones laterales resaltados -->
+        <rect x="118" y="118" width="20" height="26" rx="7" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
+        <rect x="118" y="150" width="20" height="26" rx="7" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
+        <!-- inclinacion rueda -->
+        <path d="M176 83 l-16 0 M224 83 l16 0" stroke="#00dcff" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="152" cy="83" r="3" fill="#00dcff"/><circle cx="248" cy="83" r="3" fill="#00dcff"/>
+      </svg>
+    </div>
+    <div class="copy slide-r">
+      <div class="step">Ratón</div>
+      <h2>Remapea cualquier botón.</h2>
+      <p>Laterales, rueda, la inclinación del scroll, incluso el clic izquierdo con protección anti-bloqueo. Cada botón hace exactamente lo que tú quieras.</p>
+      <p class="sub">Pruébalo en vivo antes de asignar, para no fallar ni un clic.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE: TECLADO (entra desde la derecha) -->
+<section class="showcase rev">
+  <div class="wrap">
+    <div class="illus slide-r" aria-hidden="true">
+      <svg viewBox="0 0 420 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="14" y="34" width="392" height="176" rx="18" fill="#121218" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
+        <g fill="#1c1c24" stroke="rgba(255,255,255,.09)" stroke-width="1.6">
+          <!-- fila 1 -->
+          <rect x="34" y="56" width="30" height="30" rx="6"/><rect x="70" y="56" width="30" height="30" rx="6"/><rect x="106" y="56" width="30" height="30" rx="6"/><rect x="142" y="56" width="30" height="30" rx="6"/><rect x="178" y="56" width="30" height="30" rx="6"/><rect x="214" y="56" width="30" height="30" rx="6"/><rect x="250" y="56" width="30" height="30" rx="6"/><rect x="286" y="56" width="30" height="30" rx="6"/><rect x="322" y="56" width="64" height="30" rx="6"/>
+          <!-- fila 2 -->
+          <rect x="34" y="92" width="30" height="30" rx="6"/><rect x="70" y="92" width="30" height="30" rx="6"/><rect x="106" y="92" width="30" height="30" rx="6"/><rect x="142" y="92" width="30" height="30" rx="6"/><rect x="178" y="92" width="30" height="30" rx="6"/><rect x="214" y="92" width="30" height="30" rx="6"/><rect x="250" y="92" width="30" height="30" rx="6"/><rect x="286" y="92" width="30" height="30" rx="6"/><rect x="322" y="92" width="64" height="30" rx="6"/>
+          <!-- fila 3 -->
+          <rect x="34" y="128" width="48" height="30" rx="6"/><rect x="88" y="128" width="30" height="30" rx="6"/><rect x="124" y="128" width="30" height="30" rx="6"/><rect x="196" y="128" width="30" height="30" rx="6"/><rect x="232" y="128" width="30" height="30" rx="6"/><rect x="268" y="128" width="30" height="30" rx="6"/><rect x="304" y="128" width="30" height="30" rx="6"/><rect x="340" y="128" width="46" height="30" rx="6"/>
+        </g>
+        <!-- tecla resaltada + flecha "se convierte en" -->
+        <rect x="160" y="128" width="30" height="30" rx="6" fill="rgba(150,108,255,.20)" stroke="#966cff" stroke-width="2.5"/>
+        <rect x="34" y="176" width="352" height="30" rx="6" fill="#1c1c24" stroke="rgba(255,255,255,.09)" stroke-width="1.6"/>
+        <path d="M175 158 v10 M175 168 l-6 -6 M175 168 l6 -6" stroke="#00dcff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="copy slide-l">
+      <div class="step">Teclado</div>
+      <h2>Cualquier tecla, otra cosa.</h2>
+      <p>Convierte una tecla en otra tecla, en una acción o en una macro completa. Un diagrama visual del teclado para asignar de un vistazo.</p>
+      <p class="sub">Graba macros en vivo — teclas, clics y movimiento — y reprodúcelas fluidas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE: MANDOS (entra desde la izquierda) -->
+<section class="showcase">
+  <div class="wrap">
+    <div class="illus slide-l" aria-hidden="true">
+      <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
+        <path d="M120 120 q-34 -34 -70 -14 -34 20 -34 70 0 40 16 74 12 26 40 24 22 -2 30 -28 6 -20 28 -20 h120 q22 0 28 20 8 26 30 28 28 2 40 -24 16 -34 16 -74 0 -50 -34 -70 -36 -20 -70 14 -14 14 -40 14 h-40 q-26 0 -40 -14 z"
+          fill="#151519" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
+        <!-- dpad -->
+        <rect x="80" y="150" width="16" height="48" rx="4" fill="#0e0e12" stroke="rgba(255,255,255,.14)" stroke-width="1.6"/>
+        <rect x="64" y="166" width="48" height="16" rx="4" fill="#0e0e12" stroke="rgba(255,255,255,.14)" stroke-width="1.6"/>
+        <!-- botones de accion (resaltados) -->
+        <circle cx="326" cy="150" r="12" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
+        <circle cx="352" cy="176" r="12" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
+        <circle cx="300" cy="176" r="12" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
+        <circle cx="326" cy="202" r="12" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
+        <!-- sticks -->
+        <circle cx="150" cy="200" r="22" fill="#0e0e12" stroke="#00dcff" stroke-width="2.5"/>
+        <circle cx="150" cy="200" r="9" fill="#1c1c24" stroke="rgba(255,255,255,.18)" stroke-width="1.6"/>
+        <circle cx="262" cy="212" r="22" fill="#0e0e12" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+        <circle cx="262" cy="212" r="9" fill="#1c1c24" stroke="rgba(255,255,255,.18)" stroke-width="1.6"/>
+      </svg>
+    </div>
+    <div class="copy slide-r">
+      <div class="step">Mandos</div>
+      <h2>Dale nueva vida a tus mandos.</h2>
+      <p>Detecta tu control, pruébalo en vivo y reasigna sus botones a teclado, ratón o macros. Con perfiles propios para cada mando.</p>
+      <p class="sub">Ideal para revivir un mando que ya no usabas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MÁS FUNCIONES -->
+<section class="section" style="padding-top:40px">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Todo en un .exe</span>
-      <h2>Lo que normalmente exige varios programas</h2>
-      <p>Zynora reúne el control de tus dispositivos sin depender de los drivers de cada fabricante.</p>
+      <h2>Y bastante más bajo el capó</h2>
+      <p>Las herramientas que normalmente exigen varios programas distintos, reunidas sin depender de los drivers de cada fabricante.</p>
     </div>
     <div class="grid">
-
-      <div class="card reveal">
-        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="3" width="10" height="18" rx="5"/><path d="M12 7v4"/></svg></div>
-        <h3>Ratón</h3>
-        <p>Remapea botones, laterales, la inclinación de la rueda y el scroll. Incluso el clic izquierdo, con protección anti-bloqueo.</p>
-      </div>
-
-      <div class="card reveal">
-        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6" width="20" height="12" rx="2.5"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8" stroke-linecap="round"/></svg></div>
-        <h3>Teclado</h3>
-        <p>Convierte cualquier tecla en otra tecla, una acción o una macro. Diagrama visual del teclado para asignar de un vistazo.</p>
-      </div>
-
-      <div class="card reveal">
-        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12a4 4 0 014 4v0a4 4 0 01-4 4c-1.5 0-2.2-1-4-1h-4c-1.8 0-2.5 1-4 1a4 4 0 01-4-4v0a4 4 0 014-4z"/><path d="M8 11v2M7 12h2" stroke-linecap="round"/><circle cx="16" cy="11.5" r=".8" fill="currentColor"/><circle cx="18" cy="13.5" r=".8" fill="currentColor"/></svg></div>
-        <h3>Mandos</h3>
-        <p>Detecta tu mando, pruébalo en vivo y remapea sus botones a teclado, ratón o macros, con perfiles propios por control.</p>
-      </div>
-
       <div class="card reveal">
         <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg></div>
         <h3>Macros</h3>
-        <p>Grábalas en vivo (teclas, clics y movimiento), organízalas en carpetas y reprodúcelas fluidas, a la velocidad que quieras.</p>
+        <p>Grábalas en vivo, organízalas en carpetas y reprodúcelas fluidas, a la velocidad que quieras.</p>
       </div>
-
       <div class="card reveal">
         <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round"/><circle cx="18" cy="18" r="2.5"/></svg></div>
         <h3>Capas NYX</h3>
-        <p>Duplica las funciones de tus dispositivos con una capa secundaria global. Mantenla pulsada o déjala fija con un toque.</p>
+        <p>Duplica las funciones de tus dispositivos con una capa secundaria global. Manténla pulsada o déjala fija.</p>
       </div>
-
       <div class="card reveal">
         <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 3L4 14h7l-1 7 9-11h-7l1-7z" stroke-linejoin="round"/></svg></div>
         <h3>Acciones</h3>
-        <p>Asigna a un botón abrir una app, un acceso directo de Windows, una página web o cualquier programa que tengas.</p>
+        <p>Asigna a un botón abrir una app, un acceso directo de Windows, una página web o cualquier programa.</p>
       </div>
-
       <div class="card reveal">
-        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18" /><path d="M8 21h8M12 18v3" stroke-linecap="round"/></svg></div>
+        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18"/><path d="M8 21h8M12 18v3" stroke-linecap="round"/></svg></div>
         <h3>Perfiles por app</h3>
-        <p>El perfil cambia solo según la app en primer plano. Reconoce tus programas instalados y tus juegos de Steam con carátula.</p>
+        <p>El perfil cambia solo según la app en primer plano. Reconoce tus programas y tus juegos con carátula.</p>
       </div>
-
       <div class="card reveal">
         <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 15a4 4 0 014-4 5.5 5.5 0 0110.6-1.5A3.5 3.5 0 0118 16H8a4 4 0 01-4-4z" stroke-linejoin="round"/></svg></div>
         <h3>Nube y respaldo</h3>
-        <p>Exporta todo a un archivo, o sincroniza por una carpeta de Drive, OneDrive o Dropbox. Sin cuentas obligatorias.</p>
+        <p>Exporta todo a un archivo o sincroniza por una carpeta de tu nube favorita. Sin cuentas obligatorias.</p>
       </div>
-
       <div class="card reveal">
         <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <h3>Sólido y portable</h3>
-        <p>Un único ejecutable firmado, sin instalación ni DLLs sueltas. Llévatelo en un USB; para quitarlo, borra la carpeta.</p>
+        <p>Un único ejecutable firmado, sin instalación ni DLLs sueltas. Para quitarlo, borra la carpeta.</p>
       </div>
-
     </div>
   </div>
 </section>
@@ -381,12 +500,12 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
     <div class="reveal">
       <img class="lumyx-logo" src="assets/lumyx-zl3-lockup-horizontal.png" alt="Zynora Lumyx">
       <span class="eyebrow cyan">Iluminación RGB</span>
-      <h2>Tu RGB, de todas tus marcas, en una sola paleta</h2>
-      <p class="big">Lumyx es el motor de iluminación de Zynora. Unifica los LEDs de ratón, teclado, placa base, GPU y RAM compatibles bajo un mismo control, con efectos fluidos.</p>
+      <h2>Todo tu RGB, en armonía.</h2>
+      <p class="big">Una sola paleta para todas tus marcas. Lumyx unifica los LEDs de ratón, teclado, placa base, GPU y RAM compatibles bajo un mismo control, con efectos fluidos.</p>
       <ul class="lumyx-list">
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Efectos incluidos</b> — estático, respiración, arcoíris, espectro, cometa y latido.</span></li>
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Editor LED por LED</b> — pinta cada zona sobre la silueta de tu dispositivo.</span></li>
-        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Multi-fabricante</b> — se apoya en la Iluminación dinámica de Windows y en protocolos nativos de cada marca.</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Multi-fabricante</b> — se apoya en la Iluminación dinámica de Windows y en protocolos nativos.</span></li>
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Paleta y dimmer</b> — elige color, intensidad y velocidad; se reaplica al arrancar.</span></li>
       </ul>
     </div>
@@ -419,27 +538,32 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>El motor de audio es opcional: la app funciona igual sin él.</li>
       </ul>
     </div>
-    <div class="eq-mock reveal" aria-hidden="true">
-      <div class="eq-bars" id="eqbars"></div>
-      <div class="eq-presets">
-        <span class="chip on" style="color:#0a0a0c;background:var(--accent);border-color:var(--accent)">Gaming</span>
-        <span class="chip">Bass boost</span>
-        <span class="chip">Voz clara</span>
-        <span class="chip">Cine</span>
-        <span class="chip">Música</span>
+    <div class="eq-mock reveal">
+      <div class="eq-top">
+        <small>Ecualizador · <span class="eq-demo-tag">demo</span></small>
+        <button class="play-btn" id="playbtn" aria-pressed="false" aria-label="Reproducir demo de audio">
+          <svg id="playicon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <span id="playlabel">Play</span>
+        </button>
+      </div>
+      <div class="eq-bars idle" id="eqbars" aria-hidden="true"></div>
+      <div class="eq-presets" id="eqpresets" role="group" aria-label="Perfiles de sonido">
+        <span class="chip on" data-p="gaming">Gaming</span>
+        <span class="chip" data-p="bass">Graves</span>
+        <span class="chip" data-p="voice">Voz clara</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Aviso anti-cheat -->
+<!-- Aviso anti-cheat (aclarado: solo el ecualizador) -->
 <section class="section" style="padding-top:0">
   <div class="wrap reveal">
     <div class="notice">
-      <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 16H3l9-16z" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke-linecap="round"/></svg></span>
+      <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg></span>
       <div>
-        <h3>Un apunte antes de jugar competitivo</h3>
-        <p>Zynora trabaja con los mecanismos de entrada de Windows. Algunos juegos con anti-cheat estricto (como Valorant) pueden marcar este tipo de software. Para uso general y juegos sin ese sistema es seguro, pero no lo recomendamos en competitivos protegidos.</p>
+        <h3>Compatibilidad con juegos</h3>
+        <p>El <b>remapeo, las macros y el RGB</b> funcionan con cualquier juego, sin excepciones. Solo el <b>ecualizador de audio</b> podría no aplicarse en algunos títulos competitivos con anti-trampas estrictos — y puedes desactivarlo para ese juego con un clic. Todo lo demás sigue igual.</p>
       </div>
     </div>
   </div>
@@ -453,9 +577,9 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
     <div class="hero-cta" style="margin-bottom:0">
       <a class="btn btn-primary" href="https://github.com/BR105/synora-releases/releases/latest">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
-        Descargar para Windows
+        Descargar gratis
       </a>
-      <a class="btn btn-ghost" href="avisos.html">¿Por qué me sale un aviso?</a>
+      <a class="btn btn-ghost" href="https://github.com/BR105/synora-releases">Ver en GitHub</a>
     </div>
     <p class="free-note">Proyecto independiente. No afiliado ni asociado a ninguna marca.</p>
   </div>
@@ -466,13 +590,13 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   <div class="wrap">
     <div class="foot">
       <div class="foot-brand">
-        <img src="assets/c1-lockup-horizontal.png" alt="Zynora">
+        <span class="lockup"><img src="assets/icon-b1-circulo.png" alt=""><span class="word"><span class="z">Z</span>ynora</span></span>
         <p>Hub de entrada y audio para Windows. Remapeo genérico, macros, RGB Lumyx y ecualizador, en un solo archivo portable.</p>
       </div>
       <div class="foot-cols">
         <div class="foot-col">
           <h4>Producto</h4>
-          <a href="#funciones">Funciones</a>
+          <a href="#dispositivos">Dispositivos</a>
           <a href="#lumyx">Lumyx RGB</a>
           <a href="#audio">Audio</a>
           <a href="https://github.com/BR105/synora-releases/releases/latest">Descargar</a>
@@ -491,7 +615,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Zynora. Todos los derechos reservados.</span>
+      <span>© 2026 Zynora. Proyecto independiente. No afiliado ni asociado a ninguna marca.</span>
       <span><a href="privacidad.html">Privacidad</a> · <a href="avisos.html">Avisos</a></span>
     </div>
   </div>
@@ -506,38 +630,128 @@ document.querySelectorAll('#navlinks a').forEach(function(a){
   a.addEventListener('click',function(){document.getElementById('navlinks').classList.remove('open');});
 });
 
-// Reveal al hacer scroll
+// Reveal / entrada lateral al hacer scroll
 var io=new IntersectionObserver(function(entries){
   entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
-},{threshold:.12});
-document.querySelectorAll('.reveal').forEach(function(el,i){
-  el.style.transitionDelay=(Math.min(i%3,2)*80)+'ms';
-  io.observe(el);
-});
+},{threshold:.15});
+document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.observe(el);});
 
 // LEDs animados del mockup Lumyx
 (function(){
   var box=document.getElementById('leds');if(!box)return;
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var n=20,hues=[];
   for(var i=0;i<n;i++){var d=document.createElement('div');d.className='led';box.appendChild(d);hues.push(i);}
   var leds=box.children;
-  setInterval(function(){
-    for(var i=0;i<n;i++){
-      var h=(hues[i]+2)%360;hues[i]=h;
-      leds[i].style.background='hsl('+((h*6+i*18)%360)+',85%,60%)';
-      leds[i].style.boxShadow='0 0 10px hsla('+((h*6+i*18)%360)+',85%,60%,.6)';
-    }
-  },90);
+  function paint(){for(var i=0;i<n;i++){var c=(hues[i]*6+i*18)%360;leds[i].style.background='hsl('+c+',85%,60%)';leds[i].style.boxShadow='0 0 10px hsla('+c+',85%,60%,.6)';}}
+  paint();
+  if(reduce)return;
+  setInterval(function(){for(var i=0;i<n;i++){hues[i]=(hues[i]+2)%360;}paint();},90);
 })();
 
-// Barras del EQ
+// ---- EQ con Web Audio API real (solo al clic del usuario) ----
 (function(){
-  var box=document.getElementById('eqbars');if(!box)return;
-  var heights=[42,66,88,74,58,80,95,70,50,64];
-  heights.forEach(function(h,i){
-    var b=document.createElement('div');b.className='b';
-    b.style.height=h+'%';b.style.animationDelay=(i*.12)+'s';
-    box.appendChild(b);
+  var box=document.getElementById('eqbars'),btn=document.getElementById('playbtn');
+  if(!box||!btn)return;
+  var NB=22,bars=[];
+  for(var i=0;i<NB;i++){var b=document.createElement('div');b.className='b';box.appendChild(b);bars.push(b);}
+
+  var ctx,master,filter,analyser,freq,raf,playing=false,seq,stepTimer,step=0;
+  var profiles={
+    gaming:{type:'peaking',freq:2200,q:1,gain:5},   // presencia
+    bass:  {type:'lowshelf', freq:180, q:1,gain:9},  // graves
+    voice: {type:'highshelf',freq:3200,q:1,gain:8}   // agudos/voz
+  };
+  var current='gaming';
+
+  // escala pentatónica para un loop "gaming"
+  var notes=[220,261.63,329.63,392,440,392,329.63,261.63];
+
+  function applyProfile(){
+    if(!filter)return;var p=profiles[current];
+    filter.type=p.type;filter.frequency.value=p.freq;filter.Q.value=p.q;filter.gain.value=p.gain;
+  }
+
+  function tone(f,t,dur,type,peak){
+    var o=ctx.createOscillator(),g=ctx.createGain();
+    o.type=type||'sawtooth';o.frequency.value=f;
+    g.gain.setValueAtTime(0,t);
+    g.gain.linearRampToValueAtTime(peak||0.18,t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0008,t+dur);
+    o.connect(g);g.connect(filter);
+    o.start(t);o.stop(t+dur+0.02);
+  }
+  function kick(t){
+    var o=ctx.createOscillator(),g=ctx.createGain();
+    o.type='sine';o.frequency.setValueAtTime(140,t);
+    o.frequency.exponentialRampToValueAtTime(45,t+0.14);
+    g.gain.setValueAtTime(0.5,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.16);
+    o.connect(g);g.connect(master); // el bombo esquiva el filtro para pegar siempre
+    o.start(t);o.stop(t+0.18);
+  }
+
+  function scheduler(){
+    // programa el siguiente paso del loop (16avos a ~120bpm)
+    var t=ctx.currentTime+0.04;
+    if(step%2===0)tone(notes[(step/2)%notes.length],t,0.22,'sawtooth',0.16);
+    if(step%4===0)kick(t);
+    if(step%8===4)tone(notes[step%notes.length]*2,t,0.12,'square',0.06);
+    step=(step+1)%16;
+  }
+
+  function draw(){
+    analyser.getByteFrequencyData(freq);
+    // reparte el espectro útil entre las barras
+    var use=Math.floor(freq.length*0.7);
+    for(var i=0;i<NB;i++){
+      var idx=Math.floor(Math.pow(i/NB,1.4)*use);
+      var v=freq[idx]/255;
+      bars[i].style.height=(8+v*92)+'%';
+    }
+    raf=requestAnimationFrame(draw);
+  }
+
+  function start(){
+    if(!ctx){
+      var AC=window.AudioContext||window.webkitAudioContext;
+      ctx=new AC();
+      master=ctx.createGain();master.gain.value=0.5;
+      filter=ctx.createBiquadFilter();
+      analyser=ctx.createAnalyser();analyser.fftSize=256;
+      freq=new Uint8Array(analyser.frequencyBinCount);
+      filter.connect(master);master.connect(analyser);analyser.connect(ctx.destination);
+      applyProfile();
+    }
+    ctx.resume();
+    box.classList.remove('idle');
+    step=0;stepTimer=setInterval(scheduler,125); // 16avo ≈125ms → ~120bpm
+    draw();
+    playing=true;
+  }
+  function stop(){
+    clearInterval(stepTimer);cancelAnimationFrame(raf);
+    if(ctx)ctx.suspend();
+    box.classList.add('idle');
+    bars.forEach(function(b){b.style.height='';});
+    playing=false;
+  }
+
+  btn.addEventListener('click',function(){
+    if(playing){stop();}else{start();}
+    btn.setAttribute('aria-pressed',playing);
+    document.getElementById('playlabel').textContent=playing?'Pausa':'Play';
+    document.getElementById('playicon').innerHTML=playing
+      ?'<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>'
+      :'<path d="M8 5v14l11-7z"/>';
+  });
+
+  // Perfiles: cambian el BiquadFilter → se oye distinto
+  document.getElementById('eqpresets').addEventListener('click',function(e){
+    var c=e.target.closest('.chip');if(!c)return;
+    current=c.getAttribute('data-p');
+    document.querySelectorAll('#eqpresets .chip').forEach(function(x){x.classList.remove('on');});
+    c.classList.add('on');
+    applyProfile();
   });
 })();
 </script>
