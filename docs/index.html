@@ -87,6 +87,13 @@ header{
 
 /* ---- Hero ---- */
 .hero{position:relative;padding:104px 0 92px;text-align:center;overflow:hidden}
+.hero-ambient{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url("assets/bg-ambient-zynora.png") center/cover no-repeat;
+  opacity:.18;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 42%,transparent 18%,#000 78%);
+  mask-image:radial-gradient(120% 90% at 50% 42%,transparent 18%,#000 78%);
+}
 .hero-glow{
   position:absolute;top:-160px;left:50%;transform:translateX(-50%);
   width:900px;height:600px;pointer-events:none;z-index:0;max-width:100%;
@@ -133,6 +140,10 @@ section{position:relative}
 .showcase .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%}
 .showcase.rev .illus{order:2}
 .showcase .illus svg{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 70px rgba(0,0,0,.55))}
+.showcase .illus img{width:100%;height:auto;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.showcase .illus.glow-v img{filter:drop-shadow(0 0 55px rgba(150,108,255,.42)) drop-shadow(0 24px 60px rgba(0,0,0,.6))}
+.showcase .illus.glow-c img{filter:drop-shadow(0 0 55px rgba(0,220,255,.40)) drop-shadow(0 24px 60px rgba(0,0,0,.6))}
+.showcase:hover .illus img{transform:translateY(-6px) scale(1.015)}
 .showcase .copy .step{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
 .showcase .copy h2{font-size:clamp(30px,4.4vw,46px);margin-bottom:18px;max-width:14ch}
 .showcase .copy p{color:var(--text-dim);font-size:clamp(16px,2vw,19px);max-width:44ch}
@@ -280,6 +291,8 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 @media (prefers-reduced-motion:reduce){
   .reveal,.slide-l,.slide-r{opacity:1;transform:none;transition:none}
   .hero-glow,.rgb-strip,.hero h1 .grad{animation:none}
+  .showcase .illus img{transition:none}
+  .showcase:hover .illus img{transform:none}
   html{scroll-behavior:auto}
 }
 
@@ -330,6 +343,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-ambient" aria-hidden="true"></div>
   <div class="hero-glow"></div>
   <div class="wrap">
     <span class="lockup hero-lockup"><img src="assets/icon-b1-circulo.png" alt="Zynora"><span class="word"><span class="z">Z</span>ynora</span></span>
@@ -364,26 +378,8 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 <!-- SHOWCASE: RATÓN (entra desde la izquierda) -->
 <section class="showcase" id="dispositivos">
   <div class="wrap">
-    <div class="illus slide-l" aria-hidden="true">
-      <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="mBody" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#1c1c24"/><stop offset="1" stop-color="#121218"/>
-          </linearGradient>
-        </defs>
-        <rect x="118" y="30" width="164" height="260" rx="82" fill="url(#mBody)" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
-        <path d="M200 32 v120" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
-        <path d="M118 150 q82 40 164 0" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
-        <!-- rueda -->
-        <rect x="190" y="60" width="20" height="46" rx="10" fill="#0e0e12" stroke="#966cff" stroke-width="2.5"/>
-        <path d="M200 66 v6 M200 96 v6" stroke="#966cff" stroke-width="2.5" stroke-linecap="round"/>
-        <!-- botones laterales resaltados -->
-        <rect x="118" y="118" width="20" height="26" rx="7" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
-        <rect x="118" y="150" width="20" height="26" rx="7" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
-        <!-- inclinacion rueda -->
-        <path d="M176 83 l-16 0 M224 83 l16 0" stroke="#00dcff" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="152" cy="83" r="3" fill="#00dcff"/><circle cx="248" cy="83" r="3" fill="#00dcff"/>
-      </svg>
+    <div class="illus glow-v slide-l" aria-hidden="true">
+      <img src="assets/hero-mouse-zynora-transparente.png" alt="Ratón gaming" loading="lazy">
     </div>
     <div class="copy slide-r">
       <div class="step">Ratón</div>
@@ -397,22 +393,8 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 <!-- SHOWCASE: TECLADO (entra desde la derecha) -->
 <section class="showcase rev">
   <div class="wrap">
-    <div class="illus slide-r" aria-hidden="true">
-      <svg viewBox="0 0 420 240" xmlns="http://www.w3.org/2000/svg">
-        <rect x="14" y="34" width="392" height="176" rx="18" fill="#121218" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
-        <g fill="#1c1c24" stroke="rgba(255,255,255,.09)" stroke-width="1.6">
-          <!-- fila 1 -->
-          <rect x="34" y="56" width="30" height="30" rx="6"/><rect x="70" y="56" width="30" height="30" rx="6"/><rect x="106" y="56" width="30" height="30" rx="6"/><rect x="142" y="56" width="30" height="30" rx="6"/><rect x="178" y="56" width="30" height="30" rx="6"/><rect x="214" y="56" width="30" height="30" rx="6"/><rect x="250" y="56" width="30" height="30" rx="6"/><rect x="286" y="56" width="30" height="30" rx="6"/><rect x="322" y="56" width="64" height="30" rx="6"/>
-          <!-- fila 2 -->
-          <rect x="34" y="92" width="30" height="30" rx="6"/><rect x="70" y="92" width="30" height="30" rx="6"/><rect x="106" y="92" width="30" height="30" rx="6"/><rect x="142" y="92" width="30" height="30" rx="6"/><rect x="178" y="92" width="30" height="30" rx="6"/><rect x="214" y="92" width="30" height="30" rx="6"/><rect x="250" y="92" width="30" height="30" rx="6"/><rect x="286" y="92" width="30" height="30" rx="6"/><rect x="322" y="92" width="64" height="30" rx="6"/>
-          <!-- fila 3 -->
-          <rect x="34" y="128" width="48" height="30" rx="6"/><rect x="88" y="128" width="30" height="30" rx="6"/><rect x="124" y="128" width="30" height="30" rx="6"/><rect x="196" y="128" width="30" height="30" rx="6"/><rect x="232" y="128" width="30" height="30" rx="6"/><rect x="268" y="128" width="30" height="30" rx="6"/><rect x="304" y="128" width="30" height="30" rx="6"/><rect x="340" y="128" width="46" height="30" rx="6"/>
-        </g>
-        <!-- tecla resaltada + flecha "se convierte en" -->
-        <rect x="160" y="128" width="30" height="30" rx="6" fill="rgba(150,108,255,.20)" stroke="#966cff" stroke-width="2.5"/>
-        <rect x="34" y="176" width="352" height="30" rx="6" fill="#1c1c24" stroke="rgba(255,255,255,.09)" stroke-width="1.6"/>
-        <path d="M175 158 v10 M175 168 l-6 -6 M175 168 l6 -6" stroke="#00dcff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <div class="illus glow-c slide-r" aria-hidden="true">
+      <img src="assets/hero-keyboard-zynora-transparente.png" alt="Teclado gaming" loading="lazy">
     </div>
     <div class="copy slide-l">
       <div class="step">Teclado</div>
@@ -426,24 +408,8 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 <!-- SHOWCASE: MANDOS (entra desde la izquierda) -->
 <section class="showcase">
   <div class="wrap">
-    <div class="illus slide-l" aria-hidden="true">
-      <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
-        <path d="M120 120 q-34 -34 -70 -14 -34 20 -34 70 0 40 16 74 12 26 40 24 22 -2 30 -28 6 -20 28 -20 h120 q22 0 28 20 8 26 30 28 28 2 40 -24 16 -34 16 -74 0 -50 -34 -70 -36 -20 -70 14 -14 14 -40 14 h-40 q-26 0 -40 -14 z"
-          fill="#151519" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
-        <!-- dpad -->
-        <rect x="80" y="150" width="16" height="48" rx="4" fill="#0e0e12" stroke="rgba(255,255,255,.14)" stroke-width="1.6"/>
-        <rect x="64" y="166" width="48" height="16" rx="4" fill="#0e0e12" stroke="rgba(255,255,255,.14)" stroke-width="1.6"/>
-        <!-- botones de accion (resaltados) -->
-        <circle cx="326" cy="150" r="12" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
-        <circle cx="352" cy="176" r="12" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
-        <circle cx="300" cy="176" r="12" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
-        <circle cx="326" cy="202" r="12" fill="rgba(150,108,255,.18)" stroke="#966cff" stroke-width="2.5"/>
-        <!-- sticks -->
-        <circle cx="150" cy="200" r="22" fill="#0e0e12" stroke="#00dcff" stroke-width="2.5"/>
-        <circle cx="150" cy="200" r="9" fill="#1c1c24" stroke="rgba(255,255,255,.18)" stroke-width="1.6"/>
-        <circle cx="262" cy="212" r="22" fill="#0e0e12" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
-        <circle cx="262" cy="212" r="9" fill="#1c1c24" stroke="rgba(255,255,255,.18)" stroke-width="1.6"/>
-      </svg>
+    <div class="illus glow-v slide-l" aria-hidden="true">
+      <img src="assets/hero-gamepad-zynora-transparente.png" alt="Mando gaming" loading="lazy">
     </div>
     <div class="copy slide-r">
       <div class="step">Mandos</div>
