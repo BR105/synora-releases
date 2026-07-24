@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zynora — Remapeo, macros, RGB y audio para Windows</title>
-<meta name="description" content="Zynora es un hub gratuito y portable para Windows: remapea ratón, teclado y mando de cualquier marca, crea macros, controla el RGB con Lumyx y ecualiza tu audio. Todo en un solo .exe.">
-<link rel="icon" type="image/png" href="assets/icon-b1-circulo.png">
+<meta name="description" content="Zynora es un hub gratuito y portable para Windows: remapea mouse, teclado y control de cualquier marca, crea macros, controla el RGB con Lumyx y ecualiza tu audio. Todo en un solo .exe.">
+<link rel="icon" type="image/png" href="assets/logo-triangle-z.png">
 <meta name="theme-color" content="#0a0a0c">
 <link rel="canonical" href="https://br105.github.io/synora-releases/">
 <!-- Tarjeta al compartir en redes / Discord (Open Graph + Twitter) -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Zynora">
 <meta property="og:title" content="Zynora — Remapeo, macros, RGB y audio para Windows">
-<meta property="og:description" content="Hub gratuito y portable para Windows: remapea ratón, teclado y mando de cualquier marca, macros, RGB con Lumyx y ecualizador. Todo en un solo .exe.">
+<meta property="og:description" content="Hub gratuito y portable para Windows: remapea mouse, teclado y control de cualquier marca, macros, RGB con Lumyx y ecualizador. Todo en un solo .exe.">
 <meta property="og:url" content="https://br105.github.io/synora-releases/">
 <meta property="og:image" content="https://br105.github.io/synora-releases/assets/c1-lockup-horizontal.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -106,6 +106,10 @@ header{
   font-size:clamp(52px,10vw,88px);margin:0 auto 34px;justify-content:center;
   filter:drop-shadow(0 10px 44px rgba(150,108,255,.30));
 }
+.hero-wordmark{
+  width:clamp(300px,38vw,440px);height:auto;margin:0 auto 30px;
+  filter:drop-shadow(0 8px 34px rgba(150,108,255,.32));
+}
 .hero h1{
   font-size:clamp(32px,5.4vw,56px);letter-spacing:-.03em;max-width:16ch;margin:0 auto 20px;
 }
@@ -136,7 +140,7 @@ section{position:relative}
 .section-head p{color:var(--text-dim);font-size:17px}
 
 /* ---- Showcase a pantalla (scroll reveal alterno) ---- */
-.showcase{min-height:100vh;display:flex;align-items:center;padding:80px 0;overflow:hidden}
+.showcase{min-height:auto;display:flex;align-items:center;padding:72px 0;overflow:hidden}
 .showcase .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%}
 .showcase.rev .illus{order:2}
 .showcase .illus svg{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 70px rgba(0,0,0,.55))}
@@ -154,6 +158,45 @@ section{position:relative}
 .slide-l{transform:translateX(-70px)}
 .slide-r{transform:translateX(70px)}
 .slide-l.in,.slide-r.in{opacity:1;transform:none}
+
+/* ---- Etiquetas de remapeo flotantes sobre el showcase ---- */
+.showcase .illus{position:relative}
+.pin{
+  position:absolute;z-index:3;display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:var(--text);line-height:1.2;
+  background:rgba(18,18,23,.74);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  border:1px solid var(--hairline);border-radius:100px;padding:6px 12px;white-space:nowrap;
+  box-shadow:0 10px 26px -12px rgba(0,0,0,.75);
+  opacity:0;transform:translateY(8px) scale(.96);
+  transition:opacity .55s ease,transform .55s cubic-bezier(.16,1,.3,1);
+}
+.pin::before{content:"";width:6px;height:6px;border-radius:50%;flex:none;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.pin.cy::before{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.pin.cy{color:var(--text)}
+.slide-l.in .pin,.slide-r.in .pin{opacity:1;transform:none}
+.illus .pin:nth-of-type(1){transition-delay:.30s}
+.illus .pin:nth-of-type(2){transition-delay:.45s}
+.illus .pin:nth-of-type(3){transition-delay:.60s}
+.illus .pin:nth-of-type(4){transition-delay:.75s}
+
+/* ---- Galería de arquetipos apilados (sin cards) ---- */
+.arch-stack{
+  position:relative;display:flex;justify-content:center;align-items:flex-end;
+  min-height:210px;margin-bottom:12px;
+}
+.arch-stack .dev{
+  width:clamp(120px,22vw,196px);flex:none;
+  filter:drop-shadow(0 0 30px rgba(150,108,255,.36)) drop-shadow(0 16px 34px rgba(0,0,0,.55));
+}
+.arch-stack.glow-c .dev{filter:drop-shadow(0 0 30px rgba(0,220,255,.34)) drop-shadow(0 16px 34px rgba(0,0,0,.55))}
+.arch-stack .dev+.dev{margin-left:-42px}
+/* elevación del central por margen (no transform) para no chocar con la animación */
+.arch-stack .dev:nth-child(1){z-index:1}
+.arch-stack .dev:nth-child(2){z-index:3;width:clamp(132px,24vw,214px);margin-bottom:16px}
+.arch-stack .dev:nth-child(3){z-index:2}
+/* entrada desde arriba (tercer eje del stagger) */
+.slide-u{opacity:0;transform:translateY(-56px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.slide-u.in{opacity:1;transform:none}
 
 /* ---- Grid de features ---- */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -267,7 +310,7 @@ ul{margin:0;padding:0}
 }
 .cta h2{font-size:clamp(30px,5vw,48px);margin-bottom:16px}
 .cta p{color:var(--text-dim);font-size:18px;max-width:48ch;margin:0 auto 34px}
-.free-note{color:var(--text-muted);font-size:13.5px;margin-top:48px}
+.free-note{color:var(--text-muted);font-size:13.5px;margin-top:72px;padding-top:8px}
 
 /* ---- Footer ---- */
 footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52px 0 40px}
@@ -275,6 +318,14 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 .foot-brand{max-width:320px}
 .foot-brand .lockup{font-size:20px;margin-bottom:14px}
 .foot-brand p{color:var(--text-muted);font-size:13.5px;line-height:1.6}
+.foot-credit{
+  display:inline-flex;align-items:center;gap:7px;margin-top:16px;
+  color:var(--text-dim);font-size:13px;font-weight:600;transition:color .2s;
+}
+.foot-credit:hover{color:var(--text)}
+.foot-credit img{width:30px;height:30px;border-radius:50%;flex:none;border:1px solid var(--hairline);object-fit:cover}
+.foot-made{margin-top:12px;color:var(--text-muted);font-size:12px;line-height:1.5}
+.foot-made b{color:var(--text-dim);font-weight:600}
 .foot-cols{display:flex;gap:64px;flex-wrap:wrap}
 .foot-col h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin:0 0 14px}
 .foot-col a{display:block;color:var(--text-dim);font-size:14.5px;margin-bottom:10px;transition:color .2s}
@@ -291,33 +342,13 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
   color:var(--text-dim);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--hairline-2);
 }
-.arch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
-.arch-card{
-  background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-card);
-  padding:20px 16px 14px;display:flex;flex-direction:column;align-items:center;gap:12px;
-  transition:transform .25s ease,border-color .25s ease,background .25s ease;
-}
-.arch-card img{
-  width:auto;max-width:100%;max-height:104px;height:auto;object-fit:contain;
-  filter:drop-shadow(0 0 26px rgba(150,108,255,.34)) drop-shadow(0 14px 30px rgba(0,0,0,.5));
-  transition:filter .25s ease,transform .25s ease;
-}
-.arch-card.glow-c img{filter:drop-shadow(0 0 26px rgba(0,220,255,.32)) drop-shadow(0 14px 30px rgba(0,0,0,.5))}
-.arch-card .tag{font-size:12.5px;font-weight:600;color:var(--text-muted);letter-spacing:.02em}
-.arch-card:hover{transform:translateY(-5px);border-color:var(--accent-line);background:var(--surface-2)}
-.arch-card:hover img{transform:translateY(-2px) scale(1.03);filter:drop-shadow(0 0 40px rgba(150,108,255,.55)) drop-shadow(0 16px 34px rgba(0,0,0,.55))}
-.arch-card.glow-c:hover{border-color:rgba(0,220,255,.4)}
-.arch-card.glow-c:hover img{filter:drop-shadow(0 0 40px rgba(0,220,255,.5)) drop-shadow(0 16px 34px rgba(0,0,0,.55))}
-@media (prefers-reduced-motion:reduce){
-  .arch-card:hover img{transform:none}
-}
 
 /* ---- Reveal genérico ---- */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
 
 @media (prefers-reduced-motion:reduce){
-  .reveal,.slide-l,.slide-r{opacity:1;transform:none;transition:none}
+  .reveal,.slide-l,.slide-r,.slide-u,.pin{opacity:1;transform:none;transition:none}
   .hero-glow,.rgb-strip,.hero h1 .grad{animation:none}
   .showcase .illus img{transition:none}
   .showcase:hover .illus img{transform:none}
@@ -332,6 +363,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   .showcase{min-height:auto;padding:64px 0}
   .showcase .illus{max-width:440px;margin:0 auto}
   .showcase .copy h2,.showcase .copy p,.showcase .copy .sub{max-width:none}
+  .pin{display:none} /* evitan estorbar en móvil/tablet */
   .nav-links{display:none}
   .nav-links.open{
     display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;
@@ -354,7 +386,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 <header>
   <div class="wrap nav">
     <a class="brand" href="index.html" aria-label="Zynora inicio">
-      <span class="lockup"><img src="assets/icon-b1-circulo.png" alt=""><span class="word"><span class="z">Z</span>ynora</span></span>
+      <span class="lockup"><img src="assets/logo-triangle-z.png" alt=""><span class="word"><span class="z">Z</span>ynora</span></span>
     </a>
     <nav class="nav-links" id="navlinks">
       <a href="#dispositivos">Dispositivos</a>
@@ -374,9 +406,9 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   <div class="hero-ambient" aria-hidden="true"></div>
   <div class="hero-glow"></div>
   <div class="wrap">
-    <span class="lockup hero-lockup"><img src="assets/icon-b1-circulo.png" alt="Zynora"><span class="word"><span class="z">Z</span>ynora</span></span>
+    <img class="hero-wordmark" src="assets/zynora-wordmark.png" alt="Zynora">
     <h1>Un solo lugar para <span class="grad">todos tus periféricos</span></h1>
-    <p class="hero-sub">Ratón, teclado y mando de <b>cualquier marca</b>, más tu RGB y el audio de tu PC. Todo lo que normalmente pide varios programas de marca distintos, aquí en un único archivo gratis y portable.</p>
+    <p class="hero-sub">Mouse, teclado y control de <b>cualquier marca</b>, junto con el RGB y el audio de tu PC. Todo lo que normalmente pide varios programas de marca distintos, aquí en un único archivo gratis y portable.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="https://github.com/BR105/synora-releases/releases/latest">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
@@ -391,6 +423,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
       <span class="badge"><span class="dot"></span>Windows 10 / 11 (64-bit)</span>
       <span class="badge">Portable · sin instalación</span>
       <span class="badge">100% gratis</span>
+      <span class="badge" id="dlbadge" style="display:none" title="Cifra real de descargas (GitHub), verificable"><span id="dlcount"></span></span>
     </div>
   </div>
 </section>
@@ -399,7 +432,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 <div class="strip reveal">
   <div class="wrap">
     <span class="lead">Funciona con lo que ya tienes:</span>
-    <span>Sin drivers de marca</span><span>Ratones, teclados y mandos</span><span>De cualquier fabricante</span>
+    <span>Sin drivers de marca</span><span>Mouse, teclados y controles</span><span>De cualquier fabricante</span>
   </div>
 </div>
 
@@ -407,13 +440,16 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 <section class="showcase" id="dispositivos">
   <div class="wrap">
     <div class="illus glow-v slide-l" aria-hidden="true">
-      <img src="assets/hero-mouse-zynora-transparente.png" alt="Ratón gaming" loading="lazy">
+      <img src="assets/hero-mouse-zynora-transparente.png" alt="Mouse gaming" loading="lazy">
+      <span class="pin" style="top:22%;left:-2%">Botón lateral → Macro 1</span>
+      <span class="pin cy" style="top:6%;right:2%">Rueda ↑↓ → Cambiar arma</span>
+      <span class="pin" style="bottom:16%;right:-2%">DPI → Perfil</span>
     </div>
     <div class="copy slide-r">
-      <div class="step">Ratón</div>
+      <div class="step">Mouse</div>
       <h2>Remapea cualquier botón.</h2>
       <p>Laterales, rueda, la inclinación del scroll, incluso el clic izquierdo con protección anti-bloqueo. Cada botón hace exactamente lo que tú quieras.</p>
-      <p class="sub">Pruébalo en vivo antes de asignar, para no fallar ni un clic.</p>
+      <p class="sub">¿Por qué conformarte con los botones que ya trae? Aquí cada uno es tuyo.</p>
     </div>
   </div>
 </section>
@@ -423,27 +459,33 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   <div class="wrap">
     <div class="illus glow-c slide-r" aria-hidden="true">
       <img src="assets/hero-keyboard-legible-zynora-transparente.png" alt="Teclado gaming" loading="lazy">
+      <span class="pin" style="top:8%;left:0%">G → Grabar macro</span>
+      <span class="pin cy" style="top:34%;right:-1%">F1 → Discord</span>
+      <span class="pin" style="bottom:12%;left:6%">Capa NYX</span>
     </div>
     <div class="copy slide-l">
       <div class="step">Teclado</div>
-      <h2>Cualquier tecla, otra cosa.</h2>
+      <h2>Cualquier tecla, cualquier acción.</h2>
       <p>Convierte una tecla en otra tecla, en una acción o en una macro completa. Un diagrama visual del teclado para asignar de un vistazo.</p>
       <p class="sub">Graba macros en vivo — teclas, clics y movimiento — y reprodúcelas fluidas.</p>
     </div>
   </div>
 </section>
 
-<!-- SHOWCASE: MANDOS (entra desde la izquierda) -->
+<!-- SHOWCASE: CONTROLES (entra desde la izquierda) -->
 <section class="showcase">
   <div class="wrap">
     <div class="illus glow-v slide-l" aria-hidden="true">
-      <img src="assets/hero-gamepad-zynora-transparente.png" alt="Mando gaming" loading="lazy">
+      <img src="assets/hero-gamepad-zynora-transparente.png" alt="Control gaming" loading="lazy">
+      <span class="pin" style="top:12%;left:-2%">L1 → Push-to-talk</span>
+      <span class="pin cy" style="top:40%;left:2%">Cruceta → Combos</span>
+      <span class="pin" style="bottom:16%;right:-1%">Home → Perfil</span>
     </div>
     <div class="copy slide-r">
-      <div class="step">Mandos</div>
-      <h2>Dale nueva vida a tus mandos.</h2>
-      <p>Detecta tu control, pruébalo en vivo y reasigna sus botones a teclado, ratón o macros. Con perfiles propios para cada mando.</p>
-      <p class="sub">Ideal para revivir un mando que ya no usabas.</p>
+      <div class="step">Controles</div>
+      <h2>Saca más de los controles que ya usas.</h2>
+      <p>Detecta tu control, pruébalo en vivo y reasigna sus botones a teclado, mouse o macros. Con perfiles propios para cada control.</p>
+      <p class="sub">Súmales funciones nuevas — y revive de paso ese control que tenías guardado.</p>
     </div>
   </div>
 </section>
@@ -454,60 +496,33 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
     <div class="section-head reveal">
       <span class="eyebrow cyan">Compatibilidad</span>
       <h2>Sea cual sea tu equipo</h2>
-      <p>Ratón, teclado o mando — de cualquier forma, tamaño o marca. Si Windows lo ve, Zynora lo controla.</p>
+      <p>Mouse, teclado o control — de cualquier forma, tamaño o marca. Si Windows lo ve, Zynora lo controla.</p>
     </div>
 
     <div class="arch-group">
-      <h3>Ratones</h3>
-      <div class="arch-grid">
-        <div class="arch-card reveal">
-          <img src="assets/devices/device-mouse-ultralight-honeycomb-transparente.png" alt="Ratón ultraligero" loading="lazy">
-          <span class="tag">Ultraligero</span>
-        </div>
-        <div class="arch-card reveal">
-          <img src="assets/devices/device-mouse-ergo-right-transparente.png" alt="Ratón ergonómico" loading="lazy">
-          <span class="tag">Ergonómico</span>
-        </div>
-        <div class="arch-card reveal">
-          <img src="assets/devices/device-mouse-vertical-transparente.png" alt="Ratón vertical" loading="lazy">
-          <span class="tag">Vertical</span>
-        </div>
+      <h3>Mouse</h3>
+      <div class="arch-stack">
+        <img class="dev slide-l" src="assets/devices/device-mouse-ergo-right-transparente.png" alt="Mouse ergonómico" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-mouse-ultralight-honeycomb-transparente.png" alt="Mouse ultraligero" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-mouse-vertical-transparente.png" alt="Mouse vertical" loading="lazy">
       </div>
     </div>
 
     <div class="arch-group">
       <h3>Teclados</h3>
-      <div class="arch-grid">
-        <div class="arch-card glow-c reveal">
-          <img src="assets/devices/device-keyboard-60-transparente.png" alt="Teclado 60%" loading="lazy">
-          <span class="tag">60%</span>
-        </div>
-        <div class="arch-card glow-c reveal">
-          <img src="assets/devices/device-keyboard-tkl-transparente.png" alt="Teclado TKL" loading="lazy">
-          <span class="tag">TKL</span>
-        </div>
-        <div class="arch-card glow-c reveal">
-          <img src="assets/devices/device-keyboard-full-transparente.png" alt="Teclado completo" loading="lazy">
-          <span class="tag">Completo</span>
-        </div>
+      <div class="arch-stack glow-c">
+        <img class="dev slide-l" src="assets/devices/device-keyboard-60-transparente.png" alt="Teclado 60%" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-keyboard-tkl-transparente.png" alt="Teclado TKL" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-keyboard-full-transparente.png" alt="Teclado completo" loading="lazy">
       </div>
     </div>
 
     <div class="arch-group">
-      <h3>Mandos</h3>
-      <div class="arch-grid">
-        <div class="arch-card reveal">
-          <img src="assets/devices/device-gamepad-asymmetric-pro-transparente.png" alt="Mando pro" loading="lazy">
-          <span class="tag">Pro</span>
-        </div>
-        <div class="arch-card reveal">
-          <img src="assets/devices/device-gamepad-compact-transparente.png" alt="Mando compacto" loading="lazy">
-          <span class="tag">Compacto</span>
-        </div>
-        <div class="arch-card reveal">
-          <img src="assets/devices/device-gamepad-symmetric-transparente.png" alt="Mando simétrico" loading="lazy">
-          <span class="tag">Simétrico</span>
-        </div>
+      <h3>Controles</h3>
+      <div class="arch-stack">
+        <img class="dev slide-l" src="assets/devices/device-gamepad-asymmetric-pro-transparente.png" alt="Control pro" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-gamepad-compact-transparente.png" alt="Control compacto" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-gamepad-symmetric-transparente.png" alt="Control simétrico" loading="lazy">
       </div>
     </div>
   </div>
@@ -518,7 +533,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Todo en un .exe</span>
-      <h2>Y bastante más bajo el capó</h2>
+      <h2>Mucho más que remapeo</h2>
       <p>Las herramientas que normalmente exigen varios programas distintos, reunidas sin depender de los drivers de cada fabricante.</p>
     </div>
     <div class="grid">
@@ -563,7 +578,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
       <img class="lumyx-logo" src="assets/lumyx-zl3-lockup-horizontal.png" alt="Zynora Lumyx">
       <span class="eyebrow cyan">Iluminación RGB</span>
       <h2>Todo tu RGB, en armonía.</h2>
-      <p class="big">Una sola paleta para todas tus marcas. Lumyx unifica los LEDs de ratón, teclado, placa base, GPU y RAM compatibles bajo un mismo control, con efectos fluidos.</p>
+      <p class="big">Una sola paleta para todas tus marcas. Lumyx unifica los LEDs de mouse, teclado, placa base, GPU y RAM compatibles bajo un mismo control, con efectos fluidos.</p>
       <ul class="lumyx-list">
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Efectos incluidos</b> — estático, respiración, arcoíris, espectro, cometa y latido.</span></li>
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Editor LED por LED</b> — pinta cada zona sobre la silueta de tu dispositivo.</span></li>
@@ -597,7 +612,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
       <h2>Ecualiza el sonido de todo tu PC</h2>
       <p>Ajusta el audio general de Windows con presets por género y contenido, controles de tono simples y un ecualizador de 10 bandas con curva de respuesta.</p>
       <ul class="mini-list">
-        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unos 24 presets agrupados (géneros, contenido, realces).</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>24 presets (géneros, contenido, realces).</li>
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Sliders de tono: graves, calidez, voz y claridad.</li>
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Detección de tus salidas con su nombre y tipo reales.</li>
         <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>El motor de audio es opcional: la app funciona igual sin él.</li>
@@ -636,6 +651,25 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   </div>
 </section>
 
+<!-- Seguridad y transparencia -->
+<section class="section" style="padding-top:0">
+  <div class="wrap reveal">
+    <div class="notice">
+      <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <div>
+        <h3>Seguridad y transparencia</h3>
+        <p>Zynora es un proyecto independiente firmado con un <b>certificado propio</b> (todavía no uno comercial de pago), así que <b>Windows SmartScreen</b> o <b>Microsoft Defender</b> pueden mostrar una advertencia la primera vez que lo abres. Es el comportamiento normal en apps independientes sin certificado comercial — no significa que el archivo tenga nada raro, y puedes comprobarlo tú mismo.</p>
+        <p style="margin-top:12px">En VirusTotal el análisis marca <b>1/69</b>, y ese único aviso es un <b>falso positivo</b> conocido de Microsoft (<i>Wacatac.B!ml</i>), típico de apps indie sin firmar comercialmente. El enlace está siempre actualizado, así que puedes verlo en vivo cuando quieras.</p>
+        <!-- El hash es de una versión concreta del .exe. Para actualizar, reemplaza el hash en el href de abajo por el del análisis de la nueva build. -->
+        <a class="btn btn-ghost" style="margin-top:16px" href="https://www.virustotal.com/gui/file/43e07b4dd2d039f69c3c8bbd050d179e2ba8eeef815c307446b03f649eb130eb" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          Ver análisis en VirusTotal
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta" id="descargar">
   <div class="wrap reveal">
@@ -657,8 +691,13 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   <div class="wrap">
     <div class="foot">
       <div class="foot-brand">
-        <span class="lockup"><img src="assets/icon-b1-circulo.png" alt=""><span class="word"><span class="z">Z</span>ynora</span></span>
+        <span class="lockup"><img src="assets/logo-triangle-z.png" alt=""><span class="word"><span class="z">Z</span>ynora</span></span>
         <p>Hub de entrada y audio para Windows. Remapeo genérico, macros, RGB Lumyx y ecualizador, en un solo archivo portable.</p>
+        <a class="foot-credit" href="https://www.youtube.com/@Azmo105" target="_blank" rel="noopener">
+          <img src="assets/azmo105-logo.png" alt="AZMO105" width="30" height="30" loading="lazy">
+          Hecho por AZMO105
+        </a>
+        <p class="foot-made"><b>Idea y dirección de AZMO105</b> · desarrollado con Claude (Anthropic).</p>
       </div>
       <div class="foot-cols">
         <div class="foot-col">
@@ -703,7 +742,25 @@ document.querySelectorAll('#navlinks a').forEach(function(a){
 var io=new IntersectionObserver(function(entries){
   entries.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});
 },{threshold:.15});
-document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.observe(el);});
+document.querySelectorAll('.reveal,.slide-l,.slide-r,.slide-u').forEach(function(el){io.observe(el);});
+
+// Contador REAL de descargas (GitHub Releases) — solo se muestra si supera el umbral.
+(function(){
+  var UMBRAL_DESCARGAS=50; // fácil de cambiar
+  try{
+    fetch('https://api.github.com/repos/BR105/synora-releases/releases')
+      .then(function(r){return r.ok?r.json():Promise.reject();})
+      .then(function(rel){
+        var total=0;
+        (rel||[]).forEach(function(x){(x.assets||[]).forEach(function(a){total+=a.download_count||0;});});
+        if(total>=UMBRAL_DESCARGAS){
+          var b=document.getElementById('dlbadge'),c=document.getElementById('dlcount');
+          if(b&&c){c.textContent='⬇ '+total.toLocaleString('es')+' descargas';b.style.display='';}
+        }
+      })
+      .catch(function(){/* offline o fallo: badge queda oculto */});
+  }catch(e){/* sin fetch: badge oculto */}
+})();
 
 // LEDs del mockup Lumyx — selector de efectos interactivo
 (function(){
@@ -777,18 +834,19 @@ document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.o
   var idleTimer=null;
   function setTrans(d){bars.forEach(function(b){b.style.transition='height '+d;});}
   // En reposo: cada barra sube/baja de forma ALEATORIA e independiente (no al unísono).
-  function idleFrame(){for(var i=0;i<NB;i++){bars[i].style.height=(env[i]*(18+Math.random()*30)).toFixed(1)+'%';}}
+  function idleFrame(){for(var i=0;i<NB;i++){bars[i].style.height=(env[i]*(34+Math.random()*30)).toFixed(1)+'%';}}
   function startIdle(){setTrans('.6s cubic-bezier(.2,.7,.3,1)');idleFrame();if(!reduce&&!idleTimer){idleTimer=setInterval(idleFrame,600);}}
   function stopIdle(){if(idleTimer){clearInterval(idleTimer);idleTimer=null;}}
   startIdle();
 
   var ctx,master,filter,analyser,freq,raf,playing=false,seq,stepTimer,step=0;
+  // Ganancias fuertes y bandas bien separadas para que el cambio de perfil se OIGA.
   var profiles={
-    gaming: {type:'peaking',  freq:2200,q:1,  gain:5},   // presencia
-    bass:   {type:'lowshelf', freq:180, q:1,  gain:9},   // graves
-    voice:  {type:'highshelf',freq:3200,q:1,  gain:8},   // agudos/voz
-    cine:   {type:'lowshelf', freq:95,  q:1,  gain:8},   // graves profundos, cine
-    clarity:{type:'peaking',  freq:6000,q:1.4,gain:7}    // aire y detalle
+    gaming: {type:'peaking',  freq:1800,q:2,  gain:12},  // presencia media, marcada
+    bass:   {type:'lowshelf', freq:220, q:1,  gain:17},  // graves contundentes
+    voice:  {type:'highshelf',freq:3000,q:1,  gain:16},  // agudos/voz brillantes
+    cine:   {type:'lowshelf', freq:110, q:1,  gain:16},  // sub-graves de cine
+    clarity:{type:'peaking',  freq:7000,q:2.2,gain:15}   // aire y detalle marcado
   };
   var current='gaming';
   var presets=document.getElementById('eqpresets');
@@ -844,7 +902,7 @@ document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.o
     if(!ctx){
       var AC=window.AudioContext||window.webkitAudioContext;
       ctx=new AC();
-      master=ctx.createGain();master.gain.value=0.5;
+      master=ctx.createGain();master.gain.value=0.38; // headroom para +17dB de los perfiles
       filter=ctx.createBiquadFilter();
       analyser=ctx.createAnalyser();analyser.fftSize=256;
       freq=new Uint8Array(analyser.frequencyBinCount);
