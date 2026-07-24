@@ -284,6 +284,34 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 .foot-bottom a{color:var(--text-muted)}
 .foot-bottom a:hover{color:var(--text-dim)}
 
+/* ---- Galería de arquetipos (compatibilidad) ---- */
+.arch-group{margin-bottom:44px}
+.arch-group:last-child{margin-bottom:0}
+.arch-group h3{
+  font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--hairline-2);
+}
+.arch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.arch-card{
+  background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-card);
+  padding:20px 16px 14px;display:flex;flex-direction:column;align-items:center;gap:12px;
+  transition:transform .25s ease,border-color .25s ease,background .25s ease;
+}
+.arch-card img{
+  width:auto;max-width:100%;max-height:104px;height:auto;object-fit:contain;
+  filter:drop-shadow(0 0 26px rgba(150,108,255,.34)) drop-shadow(0 14px 30px rgba(0,0,0,.5));
+  transition:filter .25s ease,transform .25s ease;
+}
+.arch-card.glow-c img{filter:drop-shadow(0 0 26px rgba(0,220,255,.32)) drop-shadow(0 14px 30px rgba(0,0,0,.5))}
+.arch-card .tag{font-size:12.5px;font-weight:600;color:var(--text-muted);letter-spacing:.02em}
+.arch-card:hover{transform:translateY(-5px);border-color:var(--accent-line);background:var(--surface-2)}
+.arch-card:hover img{transform:translateY(-2px) scale(1.03);filter:drop-shadow(0 0 40px rgba(150,108,255,.55)) drop-shadow(0 16px 34px rgba(0,0,0,.55))}
+.arch-card.glow-c:hover{border-color:rgba(0,220,255,.4)}
+.arch-card.glow-c:hover img{filter:drop-shadow(0 0 40px rgba(0,220,255,.5)) drop-shadow(0 16px 34px rgba(0,0,0,.55))}
+@media (prefers-reduced-motion:reduce){
+  .arch-card:hover img{transform:none}
+}
+
 /* ---- Reveal genérico ---- */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
@@ -394,7 +422,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 <section class="showcase rev">
   <div class="wrap">
     <div class="illus glow-c slide-r" aria-hidden="true">
-      <img src="assets/hero-keyboard-zynora-transparente.png" alt="Teclado gaming" loading="lazy">
+      <img src="assets/hero-keyboard-legible-zynora-transparente.png" alt="Teclado gaming" loading="lazy">
     </div>
     <div class="copy slide-l">
       <div class="step">Teclado</div>
@@ -416,6 +444,65 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
       <h2>Dale nueva vida a tus mandos.</h2>
       <p>Detecta tu control, pruébalo en vivo y reasigna sus botones a teclado, ratón o macros. Con perfiles propios para cada mando.</p>
       <p class="sub">Ideal para revivir un mando que ya no usabas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA DE ARQUETIPOS (compatibilidad genérica, sin marcas) -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow cyan">Compatibilidad</span>
+      <h2>Sea cual sea tu equipo</h2>
+      <p>Ratón, teclado o mando — de cualquier forma, tamaño o marca. Si Windows lo ve, Zynora lo controla.</p>
+    </div>
+
+    <div class="arch-group">
+      <h3>Ratones</h3>
+      <div class="arch-grid">
+        <div class="arch-card reveal">
+          <img src="assets/devices/device-mouse-ultralight-honeycomb-transparente.png" alt="Ratón ultraligero" loading="lazy">
+          <span class="tag">Ultraligero</span>
+        </div>
+        <div class="arch-card reveal">
+          <img src="assets/devices/device-mouse-ergo-right-transparente.png" alt="Ratón ergonómico" loading="lazy">
+          <span class="tag">Ergonómico</span>
+        </div>
+        <div class="arch-card reveal">
+          <img src="assets/devices/device-mouse-vertical-transparente.png" alt="Ratón vertical" loading="lazy">
+          <span class="tag">Vertical</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-group">
+      <h3>Teclados</h3>
+      <div class="arch-grid">
+        <div class="arch-card glow-c reveal">
+          <img src="assets/devices/device-keyboard-60-transparente.png" alt="Teclado 60%" loading="lazy">
+          <span class="tag">60%</span>
+        </div>
+        <div class="arch-card glow-c reveal">
+          <img src="assets/devices/device-keyboard-tkl-transparente.png" alt="Teclado TKL" loading="lazy">
+          <span class="tag">TKL</span>
+        </div>
+        <!-- pendiente: device-keyboard-full-transparente.png ("Completo") -->
+      </div>
+    </div>
+
+    <div class="arch-group">
+      <h3>Mandos</h3>
+      <div class="arch-grid">
+        <div class="arch-card reveal">
+          <img src="assets/devices/device-gamepad-asymmetric-pro-transparente.png" alt="Mando pro" loading="lazy">
+          <span class="tag">Pro</span>
+        </div>
+        <div class="arch-card reveal">
+          <img src="assets/devices/device-gamepad-compact-transparente.png" alt="Mando compacto" loading="lazy">
+          <span class="tag">Compacto</span>
+        </div>
+        <!-- pendiente: device-gamepad-symmetric-transparente.png ("Simétrico") -->
+      </div>
     </div>
   </div>
 </section>
@@ -615,6 +702,8 @@ document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.o
 // LEDs del mockup Lumyx — selector de efectos interactivo
 (function(){
   var box=document.getElementById('leds');if(!box)return;
+  var strip=document.querySelector('.rgb-strip');
+  if(strip)strip.style.animation='none'; // la barra la pinta el JS según el efecto activo
   var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var n=20,leds=[];
   for(var i=0;i<n;i++){var d=document.createElement('div');d.className='led';box.appendChild(d);leds.push(d);}
@@ -644,7 +733,14 @@ document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.o
     }
     return out;
   }
-  function render(t){var f=frame(t);for(var i=0;i<n;i++)set(i,f[i][0],f[i][1]);}
+  // La barra superior toma los MISMOS colores del efecto (gradiente de los LEDs).
+  function paintStrip(f){
+    if(!strip)return;
+    var s=[];
+    for(var i=0;i<n;i++){var l=Math.max(0,Math.min(100,f[i][1]));s.push('hsl('+f[i][0]+','+(l>6?85:0)+'%,'+l+'%) '+(i*100/(n-1)).toFixed(1)+'%');}
+    strip.style.background='linear-gradient(90deg,'+s.join(',')+')';
+  }
+  function render(t){var f=frame(t);for(var i=0;i<n;i++)set(i,f[i][0],f[i][1]);paintStrip(f);}
 
   var raf;
   function loop(ts){render(ts/1000);raf=requestAnimationFrame(loop);}
