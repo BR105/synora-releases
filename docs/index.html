@@ -332,6 +332,77 @@ section{position:relative}
 .card h3{font-size:18px;margin-bottom:9px;letter-spacing:-.01em}
 .card p{color:var(--text-dim);font-size:14.5px}
 
+/* ---- Demos vivos de Macros y Capas NYX: franja glass bajo la grilla, mismo
+   lenguaje que .rgb-mock/.eq-mock (superficie, borde animado, reveal). ---- */
+.demo-strip{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.feat-mock{
+  position:relative;
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);
+  border:1px solid var(--glass-brd);border-radius:var(--r-card);
+  padding:24px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7),var(--glass-hi);
+}
+.feat-mock .row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:18px}
+.feat-mock .row small{color:var(--text-muted);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700}
+
+/* -- Macros: mini-ventana con botones Grabar/Reproducir + lista de pasos -- */
+.macro-state{display:inline-flex;align-items:center;gap:6px;color:var(--text-dim);font-size:11.5px;font-weight:700;text-transform:none;letter-spacing:0}
+.macro-state .dot{width:6px;height:6px;border-radius:50%;background:var(--text-muted);transition:background .3s,box-shadow .3s}
+.macro-state.rec .dot{background:var(--danger);box-shadow:0 0 8px var(--danger)}
+.macro-state.play .dot{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.macro-state.done .dot{background:var(--ok);box-shadow:0 0 6px var(--ok)}
+.macro-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.mbtn{
+  display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--text-dim);
+  background:rgba(255,255,255,.06);border:1px solid var(--glass-brd);border-radius:100px;padding:7px 13px;
+  transition:color .3s ease,background .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+.mbtn svg{width:11px;height:11px;flex:none}
+.mbtn .mdot{width:7px;height:7px;border-radius:50%;background:var(--text-muted);flex:none;transition:background .3s,box-shadow .3s}
+.mbtn.rec.active{color:#fff;background:rgba(248,113,113,.16);border-color:rgba(248,113,113,.5);box-shadow:0 0 18px -6px rgba(248,113,113,.55)}
+.mbtn.rec.active .mdot{background:var(--danger);box-shadow:0 0 8px var(--danger)}
+.mbtn.play.active{color:#0a0a0c;background:var(--accent);border-color:var(--accent);box-shadow:0 0 18px -6px rgba(150,108,255,.6)}
+.macro-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;min-height:172px}
+.macro-steps li{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 6px;border-bottom:1px solid var(--hairline-2);font-size:13px;color:var(--text-dim);
+  opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease,background .2s ease,border-radius .2s ease;
+}
+.macro-steps li:last-child{border-bottom:0}
+.macro-steps li.in{opacity:1;transform:none}
+.macro-steps li b{color:var(--text);font-weight:600}
+.macro-steps li .t{color:var(--text-muted);font-size:11.5px;font-variant-numeric:tabular-nums;flex:none}
+.macro-steps li.active{background:rgba(150,108,255,.14);border-radius:8px;border-bottom-color:transparent}
+.macro-steps li.active .t{color:var(--accent)}
+
+/* -- Capas NYX: mini-teclado esquemático que gana una capa cian al mantener NYX -- */
+.nyx-state{color:var(--text-dim);font-size:11.5px;font-weight:700;text-transform:none;letter-spacing:0;transition:color .3s}
+.nyx-state.on{color:var(--cyan)}
+.nyx-kbd{display:flex;gap:6px;margin-bottom:16px}
+.nk{
+  flex:1 1 0;min-width:0;height:52px;border-radius:9px;
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+  border:1px solid var(--hairline);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 14px -8px rgba(0,0,0,.6);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  transition:background .35s ease,border-color .35s ease,box-shadow .35s ease,transform .15s ease;
+}
+.nk-label{font-size:12px;font-weight:700;color:var(--text-dim);transition:opacity .16s ease,transform .16s ease,color .35s ease,font-size .16s ease;padding:0 2px;white-space:nowrap;overflow:hidden;text-overflow:clip}
+/* las etiquetas de capa (Discord, Macro 1...) son más largas que una letra sola:
+   un pelo más pequeñas para que quepan sin recortarse en la tecla angosta */
+.nk.layered .nk-label{font-size:10.5px;letter-spacing:-.01em}
+.nk-mod{flex:1.25 1 0}
+.nk-mod.pressed{
+  background:var(--cyan-soft);border-color:rgba(0,220,255,.55);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 20px -4px rgba(0,220,255,.55);
+  transform:translateY(1px);
+}
+.nk-mod.pressed .nk-label{color:var(--cyan)}
+.nk.layered{background:var(--cyan-soft);border-color:rgba(0,220,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 14px -6px rgba(0,220,255,.4)}
+.nk.layered .nk-label{color:var(--cyan)}
+.nk-label.swap{opacity:0;transform:translateY(-5px)}
+.nyx-caption{color:var(--text-muted);font-size:12.5px;text-align:center;margin:0}
+.nyx-caption b{color:var(--text-dim)}
+
 /* ---- Destellos de color detrás del vidrio (el backdrop-filter los difumina) ---- */
 .has-glow{position:relative;isolation:isolate}
 .has-glow > .wrap{position:relative;z-index:1}
@@ -381,7 +452,7 @@ ul{margin:0;padding:0}
 }
 /* ---- Borde de acento animado (violeta→cian que se desliza lento) ----
    Anillo de 1px hecho con máscara; MUY sutil. Solo en los mockups "vivos". */
-.rgb-mock::before,.eq-mock::before{
+.rgb-mock::before,.eq-mock::before,.feat-mock::before{
   content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
   background:linear-gradient(115deg,transparent 22%,var(--accent) 44%,var(--cyan) 56%,transparent 80%);
   background-size:240% 240%;opacity:.55;
@@ -391,6 +462,8 @@ ul{margin:0;padding:0}
   animation:borderSlide 7s linear infinite;
 }
 .eq-mock::before{animation-duration:9s;animation-direction:reverse}
+.macro-mock::before{animation-duration:8s}
+.nyx-mock::before{animation-duration:10s;animation-direction:reverse}
 @keyframes borderSlide{0%{background-position:0% 50%}100%{background-position:200% 50%}}
 .rgb-mock .row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .rgb-mock .row small{color:var(--text-muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
@@ -526,15 +599,19 @@ footer::before{
   .showcase .illus img{transition:none}
   .showcase:hover .illus img{transform:none}
   /* nada de movimiento nuevo: borde animado y subrayado quietos, rejilla oculta */
-  .rgb-mock::before,.eq-mock::before{animation:none;opacity:.3}
+  .rgb-mock::before,.eq-mock::before,.feat-mock::before{animation:none;opacity:.3}
   .nav-links a:not(.btn)::after{transition:none}
   body::before{display:none}
   html{scroll-behavior:auto}
+  /* Macros/NYX: sin animación — el JS pinta un fotograma estático representativo
+     (macro con sus pasos ya grabados, capa NYX ya activa) y las transiciones CSS
+     de esos elementos quedan quietas. */
+  .macro-steps li,.nk,.nk-label,.macro-state .dot,.nyx-state,.mbtn{transition:none}
 }
 
 /* ---- Fallback si backdrop-filter NO está soportado: superficies sólidas ---- */
 @supports not ((-webkit-backdrop-filter:blur(2px)) or (backdrop-filter:blur(2px))){
-  .card,.rgb-mock,.eq-mock{background:linear-gradient(180deg,var(--surface-2),var(--bg-2))}
+  .card,.rgb-mock,.eq-mock,.feat-mock{background:linear-gradient(180deg,var(--surface-2),var(--bg-2))}
   .notice{background:var(--surface)}
   .badge,.btn-ghost{background:var(--surface)}
   .chip{background:var(--surface-2)}
@@ -544,6 +621,12 @@ footer::before{
 }
 
 /* ---- Responsive ---- */
+/* demo-strip apila ANTES que el resto (1150px, no 900px): así la tarjeta en 2 columnas
+   nunca es más angosta que el ancho que ya cabe sin recortar las etiquetas de las teclas
+   NYX — por debajo de 1150px, cada demo pasa a ocupar la fila completa. */
+@media (max-width:1150px){
+  .demo-strip{grid-template-columns:1fr}
+}
 @media (max-width:900px){
   .grid{grid-template-columns:repeat(2,1fr)}
   .lumyx-inner,.split,.showcase .wrap{grid-template-columns:1fr;gap:38px}
@@ -562,7 +645,14 @@ footer::before{
 @media (max-width:560px){
   .grid{grid-template-columns:1fr}
   /* móvil: mantenemos el vidrio (ahora sí se ve, con color detrás) pero con blur más ligero */
-  .card{-webkit-backdrop-filter:blur(11px) saturate(1.2);backdrop-filter:blur(11px) saturate(1.2)}
+  .card,.feat-mock{-webkit-backdrop-filter:blur(11px) saturate(1.2);backdrop-filter:blur(11px) saturate(1.2)}
+  .feat-mock{padding:20px}
+  /* teclado NYX: dos filas de 4 en vez de 8 apretadas en una — mucho más ancho por tecla */
+  .nyx-kbd{flex-wrap:wrap;row-gap:8px}
+  .nk{flex:1 1 21%;height:46px}
+  .nk-mod{flex:1 1 30%}
+  .nk-label{font-size:11px}
+  .nk.layered .nk-label{font-size:10px}
   /* blobs más baratos en móvil, pero siguen tiñendo el frost */
   .glow-field::before,.glow-field::after{filter:blur(40px);width:74%;height:46%}
   .section{padding:60px 0}
@@ -776,6 +866,42 @@ footer::before{
         <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <h3>Sólido y portable</h3>
         <p>Un único ejecutable firmado, sin instalación ni DLLs sueltas. Para quitarlo, borra la carpeta.</p>
+      </div>
+    </div>
+
+    <!-- Demos vivos de Macros y Capas NYX — mismo listón que .rgb-mock/.eq-mock -->
+    <div class="demo-strip">
+      <div class="feat-mock macro-mock reveal" aria-hidden="true">
+        <div class="row">
+          <small>Macros · en vivo</small>
+          <small class="macro-state" id="macroState"><span class="dot"></span>Grabando</small>
+        </div>
+        <div class="macro-toolbar">
+          <span class="mbtn rec" id="macroRecBtn"><span class="mdot"></span>Grabar</span>
+          <span class="mbtn play" id="macroPlayBtn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Reproducir
+          </span>
+        </div>
+        <ul class="macro-steps" id="macroSteps"></ul>
+      </div>
+
+      <div class="feat-mock nyx-mock reveal" aria-hidden="true">
+        <div class="row">
+          <small>Capas NYX · global</small>
+          <small class="nyx-state" id="nyxState">Capa base</small>
+        </div>
+        <div class="nyx-kbd" id="nyxKbd">
+          <div class="nk nk-mod" id="nyxKey" data-base="NYX"><span class="nk-label">NYX</span></div>
+          <div class="nk" data-base="Q" data-layer="Discord"><span class="nk-label">Q</span></div>
+          <div class="nk" data-base="W" data-layer="OBS"><span class="nk-label">W</span></div>
+          <div class="nk" data-base="E" data-layer="Macro 1"><span class="nk-label">E</span></div>
+          <div class="nk" data-base="R" data-layer="Mute"><span class="nk-label">R</span></div>
+          <div class="nk" data-base="T" data-layer="Zoom+"><span class="nk-label">T</span></div>
+          <div class="nk" data-base="Y" data-layer="Perfil 2"><span class="nk-label">Y</span></div>
+          <div class="nk" data-base="U" data-layer="Captura"><span class="nk-label">U</span></div>
+        </div>
+        <p class="nyx-caption">Mantén <b>NYX</b> — todo el teclado gana una segunda función.</p>
       </div>
     </div>
   </div>
@@ -1186,6 +1312,150 @@ document.querySelectorAll('.arch-stack').forEach(function(el){ioDev.observe(el);
     c.classList.add('on');
     applyProfile();
   });
+})();
+
+// ---- Demo Macros: graba pasos en vivo y los reproduce en bucle ----
+(function(){
+  var list=document.getElementById('macroSteps');if(!list)return;
+  var stateEl=document.getElementById('macroState');
+  var recBtn=document.getElementById('macroRecBtn');
+  var playBtn=document.getElementById('macroPlayBtn');
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var STEPS=[
+    {k:'Tecla Q',t:'12 ms'},
+    {k:'Clic izq',t:'340 ms'},
+    {k:'Rueda ↓',t:'90 ms'},
+    {k:'Tecla Q',t:'15 ms'}
+  ];
+
+  function renderStep(s){
+    var li=document.createElement('li');
+    li.innerHTML='<b>'+s.k+'</b><span class="t">'+s.t+'</span>';
+    return li;
+  }
+
+  if(reduce){
+    // fotograma estático: la macro ya quedó grabada, con sus pasos visibles
+    STEPS.forEach(function(s){var li=renderStep(s);li.className='in';list.appendChild(li);});
+    stateEl.className='macro-state done';stateEl.innerHTML='<span class="dot"></span>'+STEPS.length+' pasos';
+    return;
+  }
+
+  var timers=[];
+  function clear(){timers.forEach(clearTimeout);timers=[];}
+  function after(ms,fn){timers.push(setTimeout(fn,ms));}
+
+  function cycle(){
+    clear();list.innerHTML='';
+    recBtn.classList.remove('active');playBtn.classList.remove('active');
+    stateEl.className='macro-state rec';stateEl.innerHTML='<span class="dot"></span>Grabando';
+    after(150,function(){recBtn.classList.add('active');});
+
+    // 1) los pasos van "apareciendo", como si el usuario los estuviera tecleando
+    STEPS.forEach(function(s,i){
+      after(500+i*480,function(){
+        var li=renderStep(s);list.appendChild(li);
+        requestAnimationFrame(function(){li.classList.add('in');});
+      });
+    });
+
+    var afterSteps=500+STEPS.length*480+300;
+    after(afterSteps,function(){
+      recBtn.classList.remove('active');
+      stateEl.className='macro-state done';stateEl.innerHTML='<span class="dot"></span>'+STEPS.length+' pasos';
+    });
+
+    // 2) se pulsa Reproducir y los pasos se resaltan uno a uno, rápido
+    var playStart=afterSteps+500;
+    after(playStart,function(){
+      playBtn.classList.add('active');
+      stateEl.className='macro-state play';stateEl.innerHTML='<span class="dot"></span>Reproduciendo';
+    });
+    STEPS.forEach(function(s,i){
+      after(playStart+220+i*260,function(){
+        var el=list.children[i];if(el)el.classList.add('active');
+      });
+      after(playStart+220+i*260+200,function(){
+        var el=list.children[i];if(el)el.classList.remove('active');
+      });
+    });
+
+    // 3) pausa breve y reinicia el bucle
+    var playEnd=playStart+220+STEPS.length*260+400;
+    after(playEnd,function(){
+      playBtn.classList.remove('active');
+      stateEl.className='macro-state';stateEl.innerHTML='<span class="dot"></span>Lista';
+    });
+    after(playEnd+1000,cycle);
+  }
+  cycle();
+})();
+
+// ---- Demo Capas NYX: al "mantener" NYX, el resto del teclado cambia de función ----
+(function(){
+  var modKey=document.getElementById('nyxKey');if(!modKey)return;
+  var stateEl=document.getElementById('nyxState');
+  var keys=Array.prototype.slice.call(document.querySelectorAll('#nyxKbd .nk:not(.nk-mod)'));
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  if(reduce){
+    // fotograma estático: la capa NYX ya está activa
+    modKey.classList.add('pressed');
+    keys.forEach(function(k){
+      k.classList.add('layered');
+      k.querySelector('.nk-label').textContent=k.getAttribute('data-layer');
+    });
+    stateEl.textContent='Capa NYX activa';stateEl.classList.add('on');
+    return;
+  }
+
+  function swapLabel(k,text){
+    var label=k.querySelector('.nk-label');
+    label.classList.add('swap');
+    setTimeout(function(){label.textContent=text;label.classList.remove('swap');},160);
+  }
+
+  var timers=[];
+  function clear(){timers.forEach(clearTimeout);timers=[];}
+  function after(ms,fn){timers.push(setTimeout(fn,ms));}
+
+  function cycle(){
+    clear();
+    // estado base: capa apagada, letras normales
+    modKey.classList.remove('pressed');
+    keys.forEach(function(k){k.classList.remove('layered');swapLabel(k,k.getAttribute('data-base'));});
+    stateEl.textContent='Capa base';stateEl.classList.remove('on');
+
+    // 1) se "mantiene pulsada" NYX
+    after(900,function(){
+      modKey.classList.add('pressed');
+      stateEl.textContent='Capa NYX activa';stateEl.classList.add('on');
+    });
+    // 2) el resto de teclas cambia de etiqueta, con leve stagger
+    keys.forEach(function(k,i){
+      after(980+i*70,function(){
+        k.classList.add('layered');
+        swapLabel(k,k.getAttribute('data-layer'));
+      });
+    });
+
+    // 3) se suelta NYX y todo vuelve a la normalidad
+    var holdEnd=980+keys.length*70+1500;
+    after(holdEnd,function(){
+      modKey.classList.remove('pressed');
+      stateEl.textContent='Capa base';stateEl.classList.remove('on');
+    });
+    keys.forEach(function(k,i){
+      after(holdEnd+i*50,function(){
+        k.classList.remove('layered');
+        swapLabel(k,k.getAttribute('data-base'));
+      });
+    });
+
+    // 4) pausa y reinicia el bucle
+    after(holdEnd+keys.length*50+1200,cycle);
+  }
+  cycle();
 })();
 </script>
 </body>
