@@ -82,16 +82,11 @@ p{margin:0}
   transition:transform .15s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease,color .2s ease;
 }
 .btn svg{width:18px;height:18px}
-/* CTA principal: glass VIOLETA frosted — más saturado, opaco y con más glow que el fantasma */
+/* CTA principal: morado SÓLIDO (sin glass) — el botón más prominente */
 .btn-primary{
-  background:linear-gradient(180deg,rgba(150,108,255,.48),rgba(150,108,255,.30));
-  -webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);
-  color:#fff;border:1px solid rgba(255,255,255,.28);
-  box-shadow:var(--glass-hi),0 10px 34px -8px rgba(150,108,255,.75);
+  background:var(--accent);color:#0a0a0c;box-shadow:0 8px 30px -8px rgba(150,108,255,.6);
 }
-.btn-primary:hover{transform:translateY(-2px);
-  background:linear-gradient(180deg,rgba(150,108,255,.64),rgba(150,108,255,.44));
-  box-shadow:var(--glass-hi),0 16px 48px -10px rgba(150,108,255,.95),0 0 28px -4px rgba(0,220,255,.32);color:#fff}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px -10px rgba(150,108,255,.75);color:#fff}
 .btn-ghost{background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.2);backdrop-filter:blur(10px) saturate(1.2);border-color:var(--glass-brd);color:var(--text);box-shadow:var(--glass-hi)}
 .btn-ghost:hover{background:rgba(255,255,255,.13);border-color:var(--accent-line);transform:translateY(-2px);box-shadow:var(--glass-hi),0 0 26px -8px rgba(150,108,255,.5)}
 /* Anillo de foco con el acento (accesibilidad) */
@@ -119,7 +114,7 @@ header{
 .nav-links a:not(.btn):hover::after{right:0}
 .nav .btn{padding:9px 18px;font-size:14px}
 /* el botón del navbar hereda el estilo primario (glass violeta): texto blanco legible */
-.nav-links a.btn-primary{color:#fff}
+.nav-links a.btn-primary{color:#0a0a0c}
 .nav-links a.btn-primary:hover{color:#fff}
 .menu-btn{display:none;background:none;border:0;color:var(--text);cursor:pointer;padding:6px}
 
