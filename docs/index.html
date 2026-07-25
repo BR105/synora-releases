@@ -34,13 +34,20 @@
   --r-card:14px; --r-ctrl:9px;
   --maxw:1140px;
   --font:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1); /* curva de "lift" compartida por botones, tarjetas y mockups */
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scrollbar-color:var(--surface-2) var(--bg-2);scrollbar-width:thin}
 body{
   margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
   line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
+/* Selección de texto y scrollbar acordes al tema */
+::selection{background:rgba(150,108,255,.38);color:#fff}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:var(--bg-2)}
+::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:8px;border:2px solid var(--bg-2)}
+::-webkit-scrollbar-thumb:hover{background:rgba(150,108,255,.45)}
 /* Rejilla tech ambiente — MUY tenue, fija detrás de todo, se desvanece hacia abajo.
    z-index:0 fijo: al ir el pseudo antes que las secciones en el árbol, éstas pintan encima. */
 body::before{
@@ -79,7 +86,7 @@ p{margin:0}
 .btn{
   display:inline-flex;align-items:center;gap:9px;font-family:var(--font);font-size:15px;font-weight:600;
   padding:13px 22px;border-radius:var(--r-ctrl);border:1px solid transparent;cursor:pointer;
-  transition:transform .15s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease,color .2s ease;
+  transition:transform .2s var(--ease),background .2s ease,border-color .2s ease,box-shadow .25s ease,color .2s ease;
 }
 .btn svg{width:18px;height:18px}
 /* CTA principal: morado SÓLIDO (sin glass) — el botón más prominente */
@@ -154,7 +161,11 @@ header{
 .hero-mono .mono-b{opacity:0;transform:translateY(30px)}
 .hero-wordmark{
   width:clamp(280px,42vw,440px);height:auto;margin:0;opacity:0;
-  filter:drop-shadow(0 8px 34px rgba(150,108,255,.32));
+  /* Blur pequeño a propósito: con letras tan juntas, un blur grande (el valor previo, 34px)
+     hace que la sombra de cada letra se fusione con la de al lado y el conjunto se lea como
+     un panel/banda de vidrio rectangular detrás del wordmark, no como un glow. Con esto el
+     halo sigue el contorno de las letras. */
+  filter:drop-shadow(0 2px 6px rgba(150,108,255,.5));
 }
 /* 1) las dos piezas se ensamblan (con leve stagger); el glow del monograma sube al asentarse */
 .hero-brand.play .mono-a{animation:monoDropIn .8s cubic-bezier(.2,.8,.2,1) 0s both}
@@ -193,10 +204,17 @@ header{
 .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
 
 /* ---- Franja ---- */
-.strip{border-top:1px solid var(--hairline-2);border-bottom:1px solid var(--hairline-2);padding:30px 0;background:var(--bg-2)}
-.strip .wrap{display:flex;align-items:center;justify-content:center;gap:12px 34px;flex-wrap:wrap;text-align:center}
-.strip span{color:var(--text-muted);font-size:14px;font-weight:600;letter-spacing:.02em}
-.strip .lead{color:var(--text);font-weight:700}
+.strip{border-top:1px solid var(--hairline-2);border-bottom:1px solid var(--hairline-2);padding:26px 0;background:var(--bg-2)}
+.strip .wrap{display:flex;align-items:center;justify-content:center;gap:10px 12px;flex-wrap:wrap;text-align:center}
+.strip .lead{color:var(--text);font-weight:700;font-size:14px;letter-spacing:.02em;margin-right:2px}
+/* pastillas de vidrio, mismo lenguaje que los badges del hero (une visualmente hero → franja) */
+.strip span:not(.lead){
+  color:var(--text-dim);font-size:13px;font-weight:600;letter-spacing:.02em;
+  background:var(--glass);-webkit-backdrop-filter:blur(8px) saturate(1.2);backdrop-filter:blur(8px) saturate(1.2);
+  border:1px solid var(--glass-brd);border-radius:100px;padding:6px 14px;
+  transition:border-color .2s,color .2s;
+}
+.strip span:not(.lead):hover{border-color:var(--accent-line);color:var(--text)}
 
 /* ---- Secciones ---- */
 section{position:relative}
@@ -210,10 +228,13 @@ section{position:relative}
 .showcase .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%}
 .showcase.rev .illus{order:2}
 .showcase .illus svg{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 70px rgba(0,0,0,.55))}
-.showcase .illus img{width:100%;height:auto;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.showcase .illus{perspective:1200px}
+.showcase .illus img{width:100%;height:auto;display:block;transition:transform .5s var(--ease)}
 .showcase .illus.glow-v img{filter:drop-shadow(0 0 55px rgba(150,108,255,.42)) drop-shadow(0 24px 60px rgba(0,0,0,.6))}
 .showcase .illus.glow-c img{filter:drop-shadow(0 0 55px rgba(0,220,255,.40)) drop-shadow(0 24px 60px rgba(0,0,0,.6))}
-.showcase:hover .illus img{transform:translateY(-6px) scale(1.015)}
+/* leve tilt 3D al pasar el cursor, espejado según el lado del showcase */
+.showcase:hover .illus img{transform:translateY(-6px) scale(1.015) rotateX(1.5deg) rotateY(-2.5deg)}
+.showcase.rev:hover .illus img{transform:translateY(-6px) scale(1.015) rotateX(1.5deg) rotateY(2.5deg)}
 .showcase .copy .step{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
 .showcase .copy h2{font-size:clamp(30px,4.4vw,46px);margin-bottom:18px;max-width:14ch}
 .showcase .copy p{color:var(--text-dim);font-size:clamp(16px,2vw,19px);max-width:44ch}
@@ -282,7 +303,7 @@ section{position:relative}
   background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.035));
   -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
   border:1px solid var(--glass-brd);border-radius:var(--r-card);padding:28px;
-  transition:transform .25s ease,border-color .25s ease,background .25s ease,box-shadow .3s ease;
+  transition:transform .32s var(--ease),border-color .25s ease,background .25s ease,box-shadow .3s ease;
   position:relative;overflow:hidden;box-shadow:var(--glass-hi),var(--glass-sh);
 }
 /* resplandor de acento que crece suave al pasar el cursor */
@@ -291,9 +312,15 @@ section{position:relative}
   background:radial-gradient(120% 80% at 50% -10%,rgba(150,108,255,.16),transparent 60%);
   opacity:0;transition:opacity .3s ease;
 }
-.card:hover{transform:translateY(-4px);border-color:var(--accent-line);
+.card:hover{
+  transform:translateY(-4px);border-color:var(--accent-line);
   background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.055));
   box-shadow:var(--glass-hi),var(--glass-sh),0 22px 50px -24px rgba(150,108,255,.55),0 0 30px -8px rgba(150,108,255,.3);
+  /* .card también lleva la clase .reveal (entrada por scroll); como ambas fijan la
+     propiedad "transition", la que gana por orden en la hoja es .reveal (.7s) — así el
+     hover de la tarjeta quedaba pegado a ese tiempo lento. :hover pesa más en especificidad,
+     así que aquí recupera el timing rápido que sí tienen el resto de hovers del sitio. */
+  transition:transform .32s var(--ease),border-color .25s ease,background .25s ease,box-shadow .3s ease;
 }
 .card:hover::after{opacity:1}
 .card>*{position:relative;z-index:1}
@@ -317,11 +344,17 @@ section{position:relative}
 
 /* ---- Lumyx ---- */
 .lumyx{
+  position:relative;
   background:
     radial-gradient(700px 400px at 15% 20%,rgba(0,220,255,.10),transparent 60%),
     radial-gradient(700px 500px at 85% 80%,rgba(150,108,255,.12),transparent 60%),
     var(--bg-2);
-  border-top:1px solid var(--hairline-2);border-bottom:1px solid var(--hairline-2);
+  border-top:0;border-bottom:1px solid var(--hairline-2);
+}
+/* divisor con gradiente violeta→cian: marca la entrada a la sección de color */
+.lumyx::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent-line) 30%,rgba(0,220,255,.32) 70%,transparent);
 }
 .lumyx-inner{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
 .lumyx-logo{height:56px;width:auto;margin-bottom:24px}
@@ -385,7 +418,7 @@ ul{margin:0;padding:0}
 .play-btn{
   display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#0a0a0c;border:0;
   font-family:var(--font);font-weight:700;font-size:14px;padding:9px 16px;border-radius:var(--r-ctrl);cursor:pointer;
-  transition:transform .15s ease,color .2s ease,box-shadow .2s ease;box-shadow:0 8px 24px -10px rgba(150,108,255,.6);
+  transition:transform .2s var(--ease),color .2s ease,box-shadow .25s ease;box-shadow:0 8px 24px -10px rgba(150,108,255,.6);
 }
 .play-btn:hover{transform:translateY(-1px);color:#fff}
 .play-btn svg{width:16px;height:16px}
@@ -401,8 +434,9 @@ ul{margin:0;padding:0}
 .eq-presets .chip.on{color:#0a0a0c;background:var(--accent);border-color:var(--accent)}
 /* perfiles deshabilitados hasta pulsar Play */
 .eq-presets.locked .chip{opacity:.4;pointer-events:none;cursor:not-allowed}
-.split .txt h2{font-size:clamp(28px,3.8vw,40px);margin-bottom:14px}
-.split .txt p{color:var(--text-dim);font-size:16px;margin-bottom:14px}
+/* misma escala que .lumyx-inner h2/p.big: son secciones gemelas (spotlight + mockup glass) */
+.split .txt h2{font-size:clamp(30px,4.4vw,46px);margin-bottom:16px}
+.split .txt p{color:var(--text-dim);font-size:17px;margin-bottom:14px}
 .mini-list{display:flex;flex-direction:column;gap:10px;margin-top:18px}
 .mini-list li{display:flex;gap:11px;color:var(--text-dim);font-size:15px;list-style:none;align-items:flex-start}
 .mini-list .tick{flex:none;color:var(--accent);margin-top:3px}
@@ -428,19 +462,37 @@ ul{margin:0;padding:0}
 }
 .cta h2{font-size:clamp(30px,5vw,48px);margin-bottom:16px}
 .cta p{color:var(--text-dim);font-size:18px;max-width:48ch;margin:0 auto 34px}
-.free-note{color:var(--text-muted);font-size:13.5px;margin-top:72px;padding-top:8px}
+.free-note{color:var(--text-dim);font-size:13.5px;margin-top:72px;padding-top:8px} /* --text-muted no cumplía 4.5:1 aquí */
 
 /* ---- Footer ---- */
-footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52px 0 40px}
+/* Tratamiento glass coherente con el resto: wash ambiental de color (barato, sin blur)
+   + divisor superior con gradiente violeta→cian, igual lenguaje que .lumyx::before. */
+footer{
+  position:relative;
+  background:
+    radial-gradient(620px 300px at 8% -15%,rgba(150,108,255,.08),transparent 62%),
+    radial-gradient(620px 340px at 94% 115%,rgba(0,220,255,.07),transparent 62%),
+    var(--bg-2);
+  border-top:0;padding:52px 0 40px;
+}
+footer::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent-line) 30%,rgba(0,220,255,.32) 70%,transparent);
+}
 .foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
 .foot-brand{max-width:320px}
 .foot-brand .lockup{font-size:20px;margin-bottom:14px}
 .foot-brand p{color:var(--text-muted);font-size:13.5px;line-height:1.6}
 .foot-credit{
   display:inline-flex;align-items:center;gap:7px;margin-top:16px;
-  color:var(--text-dim);font-size:13px;font-weight:600;transition:color .2s;
+  color:var(--text-dim);font-size:13px;font-weight:600;
+  padding:4px 12px 4px 4px;border-radius:100px;border:1px solid transparent;background:transparent;
+  transition:color .2s,background .2s,border-color .2s;
 }
-.foot-credit:hover{color:var(--text)}
+.foot-credit:hover{
+  color:var(--text);background:var(--glass);border-color:var(--glass-brd);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+}
 .foot-credit img{width:30px;height:30px;border-radius:50%;flex:none;border:1px solid var(--hairline);object-fit:cover}
 .foot-made{margin-top:12px;color:var(--text-muted);font-size:12px;line-height:1.5}
 .foot-made b{color:var(--text-dim);font-weight:600}
