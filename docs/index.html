@@ -225,7 +225,7 @@ section{position:relative}
   filter:drop-shadow(0 0 26px rgba(150,108,255,.34)) drop-shadow(0 14px 30px rgba(0,0,0,.55));
 }
 .arch-stack.glow-c .dev{filter:drop-shadow(0 0 26px rgba(0,220,255,.32)) drop-shadow(0 14px 30px rgba(0,0,0,.55))}
-.arch-stack .dev+.dev{margin-left:-38px}
+.arch-stack .dev+.dev{margin-left:-16px}
 /* Abanico simétrico: los dispositivos suben hacia el centro y el centro va delante.
    La elevación es por margin-bottom (NO transform) para no pisar la animación de entrada. */
 .arch-stack .dev:nth-child(1){z-index:1;margin-bottom:0}
@@ -432,7 +432,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   /* Galería: en móvil el abanico de 6 pasa a 2 filas de 3 (sin overflow horizontal) */
   .arch-stack{flex-wrap:wrap;min-height:0;row-gap:16px}
   .arch-stack .dev{width:30vw}
-  .arch-stack .dev+.dev{margin-left:-4.5vw}
+  .arch-stack .dev+.dev{margin-left:-2vw}
   .arch-stack .dev:nth-child(n){margin-bottom:0}   /* anula el arco: filas alineadas */
   .arch-stack .dev:nth-child(4){margin-left:0}      /* la 2ª fila arranca centrada */
 }
@@ -568,9 +568,9 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
         <img class="dev slide-l" src="assets/devices/device-mouse-ergo-right-transparente.png" alt="Mouse ergonómico" loading="lazy">
         <img class="dev slide-l" src="assets/devices/device-mouse-ultralight-honeycomb-transparente.png" alt="Mouse ultraligero" loading="lazy">
         <img class="dev slide-u" src="assets/devices/device-mouse-vertical-transparente.png" alt="Mouse vertical" loading="lazy">
-        <img class="dev slide-r" src="assets/devices/device-mouse-mmo-sidegrid-transparente.png" alt="Mouse MMO" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-mouse-mmo-sidegrid-transparente.png" alt="Mouse MMO" loading="lazy">
         <img class="dev slide-r" src="assets/devices/device-mouse-palm-large-transparente.png" alt="Mouse palm grande" loading="lazy">
-        <!-- pendiente: device-mouse-fingertip-ultralight-transparente.png -->
+        <img class="dev slide-r" src="assets/devices/device-mouse-claw-transparente.png" alt="Mouse claw" loading="lazy">
       </div>
     </div>
 
