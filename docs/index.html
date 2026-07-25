@@ -530,7 +530,8 @@ ul{margin:0;padding:0}
 /* ---- CTA final ---- */
 .cta{
   text-align:center;
-  background:radial-gradient(600px 300px at 50% 0%,rgba(150,108,255,.16),transparent 65%);
+  /* el resplandor nace DENTRO de la sección (no en el borde) para que no se vea una línea dura contra la sección anterior */
+  background:radial-gradient(620px 340px at 50% 42%,rgba(150,108,255,.14),transparent 70%);
   padding:100px 0;
 }
 .cta h2{font-size:clamp(30px,5vw,48px);margin-bottom:16px}
