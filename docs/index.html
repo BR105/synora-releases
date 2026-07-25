@@ -27,6 +27,9 @@
   --accent:#966cff; --accent-soft:rgba(150,108,255,.14); --accent-line:rgba(150,108,255,.35);
   --cyan:#00dcff; --cyan-soft:rgba(0,220,255,.12);
   --ok:#4ade80; --warn:#fbbf24; --danger:#f87171;
+  /* ---- Glass (frosted) ---- */
+  --glass:rgba(20,20,26,.55); --glass-2:rgba(28,28,36,.6);
+  --glass-brd:rgba(255,255,255,.11); --glass-hi:inset 0 1px 0 rgba(255,255,255,.06);
   --r-card:14px; --r-ctrl:9px;
   --maxw:1140px;
   --font:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
@@ -36,6 +39,17 @@ html{scroll-behavior:smooth}
 body{
   margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
   line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+/* Rejilla tech ambiente — MUY tenue, fija detrás de todo, se desvanece hacia abajo.
+   z-index:0 fijo: al ir el pseudo antes que las secciones en el árbol, éstas pintan encima. */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(150,108,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(150,108,255,.045) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(115% 70% at 50% -8%,#000,transparent 72%);
+  mask-image:radial-gradient(115% 70% at 50% -8%,#000,transparent 72%);
 }
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
@@ -70,9 +84,13 @@ p{margin:0}
 .btn-primary{
   background:var(--accent);color:#0a0a0c;box-shadow:0 8px 30px -8px rgba(150,108,255,.6);
 }
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px -10px rgba(150,108,255,.75);color:#fff}
-.btn-ghost{background:var(--surface);border-color:var(--hairline);color:var(--text)}
-.btn-ghost:hover{background:var(--surface-hover);border-color:rgba(255,255,255,.18);transform:translateY(-2px)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 44px -10px rgba(150,108,255,.85),0 0 26px -4px rgba(0,220,255,.28);color:#fff}
+.btn-ghost{background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-color:var(--hairline);color:var(--text)}
+.btn-ghost:hover{background:var(--surface-hover);border-color:var(--accent-line);transform:translateY(-2px);box-shadow:0 0 26px -8px rgba(150,108,255,.5)}
+/* Anillo de foco con el acento (accesibilidad) */
+a:focus-visible,button:focus-visible,.btn:focus-visible,.chip:focus-visible,.play-btn:focus-visible{
+  outline:2px solid var(--accent);outline-offset:2px;border-radius:8px;
+}
 
 /* ---- Header ---- */
 header{
@@ -85,6 +103,13 @@ header{
 .nav-links{display:flex;gap:30px;align-items:center}
 .nav-links a{color:var(--text-dim);font-size:14.5px;font-weight:500;transition:color .2s}
 .nav-links a:hover{color:var(--text)}
+/* subrayado de acento que se desliza al pasar el cursor (solo enlaces, no el botón) */
+.nav-links a:not(.btn){position:relative}
+.nav-links a:not(.btn)::after{
+  content:"";position:absolute;left:0;right:100%;bottom:-5px;height:1.5px;border-radius:2px;
+  background:linear-gradient(90deg,var(--accent),var(--cyan));transition:right .28s cubic-bezier(.16,1,.3,1);
+}
+.nav-links a:not(.btn):hover::after{right:0}
 .nav .btn{padding:9px 18px;font-size:14px}
 /* el botón del navbar hereda el estilo primario: letras negras, blancas al pasar el cursor */
 .nav-links a.btn-primary{color:#0a0a0c}
@@ -158,8 +183,11 @@ header{
 .badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .badge{
   display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--text-dim);
-  background:var(--surface);border:1px solid var(--hairline);padding:7px 14px;border-radius:100px;
+  background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border:1px solid var(--glass-brd);box-shadow:var(--glass-hi);padding:7px 14px;border-radius:100px;
+  transition:border-color .2s,color .2s;
 }
+.badge:hover{border-color:var(--accent-line);color:var(--text)}
 .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
 
 /* ---- Franja ---- */
@@ -226,7 +254,6 @@ section{position:relative}
 }
 .arch-stack.glow-c .dev{filter:drop-shadow(0 0 26px rgba(0,220,255,.32)) drop-shadow(0 14px 30px rgba(0,0,0,.55))}
 .arch-stack .dev+.dev{margin-left:-16px}
-.arch-stack .dev,.showcase .illus img{-webkit-mask-image:linear-gradient(to bottom,#000 80%,transparent 97%);mask-image:linear-gradient(to bottom,#000 80%,transparent 97%)}
 /* Abanico simétrico: los dispositivos suben hacia el centro y el centro va delante.
    La elevación es por margin-bottom (NO transform) para no pisar la animación de entrada. */
 .arch-stack .dev:nth-child(1){z-index:1;margin-bottom:0}
@@ -250,12 +277,24 @@ section{position:relative}
 /* ---- Grid de features ---- */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .card{
-  background:linear-gradient(180deg,var(--surface),var(--bg-2));
-  border:1px solid var(--hairline);border-radius:var(--r-card);padding:28px;
-  transition:transform .25s ease,border-color .25s ease,background .25s ease;
-  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(28,28,36,.55),rgba(14,14,18,.6));
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border:1px solid var(--glass-brd);border-radius:var(--r-card);padding:28px;
+  transition:transform .25s ease,border-color .25s ease,background .25s ease,box-shadow .3s ease;
+  position:relative;overflow:hidden;box-shadow:var(--glass-hi);
 }
-.card:hover{transform:translateY(-4px);border-color:var(--accent-line);background:linear-gradient(180deg,var(--surface-2),var(--bg-2))}
+/* resplandor de acento que crece suave al pasar el cursor */
+.card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 80% at 50% -10%,rgba(150,108,255,.16),transparent 60%);
+  opacity:0;transition:opacity .3s ease;
+}
+.card:hover{transform:translateY(-4px);border-color:var(--accent-line);
+  background:linear-gradient(180deg,rgba(38,38,50,.62),rgba(16,16,22,.62));
+  box-shadow:var(--glass-hi),0 22px 50px -24px rgba(150,108,255,.55),0 0 30px -8px rgba(150,108,255,.3);
+}
+.card:hover::after{opacity:1}
+.card>*{position:relative;z-index:1}
 .card-ico{
   width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;
   background:var(--accent-soft);border:1px solid var(--accent-line);margin-bottom:18px;color:var(--accent);
@@ -289,9 +328,25 @@ ul{margin:0;padding:0}
 
 /* Mockup RGB */
 .rgb-mock{
-  background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-card);
-  padding:26px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7);
+  position:relative;
+  background:linear-gradient(180deg,rgba(24,24,31,.62),rgba(14,14,18,.55));
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border:1px solid var(--glass-brd);border-radius:var(--r-card);
+  padding:26px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7),var(--glass-hi);
 }
+/* ---- Borde de acento animado (violeta→cian que se desliza lento) ----
+   Anillo de 1px hecho con máscara; MUY sutil. Solo en los mockups "vivos". */
+.rgb-mock::before,.eq-mock::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(115deg,transparent 22%,var(--accent) 44%,var(--cyan) 56%,transparent 80%);
+  background-size:240% 240%;opacity:.55;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  animation:borderSlide 7s linear infinite;
+}
+.eq-mock::before{animation-duration:9s;animation-direction:reverse}
+@keyframes borderSlide{0%{background-position:0% 50%}100%{background-position:200% 50%}}
 .rgb-mock .row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .rgb-mock .row small{color:var(--text-muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
 .rgb-strip{height:64px;border-radius:10px;margin-bottom:22px;
@@ -302,7 +357,7 @@ ul{margin:0;padding:0}
 .leds{display:grid;grid-template-columns:repeat(10,1fr);gap:9px;margin-bottom:22px}
 .led{aspect-ratio:1;border-radius:50%;background:#2a2a34}
 .chips{display:flex;gap:9px;flex-wrap:wrap}
-.chip{font-size:12px;font-weight:600;color:var(--text-dim);background:var(--surface-2);border:1px solid var(--hairline);border-radius:100px;padding:6px 13px;cursor:default}
+.chip{font-size:12px;font-weight:600;color:var(--text-dim);background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid var(--glass-brd);border-radius:100px;padding:6px 13px;cursor:default}
 .chip.on{color:#0a0a0c;background:var(--cyan);border-color:var(--cyan)}
 /* chips de efecto RGB (clicables) */
 .rgb-mock .chips .chip{cursor:pointer;transition:color .2s,background .2s,border-color .2s}
@@ -311,7 +366,7 @@ ul{margin:0;padding:0}
 /* ---- Audio / EQ ---- */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
 .split.rev .txt{order:2}
-.eq-mock{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-card);padding:26px}
+.eq-mock{position:relative;background:linear-gradient(180deg,rgba(24,24,31,.62),rgba(14,14,18,.55));-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--glass-brd);border-radius:var(--r-card);padding:26px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7),var(--glass-hi)}
 .eq-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .eq-top small{color:var(--text-muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
 .eq-demo-tag{font-size:11px;color:var(--text-muted);border:1px solid var(--hairline);border-radius:100px;padding:3px 10px;font-weight:600}
@@ -343,7 +398,9 @@ ul{margin:0;padding:0}
 
 /* ---- Aviso anti-cheat ---- */
 .notice{
-  border:1px solid var(--hairline);background:var(--surface);
+  border:1px solid var(--glass-brd);
+  background:linear-gradient(180deg,rgba(24,24,31,.55),rgba(14,14,18,.5));
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:var(--glass-hi);
   border-radius:var(--r-card);padding:22px 24px;display:flex;gap:16px;align-items:flex-start;
 }
 .notice .ico{flex:none;color:var(--accent);margin-top:2px}
@@ -393,7 +450,7 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 }
 
 /* ---- Reveal genérico ---- */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal{opacity:0;transform:translateY(24px) scale(.985);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
 .reveal.in{opacity:1;transform:none}
 
 @media (prefers-reduced-motion:reduce){
@@ -404,7 +461,19 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   .hero-mono{animation:none;filter:drop-shadow(0 0 14px rgba(150,108,255,.35))}
   .showcase .illus img{transition:none}
   .showcase:hover .illus img{transform:none}
+  /* nada de movimiento nuevo: borde animado y subrayado quietos, rejilla oculta */
+  .rgb-mock::before,.eq-mock::before{animation:none;opacity:.3}
+  .nav-links a:not(.btn)::after{transition:none}
+  body::before{display:none}
   html{scroll-behavior:auto}
+}
+
+/* ---- Fallback si backdrop-filter NO está soportado: superficies sólidas ---- */
+@supports not ((-webkit-backdrop-filter:blur(2px)) or (backdrop-filter:blur(2px))){
+  .card,.rgb-mock,.eq-mock{background:linear-gradient(180deg,var(--surface-2),var(--bg-2))}
+  .notice{background:var(--surface)}
+  .badge,.btn-ghost{background:var(--surface)}
+  .chip{background:var(--surface-2)}
 }
 
 /* ---- Responsive ---- */
@@ -425,6 +494,8 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 }
 @media (max-width:560px){
   .grid{grid-template-columns:1fr}
+  /* móvil: el blur sobre fondo oscuro apenas se ve y sí cuesta — se retira en las tarjetas */
+  .card{-webkit-backdrop-filter:none;backdrop-filter:none}
   .section{padding:60px 0}
   .hero{padding:64px 0 56px}
   .btn{width:100%;justify-content:center}
