@@ -159,7 +159,7 @@ header{
 .hero-brand.play .mono-b{animation:monoRiseIn .8s cubic-bezier(.2,.8,.2,1) .12s both}
 .hero-brand.play .hero-mono{animation:monoGlowIn .9s ease-out 0s both,monoIdle 4.5s ease-in-out .9s infinite}
 /* 2) ya formada la Z, aparece ZYNORA con wipe izq→der + leve slide-up */
-.hero-brand.play .hero-wordmark{animation:wordReveal .85s cubic-bezier(.2,.8,.2,1) .9s both}
+.hero-brand.play .hero-wordmark{animation:wordReveal .9s cubic-bezier(.2,.8,.2,1) .15s both}
 
 @keyframes monoDropIn{0%{opacity:0;transform:translateY(-30px)}60%{opacity:1}100%{opacity:1;transform:translateY(0)}}
 @keyframes monoRiseIn{0%{opacity:0;transform:translateY(30px)}60%{opacity:1}100%{opacity:1;transform:translateY(0)}}
@@ -536,10 +536,6 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   <div class="wrap">
     <!-- Lockup animado: el monograma Z se ENSAMBLA de dos piezas y luego aparece ZYNORA -->
     <div class="hero-brand" id="heroBrand">
-      <svg class="hero-mono" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-        <path class="mono-a" d="M16 24 L84 24 L76 38 L50 60 L42 52 L64 36 L24 36 L18 28 Z"/>
-        <path class="mono-b" d="M84 76 L16 76 L24 62 L50 40 L58 48 L36 64 L76 64 L82 72 Z"/>
-      </svg>
       <img class="hero-wordmark" src="assets/zynora-wordmark.png" alt="Zynora">
     </div>
     <h1>Un solo lugar para <span class="grad">todos tus periféricos</span></h1>
