@@ -112,9 +112,39 @@ header{
   font-size:clamp(52px,10vw,88px);margin:0 auto 34px;justify-content:center;
   filter:drop-shadow(0 10px 44px rgba(150,108,255,.30));
 }
+/* ---- Lockup animado del hero (monograma Z + wordmark) ---- */
+.hero-brand{
+  display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2.4vw,24px);
+  margin:0 auto 30px;
+}
+.hero-mono{
+  width:clamp(64px,9vw,96px);height:auto;overflow:visible;
+  filter:drop-shadow(0 0 12px rgba(150,108,255,.30));
+}
+.hero-mono path{fill:var(--accent)}
+/* estado base: piezas y wordmark ocultos hasta que .play (o reduced-motion) los muestra */
+.hero-mono .mono-a{opacity:0;transform:translateY(-30px)}
+.hero-mono .mono-b{opacity:0;transform:translateY(30px)}
 .hero-wordmark{
-  width:clamp(300px,38vw,440px);height:auto;margin:0 auto 30px;
+  width:clamp(280px,42vw,440px);height:auto;margin:0;opacity:0;
   filter:drop-shadow(0 8px 34px rgba(150,108,255,.32));
+}
+/* 1) las dos piezas se ensamblan (con leve stagger); el glow del monograma sube al asentarse */
+.hero-brand.play .mono-a{animation:monoDropIn .8s cubic-bezier(.2,.8,.2,1) 0s both}
+.hero-brand.play .mono-b{animation:monoRiseIn .8s cubic-bezier(.2,.8,.2,1) .12s both}
+.hero-brand.play .hero-mono{animation:monoGlowIn .9s ease-out 0s both,monoIdle 4.5s ease-in-out .9s infinite}
+/* 2) ya formada la Z, aparece ZYNORA con wipe izq→der + leve slide-up */
+.hero-brand.play .hero-wordmark{animation:wordReveal .85s cubic-bezier(.2,.8,.2,1) .9s both}
+
+@keyframes monoDropIn{0%{opacity:0;transform:translateY(-30px)}60%{opacity:1}100%{opacity:1;transform:translateY(0)}}
+@keyframes monoRiseIn{0%{opacity:0;transform:translateY(30px)}60%{opacity:1}100%{opacity:1;transform:translateY(0)}}
+@keyframes monoGlowIn{0%{filter:drop-shadow(0 0 3px rgba(150,108,255,0))}100%{filter:drop-shadow(0 0 16px rgba(150,108,255,.45))}}
+/* 3) glow violeta muy sutil que late lento (arranca donde terminó monoGlowIn, sin salto) */
+@keyframes monoIdle{0%,100%{filter:drop-shadow(0 0 16px rgba(150,108,255,.45))}50%{filter:drop-shadow(0 0 22px rgba(150,108,255,.58))}}
+@keyframes wordReveal{
+  0%{opacity:0;transform:translateY(14px);-webkit-clip-path:inset(0 100% 0 0);clip-path:inset(0 100% 0 0)}
+  55%{opacity:1}
+  100%{opacity:1;transform:translateY(0);-webkit-clip-path:inset(0 0 0 0);clip-path:inset(0 0 0 0)}
 }
 .hero h1{
   font-size:clamp(32px,5.4vw,56px);letter-spacing:-.03em;max-width:16ch;margin:0 auto 20px;
@@ -368,6 +398,9 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
 @media (prefers-reduced-motion:reduce){
   .reveal,.slide-l,.slide-r,.slide-u,.pin{opacity:1;transform:none;transition:none}
   .hero-glow,.rgb-strip,.hero h1 .grad{animation:none}
+  /* lockup del hero: estático y visible, sin animación ni latido */
+  .hero-mono .mono-a,.hero-mono .mono-b,.hero-wordmark{opacity:1;transform:none;animation:none}
+  .hero-mono{animation:none;filter:drop-shadow(0 0 14px rgba(150,108,255,.35))}
   .showcase .illus img{transition:none}
   .showcase:hover .illus img{transform:none}
   html{scroll-behavior:auto}
@@ -429,7 +462,14 @@ footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52p
   <div class="hero-ambient" aria-hidden="true"></div>
   <div class="hero-glow"></div>
   <div class="wrap">
-    <img class="hero-wordmark" src="assets/zynora-wordmark.png" alt="Zynora">
+    <!-- Lockup animado: el monograma Z se ENSAMBLA de dos piezas y luego aparece ZYNORA -->
+    <div class="hero-brand" id="heroBrand">
+      <svg class="hero-mono" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <path class="mono-a" d="M16 24 L84 24 L76 38 L50 60 L42 52 L64 36 L24 36 L18 28 Z"/>
+        <path class="mono-b" d="M84 76 L16 76 L24 62 L50 40 L58 48 L36 64 L76 64 L82 72 Z"/>
+      </svg>
+      <img class="hero-wordmark" src="assets/zynora-wordmark.png" alt="Zynora">
+    </div>
     <h1>Un solo lugar para <span class="grad">todos tus periféricos</span></h1>
     <p class="hero-sub">Mouse, teclado y control de <b>cualquier marca</b>, junto con el RGB y el audio de tu PC. Todo lo que normalmente pide varios programas de marca distintos, aquí en un único archivo gratis y portable.</p>
     <div class="hero-cta">
@@ -778,6 +818,23 @@ document.querySelectorAll('.reveal,.slide-l,.slide-r,.slide-u').forEach(function
   if(el.classList.contains('dev'))return; // la galería tiene su propio observer (abajo)
   io.observe(el);
 });
+
+// Lockup animado del hero: se dispara al cargar (el observer emite isIntersecting
+// al empezar a observar el elemento ya visible) y RE-DISPARA al volver a entrar en
+// viewport. En reduced-motion no se anima: el CSS lo deja estático y visible.
+(function(){
+  var brand=document.getElementById('heroBrand');if(!brand)return;
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var ioH=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      brand.classList.remove('play');
+      void brand.offsetWidth;      // fuerza reflow → reinicia las animaciones CSS
+      brand.classList.add('play');
+    });
+  },{threshold:.4});
+  ioH.observe(brand);
+})();
 
 // Galería "Sea cual sea tu equipo": observer APARTE con umbral más alto para que la
 // cascada por posición (extremos→centro) se dispare BIEN dentro del viewport, no al
