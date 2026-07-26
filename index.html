@@ -428,11 +428,24 @@ section{position:relative}
   background:linear-gradient(90deg,transparent,var(--accent-line) 30%,rgba(0,220,255,.32) 70%,transparent);
 }
 .lumyx-inner{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
-/* lockup Lumyx centrado estilo hero, más grande y con glow doble (violeta+cian) */
+/* lockup Lumyx: anillo grande + tipografía al lado (el icono manda) */
 .lumyx-head{text-align:center;margin-bottom:48px}
-.lumyx-logo{
-  height:clamp(96px,13vw,160px);width:auto;display:inline-block;
-  filter:drop-shadow(0 6px 26px rgba(150,108,255,.28)) drop-shadow(0 2px 14px rgba(0,220,255,.18));
+.lumyx-brand{
+  display:inline-flex;align-items:center;justify-content:center;gap:clamp(18px,2.5vw,28px);
+  text-align:left;
+}
+.lumyx-ring{
+  height:clamp(120px,16vw,200px);width:auto;flex:none;
+  filter:drop-shadow(0 8px 28px rgba(150,108,255,.35)) drop-shadow(0 2px 16px rgba(0,220,255,.22));
+}
+.lumyx-words{display:flex;flex-direction:column;justify-content:center;gap:.12em;line-height:1}
+.lumyx-eyebrow{
+  font-size:clamp(13px,1.5vw,18px);font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--text-muted);
+}
+.lumyx-name{
+  font-size:clamp(40px,5.8vw,68px);font-weight:700;letter-spacing:-.03em;
+  color:var(--text);
 }
 .lumyx-inner h2{font-size:clamp(30px,4.4vw,46px);margin-bottom:16px}
 .lumyx-inner p.big{color:var(--text-dim);font-size:17px;margin-bottom:26px}
@@ -917,7 +930,13 @@ footer::before{
 <section class="section lumyx has-glow" id="lumyx">
   <div class="glow-field" aria-hidden="true"></div>
   <div class="wrap lumyx-head reveal">
-    <img class="lumyx-logo" src="assets/lumyx-zl3-lockup-horizontal.png" alt="Zynora Lumyx">
+    <div class="lumyx-brand" aria-label="Zynora Lumyx">
+      <img class="lumyx-ring" src="assets/lumyx-l3-anillo-led-transparente.png" alt="" width="200" height="200">
+      <div class="lumyx-words">
+        <span class="lumyx-eyebrow">Zynora</span>
+        <span class="lumyx-name">Lumyx</span>
+      </div>
+    </div>
   </div>
   <div class="wrap lumyx-inner">
     <div class="reveal">
