@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de privacidad — Zynora</title>
+<meta name="description" content="Qué datos maneja Zynora, con qué fin y cómo los protege. Escrita en lenguaje claro a propósito.">
+<link rel="icon" type="image/png" href="assets/logo-triangle-z.png">
+<style>
+:root{
+  --bg:#0a0a0c; --bg-2:#0e0e12; --surface:#141419; --surface-2:#1a1a21; --surface-hover:#20202a;
+  --hairline:rgba(255,255,255,.08); --hairline-2:rgba(255,255,255,.05);
+  --text:#ececf1; --text-dim:#9c9ca8; --text-muted:#67677a;
+  --accent:#966cff; --accent-soft:rgba(150,108,255,.14); --accent-line:rgba(150,108,255,.35);
+  --ok:#4ade80;
+  --r-card:14px; --r-ctrl:9px; --maxw:820px;
+  --font:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-color:var(--surface-2) var(--bg-2);scrollbar-width:thin}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.7;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(150,108,255,.38);color:#fff}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:var(--bg-2)}
+::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:8px;border:2px solid var(--bg-2)}
+::-webkit-scrollbar-thumb:hover{background:rgba(150,108,255,.45)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* Header */
+header{position:sticky;top:0;z-index:50;background:rgba(10,10,12,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--hairline-2)}
+.nav{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand img{height:30px;width:auto}
+.nav .cta{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#0a0a0c;font-weight:600;font-size:14px;padding:9px 18px;border-radius:var(--r-ctrl);transition:transform .15s}
+.nav .cta:hover{transform:translateY(-2px);text-decoration:none}
+
+/* Encabezado */
+.pagehead{padding:64px 0 28px;text-align:center;position:relative;overflow:hidden}
+.pagehead:before{content:"";position:absolute;top:-140px;left:50%;transform:translateX(-50%);width:640px;height:420px;background:radial-gradient(closest-side,rgba(150,108,255,.16),transparent 70%);filter:blur(20px);pointer-events:none}
+/* segundo acento cian, mismo doble-tono que el resto del sitio (violeta + cian) */
+.pagehead:after{content:"";position:absolute;top:-100px;right:6%;width:380px;height:300px;background:radial-gradient(closest-side,rgba(0,220,255,.12),transparent 70%);filter:blur(20px);pointer-events:none}
+.pagehead .wrap{position:relative}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.pagehead h1{font-size:clamp(28px,5vw,42px);font-weight:700;letter-spacing:-.02em;margin:0 0 12px;line-height:1.15}
+.updated{color:var(--text-muted);font-size:14px}
+.intro{color:var(--text-dim);font-size:16px;max-width:64ch;margin:18px auto 0}
+
+/* Meta responsable/contacto */
+.meta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.meta .pill{background:var(--surface);border:1px solid var(--hairline);border-radius:100px;padding:8px 16px;font-size:13.5px;color:var(--text-dim)}
+.meta .pill b{color:var(--text)}
+
+/* Índice */
+/* mismo lenguaje "glass-look" que las tarjetas del sitio principal (gradiente + highlight superior) */
+.toc{
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid var(--hairline);box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  border-radius:var(--r-card);padding:22px 26px;margin:34px 0 40px;
+}
+.toc h4{margin:0 0 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)}
+.toc ol{margin:0;padding-left:20px;columns:2;column-gap:32px}
+.toc li{margin-bottom:8px}
+.toc a{color:var(--text-dim);font-size:14.5px}
+.toc a:hover{color:var(--text);text-decoration:none}
+
+/* Contenido */
+.doc{padding:8px 0 72px}
+.sec{border-top:1px solid var(--hairline-2);padding:30px 0}
+.sec:first-child{border-top:0}
+.sec h2{font-size:21px;font-weight:700;letter-spacing:-.01em;margin:0 0 16px;scroll-margin-top:84px;display:flex;align-items:baseline;gap:12px}
+.sec h2 .n{color:var(--accent);font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.sec h3{font-size:16px;font-weight:600;color:var(--text);margin:22px 0 8px}
+.sec p{color:var(--text-dim);margin:0 0 14px}
+.sec b,.sec strong{color:var(--text);font-weight:600}
+.sec ul{color:var(--text-dim);margin:0 0 14px;padding-left:0;list-style:none}
+.sec ul li{position:relative;padding-left:18px;margin-bottom:10px}
+.sec ul li:before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.sec code{background:var(--surface-2);border:1px solid var(--hairline);border-radius:6px;padding:1px 7px;font-family:'Cascadia Code',Consolas,monospace;font-size:.9em;color:var(--text)}
+.callout{
+  background:linear-gradient(180deg,rgba(74,222,128,.10),rgba(74,222,128,.03));
+  border:1px solid rgba(74,222,128,.24);box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
+  border-radius:var(--r-ctrl);padding:16px 20px;color:var(--text-dim);
+}
+.callout b{color:var(--ok)}
+
+/* Footer */
+footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:44px 0 36px}
+.foot{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
+.foot img{height:24px}
+.foot-links{display:flex;gap:24px;flex-wrap:wrap}
+.foot-links a{color:var(--text-dim);font-size:14px}
+.foot-links a:hover{color:var(--text);text-decoration:none}
+.kofi{color:var(--accent)!important;font-weight:600}
+.copy{color:var(--text-muted);font-size:13px;text-align:center;margin-top:26px}
+
+@media (max-width:560px){
+  .toc ol{columns:1}
+  .foot{flex-direction:column;text-align:center;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html" aria-label="Zynora inicio"><img src="assets/zynora-wordmark.png" alt="Zynora"></a>
+    <a class="cta js-dl" href="Zynora-portable.zip" download="Zynora-portable.zip">Descargar gratis</a>
+  </div>
+</header>
+
+<div class="pagehead">
+  <div class="wrap">
+    <span class="eyebrow">Tu privacidad</span>
+    <h1>Política de privacidad de Zynora</h1>
+    <p class="updated">Última actualización: 20 de julio de 2026</p>
+    <p class="intro">Zynora es una aplicación de escritorio para Windows, gratuita y portable, para remapear la entrada de mouse/teclado/control, crear macros, controlar la iluminación RGB y ecualizar el audio del sistema. Esta política explica qué datos maneja la aplicación, con qué fin y cómo los protege. Está escrita en lenguaje claro a propósito.</p>
+    <div class="meta">
+      <span class="pill"><b>Responsable:</b> el equipo de Zynora</span>
+      <span class="pill"><b>Contacto:</b> zynorahub105@gmail.com</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <nav class="toc">
+    <h4>Contenido</h4>
+    <ol>
+      <li><a href="#s1">Principio general</a></li>
+      <li><a href="#s2">Qué datos se recogen y para qué</a></li>
+      <li><a href="#s3">Sobre el remapeo de teclado y ratón</a></li>
+      <li><a href="#s4">Dónde se guardan y cómo se protegen</a></li>
+      <li><a href="#s5">Terceros</a></li>
+      <li><a href="#s6">Tus opciones y derechos</a></li>
+      <li><a href="#s7">Uso de datos de las APIs de Google</a></li>
+      <li><a href="#s9">Cambios en esta política</a></li>
+      <li><a href="#s10">Contacto</a></li>
+    </ol>
+  </nav>
+</div>
+
+<div class="doc">
+  <div class="wrap">
+
+    <div class="sec" id="s1">
+      <h2><span class="n">01</span>Principio general</h2>
+      <p>Zynora funciona <b>en tu equipo</b>. Tus perfiles, macros, ajustes de ecualizador e iluminación se guardan <b>localmente</b>, junto a la aplicación. Zynora <b>no sube esos datos a nuestros servidores</b> ni los comparte con terceros.</p>
+      <p>Solo salen de tu equipo tres cosas, y las describimos abajo: una estadística de uso <b>anónima</b>, los <b>comentarios</b> que tú decidas enviarnos, y —solo si inicias sesión con Google— tu <b>dirección de correo</b>.</p>
+    </div>
+
+    <div class="sec" id="s2">
+      <h2><span class="n">02</span>Qué datos se recogen y para qué</h2>
+      <h3>a) Estadística de uso anónima</h3>
+      <p>Para saber cuánta gente usa Zynora, la aplicación envía de vez en cuando una señal con:</p>
+      <ul>
+        <li>un <b>identificador aleatorio</b> generado en tu equipo (no está ligado a tu nombre, correo ni hardware),</li>
+        <li>la <b>versión</b> de Zynora,</li>
+        <li>tu <b>país aproximado</b> (lo deduce nuestro proveedor a partir de la conexión; <b>no guardamos tu dirección IP</b>).</li>
+      </ul>
+      <p>No podemos identificarte con estos datos. Puedes <b>desactivar</b> por completo esta señal (ver sección 6).</p>
+
+      <h3>b) Comentarios (retroalimentación)</h3>
+      <p>Si usas el botón <b>«Comentarios»</b>, se envía únicamente:</p>
+      <ul>
+        <li>el <b>texto</b> que escribes,</li>
+        <li>el <b>tipo</b> de comentario (falla / idea / otro),</li>
+        <li>la <b>versión</b> de Zynora.</li>
+      </ul>
+      <p>No se adjunta tu correo ni ningún dato de identificación. Escribe solo lo que quieras compartir.</p>
+
+      <h3>c) Cuenta de Google (opcional)</h3>
+      <p>Iniciar sesión con Google es <b>voluntario</b>. Si lo haces, Zynora recibe de Google <b>tu dirección de correo electrónico</b>, y la usa solo para mostrarte con qué cuenta estás conectado. La sesión se guarda <b>cifrada en tu propio equipo</b> (protección DPAPI de Windows, atada a tu usuario); nunca se envía a nuestros servidores. Puedes <b>cerrar sesión</b> cuando quieras.</p>
+
+      <h3>d) Datos que NUNCA salen de tu equipo</h3>
+      <p>Perfiles de remapeo, macros grabadas, ajustes de ecualizador, iluminación y preferencias se guardan <b>solo localmente</b>. Si activas la sincronización por carpeta, ese archivo se copia a una carpeta que <b>tú eliges</b> dentro de tu Google Drive / OneDrive / Dropbox; en ese caso lo gestiona <b>tu</b> servicio de nube, no Zynora.</p>
+    </div>
+
+    <div class="sec" id="s3">
+      <h2><span class="n">03</span>Sobre el remapeo de teclado y ratón</h2>
+      <div class="callout">Para remapear botones y teclas, Zynora observa la entrada del sistema mediante los mecanismos estándar de Windows. <b>Zynora NO registra, guarda ni transmite lo que escribes.</b> Esa información se procesa en el momento, en memoria, solo para aplicar tus remapeos, y se descarta. No hay ningún registro de pulsaciones («keylogger») y nada de eso se envía a ningún sitio.</div>
+      <p style="margin-top:14px">Las macros que grabes se guardan <b>únicamente en tu equipo</b>, porque tú decides grabarlas.</p>
+    </div>
+
+    <div class="sec" id="s4">
+      <h2><span class="n">04</span>Dónde se guardan y cómo se protegen</h2>
+      <ul>
+        <li>Las señales anónimas y los comentarios se procesan en <b>Cloudflare</b> (Workers + base de datos D1). No se almacena tu IP.</li>
+        <li>Toda comunicación viaja <b>cifrada por HTTPS</b>.</li>
+        <li>La sesión de Google se guarda <b>cifrada</b> en tu equipo (DPAPI).</li>
+      </ul>
+    </div>
+
+    <div class="sec" id="s5">
+      <h2><span class="n">05</span>Terceros</h2>
+      <ul>
+        <li><b>Cloudflare</b> — aloja el servicio que recibe la estadística anónima y los comentarios.</li>
+        <li><b>Google</b> — solo si inicias sesión; nos entrega tu correo. El uso de datos de Google se rige por la sección 7.</li>
+        <li><b>GitHub</b> — aloja las descargas de Zynora. El conteo de descargas es un dato público de GitHub y no te identifica.</li>
+      </ul>
+      <p>No vendemos, alquilamos ni compartimos tus datos con anunciantes ni con nadie más. Zynora puede mostrar anuncios dentro de la aplicación para mantenerse gratis; esos anuncios <b>no</b> reciben tus datos personales.</p>
+    </div>
+
+    <div class="sec" id="s6">
+      <h2><span class="n">06</span>Tus opciones y derechos</h2>
+      <ul>
+        <li><b>Desactivar la estadística anónima:</b> crea un archivo vacío llamado <code>telemetry_off</code> en la carpeta de Zynora (junto al ejecutable). Con eso no se envía ninguna señal.</li>
+        <li><b>Cerrar sesión de Google:</b> botón «Cerrar sesión» en la ventana de Sincronización. Borra la sesión cifrada de tu equipo.</li>
+        <li><b>Borrar tus datos locales:</b> al ser portable, basta con eliminar la carpeta de Zynora.</li>
+        <li><b>Solicitudes:</b> para cualquier consulta sobre tus datos, escríbenos a <a href="mailto:zynorahub105@gmail.com">zynorahub105@gmail.com</a>.</li>
+      </ul>
+    </div>
+
+    <div class="sec" id="s7">
+      <h2><span class="n">07</span>Uso de datos de las APIs de Google (Limited Use)</h2>
+      <p>El acceso de Zynora a la información de tu cuenta de Google, y su uso, se ajusta a la <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Política de Datos de Usuario de los Servicios de la API de Google</a>, incluidos sus requisitos de <b>Uso Limitado (Limited Use)</b>.</p>
+      <ul>
+        <li><b>Hoy</b> Zynora solicita únicamente tu <b>dirección de correo</b> (permiso no sensible), y la usa solo para mostrarte la cuenta conectada.</li>
+        <li><b>En el futuro</b>, si activas la sincronización automática con Google Drive, Zynora usará el permiso <code>drive.appdata</code> <b>exclusivamente</b> para guardar y leer el archivo de sincronización de tus perfiles en una <b>carpeta privada de la aplicación</b> dentro de tu Drive (no accede al resto de tus archivos). Esos datos se usan solo para ofrecerte la sincronización; <b>no se transfieren a terceros, no se usan para publicidad y no se usan para entrenar modelos de IA</b>, salvo lo estrictamente necesario para prestarte la función o cuando la ley lo exija.</li>
+      </ul>
+    </div>
+
+    <div class="sec" id="s9">
+      <h2><span class="n">08</span>Cambios en esta política</h2>
+      <p>Si cambiamos esta política, actualizaremos la fecha de arriba y publicaremos la nueva versión en el mismo sitio. Los cambios relevantes se avisarán en las notas de la versión.</p>
+    </div>
+
+    <div class="sec" id="s10">
+      <h2><span class="n">09</span>Contacto</h2>
+      <p>¿Dudas sobre tu privacidad? Escríbenos a <a href="mailto:zynorahub105@gmail.com">zynorahub105@gmail.com</a>.</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="foot">
+    <a href="index.html"><img src="assets/zynora-wordmark.png" alt="Zynora"></a>
+    <div class="foot-links">
+      <a href="index.html">Inicio</a>
+      <a href="avisos.html">Avisos de seguridad</a>
+      <a href="https://github.com/BR105/synora-releases">GitHub</a>
+      <a class="kofi" href="https://ko-fi.com/azmo105">☕ Apóyanos con un café</a>
+    </div>
+  </div>
+  <div class="copy">© 2026 Zynora. Proyecto independiente, no afiliado a Razer, Logitech, Corsair ni Microsoft.</div>
+</footer>
+
+</body>
+</html>

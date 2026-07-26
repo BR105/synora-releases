@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zynora — Remapeo, macros, RGB y audio para Windows</title>
+<meta name="description" content="Zynora es un hub gratuito y portable para Windows: remapea mouse, teclado y control de cualquier marca, crea macros, controla el RGB con Lumyx y ecualiza tu audio. Todo en un solo .exe.">
+<link rel="icon" type="image/png" href="assets/logo-triangle-z.png">
+<meta name="theme-color" content="#0a0a0c">
+<link rel="canonical" href="https://br105.github.io/synora-releases/">
+<!-- Tarjeta al compartir en redes / Discord (Open Graph + Twitter) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zynora">
+<meta property="og:title" content="Zynora — Remapeo, macros, RGB y audio para Windows">
+<meta property="og:description" content="Hub gratuito y portable para Windows: remapea mouse, teclado y control de cualquier marca, macros, RGB con Lumyx y ecualizador. Todo en un solo .exe.">
+<meta property="og:url" content="https://br105.github.io/synora-releases/">
+<meta property="og:image" content="https://br105.github.io/synora-releases/assets/c1-lockup-horizontal.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Zynora — Remapeo, macros, RGB y audio para Windows">
+<meta name="twitter:description" content="Hub gratuito y portable para Windows. Remapeo, macros, RGB con Lumyx y ecualizador en un solo .exe.">
+<meta name="twitter:image" content="https://br105.github.io/synora-releases/assets/c1-lockup-horizontal.png">
+<style>
+:root{
+  --bg:#0a0a0c; --bg-2:#0e0e12; --surface:#141419; --surface-2:#1a1a21; --surface-hover:#20202a;
+  --hairline:rgba(255,255,255,.08); --hairline-2:rgba(255,255,255,.05);
+  --text:#ececf1; --text-dim:#9c9ca8; --text-muted:#67677a;
+  --accent:#966cff; --accent-soft:rgba(150,108,255,.14); --accent-line:rgba(150,108,255,.35);
+  --cyan:#00dcff; --cyan-soft:rgba(0,220,255,.12);
+  --ok:#4ade80; --warn:#fbbf24; --danger:#f87171;
+  /* ---- Glass (frosted, estilo clásico claro y visible) ---- */
+  --glass:rgba(255,255,255,.07); --glass-2:rgba(255,255,255,.12);
+  --glass-brd:rgba(255,255,255,.20); --glass-hi:inset 0 1px 0 rgba(255,255,255,.18);
+  --glass-sh:0 16px 44px -22px rgba(0,0,0,.55); --glass-blur:blur(18px) saturate(1.3);
+  --r-card:14px; --r-ctrl:9px;
+  --maxw:1140px;
+  --font:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1); /* curva de "lift" compartida por botones, tarjetas y mockups */
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-color:var(--surface-2) var(--bg-2);scrollbar-width:thin}
+body{
+  margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
+  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+/* Selección de texto y scrollbar acordes al tema */
+::selection{background:rgba(150,108,255,.38);color:#fff}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:var(--bg-2)}
+::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:8px;border:2px solid var(--bg-2)}
+::-webkit-scrollbar-thumb:hover{background:rgba(150,108,255,.45)}
+/* Rejilla tech ambiente — MUY tenue, fija detrás de todo, se desvanece hacia abajo.
+   z-index:0 fijo: al ir el pseudo antes que las secciones en el árbol, éstas pintan encima. */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(150,108,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(150,108,255,.045) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(115% 70% at 50% -8%,#000,transparent 72%);
+  mask-image:radial-gradient(115% 70% at 50% -8%,#000,transparent 72%);
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+p{margin:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.eyebrow{
+  display:inline-block;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:16px;
+}
+.eyebrow.cyan{color:var(--cyan)}
+
+/* ---- Lockup (marca en CSS) ---- */
+.lockup{display:inline-flex;align-items:center;gap:.5em;line-height:1}
+.lockup img{height:1.15em;width:auto;flex:none}
+.lockup .word{
+  font-weight:800;letter-spacing:-.045em;color:var(--text);
+  font-size:1em;
+}
+.lockup .word .z{color:var(--accent)}
+/* Marca con el wordmark (logo) en navbar y footer */
+.brand-wordmark{height:22px;width:auto;display:block}
+.foot-brand .brand-wordmark{height:24px;margin-bottom:14px}
+
+/* ---- Botones ---- */
+.btn{
+  display:inline-flex;align-items:center;gap:9px;font-family:var(--font);font-size:15px;font-weight:600;
+  padding:13px 22px;border-radius:var(--r-ctrl);border:1px solid transparent;cursor:pointer;
+  transition:transform .2s var(--ease),background .2s ease,border-color .2s ease,box-shadow .25s ease,color .2s ease;
+}
+.btn svg{width:18px;height:18px}
+/* CTA principal: morado SÓLIDO (sin glass) — el botón más prominente */
+.btn-primary{
+  background:var(--accent);color:#0a0a0c;box-shadow:0 8px 30px -8px rgba(150,108,255,.6);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px -10px rgba(150,108,255,.75);color:#fff}
+.btn-ghost{background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.2);backdrop-filter:blur(10px) saturate(1.2);border-color:var(--glass-brd);color:var(--text);box-shadow:var(--glass-hi)}
+.btn-ghost:hover{background:rgba(255,255,255,.13);border-color:var(--accent-line);transform:translateY(-2px);box-shadow:var(--glass-hi),0 0 26px -8px rgba(150,108,255,.5)}
+/* Anillo de foco con el acento (accesibilidad) */
+a:focus-visible,button:focus-visible,.btn:focus-visible,.chip:focus-visible,.play-btn:focus-visible{
+  outline:2px solid var(--accent);outline-offset:2px;border-radius:8px;
+}
+
+/* ---- Header ---- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,10,12,.72);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--hairline-2);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand .lockup{font-size:22px}
+.nav-links{display:flex;gap:30px;align-items:center}
+.nav-links a{color:var(--text-dim);font-size:14.5px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+/* subrayado de acento que se desliza al pasar el cursor (solo enlaces, no el botón) */
+.nav-links a:not(.btn){position:relative}
+.nav-links a:not(.btn)::after{
+  content:"";position:absolute;left:0;right:100%;bottom:-5px;height:1.5px;border-radius:2px;
+  background:linear-gradient(90deg,var(--accent),var(--cyan));transition:right .28s cubic-bezier(.16,1,.3,1);
+}
+.nav-links a:not(.btn):hover::after{right:0}
+.nav .btn{padding:9px 18px;font-size:14px}
+/* el botón del navbar hereda el estilo primario (glass violeta): texto blanco legible */
+.nav-links a.btn-primary{color:#0a0a0c}
+.nav-links a.btn-primary:hover{color:#fff}
+.menu-btn{display:none;background:none;border:0;color:var(--text);cursor:pointer;padding:6px}
+
+/* ---- Hero ---- */
+.hero{position:relative;padding:104px 0 92px;text-align:center;overflow:hidden}
+.hero-ambient{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url("assets/bg-ambient-zynora.png") center/cover no-repeat;
+  opacity:.18;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 42%,transparent 18%,#000 78%);
+  mask-image:radial-gradient(120% 90% at 50% 42%,transparent 18%,#000 78%);
+}
+.hero-glow{
+  position:absolute;top:-160px;left:50%;transform:translateX(-50%);
+  width:900px;height:600px;pointer-events:none;z-index:0;max-width:100%;
+  background:radial-gradient(closest-side,rgba(150,108,255,.28),rgba(150,108,255,.05) 55%,transparent 72%);
+  filter:blur(20px);animation:breathe 9s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{opacity:.75;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.08)}}
+.hero .wrap{position:relative;z-index:1}
+.hero-lockup{
+  font-size:clamp(52px,10vw,88px);margin:0 auto 34px;justify-content:center;
+  filter:drop-shadow(0 10px 44px rgba(150,108,255,.30));
+}
+/* ---- Lockup animado del hero (monograma Z + wordmark) ---- */
+.hero-brand{
+  display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2.4vw,24px);
+  margin:0 auto 30px;
+}
+.hero-mono{
+  width:clamp(64px,9vw,96px);height:auto;overflow:visible;
+  filter:drop-shadow(0 0 12px rgba(150,108,255,.30));
+}
+.hero-mono path{fill:var(--accent)}
+/* estado base: piezas y wordmark ocultos hasta que .play (o reduced-motion) los muestra */
+.hero-mono .mono-a{opacity:0;transform:translateY(-30px)}
+.hero-mono .mono-b{opacity:0;transform:translateY(30px)}
+.hero-wordmark{
+  width:clamp(280px,42vw,440px);height:auto;margin:0;opacity:0;
+  /* Blur pequeño a propósito: con letras tan juntas, un blur grande (el valor previo, 34px)
+     hace que la sombra de cada letra se fusione con la de al lado y el conjunto se lea como
+     un panel/banda de vidrio rectangular detrás del wordmark, no como un glow. Con esto el
+     halo sigue el contorno de las letras. */
+  filter:drop-shadow(0 2px 6px rgba(150,108,255,.5));
+}
+/* 1) las dos piezas se ensamblan (con leve stagger); el glow del monograma sube al asentarse */
+.hero-brand.play .mono-a{animation:monoDropIn .8s cubic-bezier(.2,.8,.2,1) 0s both}
+.hero-brand.play .mono-b{animation:monoRiseIn .8s cubic-bezier(.2,.8,.2,1) .12s both}
+.hero-brand.play .hero-mono{animation:monoGlowIn .9s ease-out 0s both,monoIdle 4.5s ease-in-out .9s infinite}
+/* 2) ya formada la Z, aparece ZYNORA con wipe izq→der + leve slide-up */
+.hero-brand.play .hero-wordmark{animation:wordReveal .9s cubic-bezier(.2,.8,.2,1) .15s both}
+
+@keyframes monoDropIn{0%{opacity:0;transform:translateY(-30px)}60%{opacity:1}100%{opacity:1;transform:translateY(0)}}
+@keyframes monoRiseIn{0%{opacity:0;transform:translateY(30px)}60%{opacity:1}100%{opacity:1;transform:translateY(0)}}
+@keyframes monoGlowIn{0%{filter:drop-shadow(0 0 3px rgba(150,108,255,0))}100%{filter:drop-shadow(0 0 16px rgba(150,108,255,.45))}}
+/* 3) glow violeta muy sutil que late lento (arranca donde terminó monoGlowIn, sin salto) */
+@keyframes monoIdle{0%,100%{filter:drop-shadow(0 0 16px rgba(150,108,255,.45))}50%{filter:drop-shadow(0 0 22px rgba(150,108,255,.58))}}
+@keyframes wordReveal{
+  0%{opacity:0;transform:translateY(14px);-webkit-clip-path:inset(0 100% 0 0);clip-path:inset(0 100% 0 0)}
+  55%{opacity:1}
+  100%{opacity:1;transform:translateY(0);-webkit-clip-path:inset(0 0 0 0);clip-path:inset(0 0 0 0)}
+}
+.hero h1{
+  font-size:clamp(32px,5.4vw,56px);letter-spacing:-.03em;max-width:16ch;margin:0 auto 20px;
+}
+.hero h1 .grad{
+  background:linear-gradient(100deg,#c7b0ff,#966cff 55%,#00dcff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{font-size:clamp(16px,2.2vw,20px);color:var(--text-dim);max-width:58ch;margin:0 auto 36px}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
+.badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.badge{
+  display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--text-dim);
+  background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.2);backdrop-filter:blur(10px) saturate(1.2);
+  border:1px solid var(--glass-brd);box-shadow:var(--glass-hi);padding:7px 14px;border-radius:100px;
+  transition:border-color .2s,color .2s;
+}
+.badge:hover{border-color:var(--accent-line);color:var(--text)}
+.badge .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+
+/* ---- Franja ---- */
+.strip{border-top:1px solid var(--hairline-2);border-bottom:1px solid var(--hairline-2);padding:26px 0;background:var(--bg-2)}
+.strip .wrap{display:flex;align-items:center;justify-content:center;gap:10px 12px;flex-wrap:wrap;text-align:center}
+.strip .lead{color:var(--text);font-weight:700;font-size:14px;letter-spacing:.02em;margin-right:2px}
+/* pastillas de vidrio, mismo lenguaje que los badges del hero (une visualmente hero → franja) */
+.strip span:not(.lead){
+  color:var(--text-dim);font-size:13px;font-weight:600;letter-spacing:.02em;
+  background:var(--glass);-webkit-backdrop-filter:blur(8px) saturate(1.2);backdrop-filter:blur(8px) saturate(1.2);
+  border:1px solid var(--glass-brd);border-radius:100px;padding:6px 14px;
+  transition:border-color .2s,color .2s;
+}
+.strip span:not(.lead):hover{border-color:var(--accent-line);color:var(--text)}
+
+/* ---- Secciones ---- */
+section{position:relative}
+.section{padding:84px 0}
+.section-head{max-width:660px;margin:0 auto 54px;text-align:center}
+.section-head h2{font-size:clamp(28px,4vw,42px);margin-bottom:14px}
+.section-head p{color:var(--text-dim);font-size:17px}
+
+/* ---- Showcase a pantalla (scroll reveal alterno) ---- */
+.showcase{min-height:auto;display:flex;align-items:center;padding:72px 0;overflow:hidden}
+.showcase .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%}
+.showcase.rev .illus{order:2}
+.showcase .illus svg{width:100%;height:auto;display:block;filter:drop-shadow(0 30px 70px rgba(0,0,0,.55))}
+.showcase .illus{perspective:1200px}
+.showcase .illus img{width:100%;height:auto;display:block;transition:transform .5s var(--ease)}
+.showcase .illus.glow-v img{filter:drop-shadow(0 0 55px rgba(150,108,255,.42)) drop-shadow(0 24px 60px rgba(0,0,0,.6))}
+.showcase .illus.glow-c img{filter:drop-shadow(0 0 55px rgba(0,220,255,.40)) drop-shadow(0 24px 60px rgba(0,0,0,.6))}
+/* leve tilt 3D al pasar el cursor, espejado según el lado del showcase */
+.showcase:hover .illus img{transform:translateY(-6px) scale(1.015) rotateX(1.5deg) rotateY(-2.5deg)}
+.showcase.rev:hover .illus img{transform:translateY(-6px) scale(1.015) rotateX(1.5deg) rotateY(2.5deg)}
+.showcase .copy .step{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.showcase .copy h2{font-size:clamp(30px,4.4vw,46px);margin-bottom:18px;max-width:14ch}
+.showcase .copy p{color:var(--text-dim);font-size:clamp(16px,2vw,19px);max-width:44ch}
+.showcase .copy .sub{color:var(--text-muted);font-size:15px;margin-top:16px;max-width:44ch}
+
+/* entrada lateral */
+.slide-l,.slide-r{opacity:0;transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.slide-l{transform:translateX(-70px)}
+.slide-r{transform:translateX(70px)}
+.slide-l.in,.slide-r.in{opacity:1;transform:none}
+
+/* ---- Etiquetas de remapeo flotantes sobre el showcase ---- */
+.showcase .illus{position:relative}
+.pin{
+  position:absolute;z-index:3;display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:var(--text);line-height:1.2;
+  background:rgba(18,18,23,.74);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  border:1px solid var(--hairline);border-radius:100px;padding:6px 12px;white-space:nowrap;
+  box-shadow:0 10px 26px -12px rgba(0,0,0,.75);
+  opacity:0;transform:translateY(8px) scale(.96);
+  transition:opacity .55s ease,transform .55s cubic-bezier(.16,1,.3,1);
+}
+.pin::before{content:"";width:6px;height:6px;border-radius:50%;flex:none;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.pin.cy::before{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.pin.cy{color:var(--text)}
+.slide-l.in .pin,.slide-r.in .pin{opacity:1;transform:none}
+.illus .pin:nth-of-type(1){transition-delay:.30s}
+.illus .pin:nth-of-type(2){transition-delay:.45s}
+.illus .pin:nth-of-type(3){transition-delay:.60s}
+.illus .pin:nth-of-type(4){transition-delay:.75s}
+
+/* ---- Galería de arquetipos apilados (sin cards) — abanico de 6 ---- */
+.arch-stack{
+  position:relative;display:flex;justify-content:center;align-items:flex-end;flex-wrap:nowrap;
+  min-height:200px;margin-bottom:12px;
+}
+.arch-stack .dev{
+  width:clamp(92px,14vw,150px);flex:none;
+  filter:drop-shadow(0 0 26px rgba(150,108,255,.34)) drop-shadow(0 14px 30px rgba(0,0,0,.55));
+}
+.arch-stack.glow-c .dev{filter:drop-shadow(0 0 26px rgba(0,220,255,.32)) drop-shadow(0 14px 30px rgba(0,0,0,.55))}
+.arch-stack .dev+.dev{margin-left:-16px}
+/* Abanico simétrico: los dispositivos suben hacia el centro y el centro va delante.
+   La elevación es por margin-bottom (NO transform) para no pisar la animación de entrada. */
+.arch-stack .dev:nth-child(1){z-index:1;margin-bottom:0}
+.arch-stack .dev:nth-child(2){z-index:2;margin-bottom:16px}
+.arch-stack .dev:nth-child(3){z-index:3;margin-bottom:30px}
+.arch-stack .dev:nth-child(4){z-index:3;margin-bottom:30px}
+.arch-stack .dev:nth-child(5){z-index:2;margin-bottom:16px}
+.arch-stack .dev:nth-child(6){z-index:1;margin-bottom:0}
+/* Entrada por POSICIÓN, AFUERA→ADENTRO: los extremos primero, el centro al final.
+   El delay se basa en la distancia al borde (nth-child desde la izq combinado con
+   nth-last-child desde la der), así queda simétrico tanto con 5 como con 6 dispositivos:
+   pos 1 y N → 0s · pos 2 y N-1 → .32s · centro (3 / 3 y 4) → .74s (los últimos). */
+.arch-stack .dev{transition-duration:.82s}          /* un poco más lento = se ve colocarse */
+.arch-stack .dev:nth-child(1),.arch-stack .dev:nth-last-child(1){transition-delay:0s}
+.arch-stack .dev:nth-child(2),.arch-stack .dev:nth-last-child(2){transition-delay:.32s}
+.arch-stack .dev:nth-child(3),.arch-stack .dev:nth-last-child(3){transition-delay:.74s}
+/* entrada desde arriba (tercer eje del stagger) */
+.slide-u{opacity:0;transform:translateY(-56px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.slide-u.in{opacity:1;transform:none}
+
+/* ---- Grid de features ---- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.035));
+  -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-brd);border-radius:var(--r-card);padding:28px;
+  transition:transform .32s var(--ease),border-color .25s ease,background .25s ease,box-shadow .3s ease;
+  position:relative;overflow:hidden;box-shadow:var(--glass-hi),var(--glass-sh);
+}
+/* resplandor de acento que crece suave al pasar el cursor */
+.card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 80% at 50% -10%,rgba(150,108,255,.16),transparent 60%);
+  opacity:0;transition:opacity .3s ease;
+}
+.card:hover{
+  transform:translateY(-4px);border-color:var(--accent-line);
+  background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.055));
+  box-shadow:var(--glass-hi),var(--glass-sh),0 22px 50px -24px rgba(150,108,255,.55),0 0 30px -8px rgba(150,108,255,.3);
+  /* .card también lleva la clase .reveal (entrada por scroll); como ambas fijan la
+     propiedad "transition", la que gana por orden en la hoja es .reveal (.7s) — así el
+     hover de la tarjeta quedaba pegado a ese tiempo lento. :hover pesa más en especificidad,
+     así que aquí recupera el timing rápido que sí tienen el resto de hovers del sitio. */
+  transition:transform .32s var(--ease),border-color .25s ease,background .25s ease,box-shadow .3s ease;
+}
+.card:hover::after{opacity:1}
+.card>*{position:relative;z-index:1}
+.card-ico{
+  width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+  background:var(--accent-soft);border:1px solid var(--accent-line);margin-bottom:18px;color:var(--accent);
+}
+.card-ico svg{width:24px;height:24px}
+.card h3{font-size:18px;margin-bottom:9px;letter-spacing:-.01em}
+.card p{color:var(--text-dim);font-size:14.5px}
+
+/* ---- Demos vivos de Macros y Capas NYX: franja glass bajo la grilla, mismo
+   lenguaje que .rgb-mock/.eq-mock (superficie, borde animado, reveal). ---- */
+.demo-strip{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.feat-mock{
+  position:relative;
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);
+  border:1px solid var(--glass-brd);border-radius:var(--r-card);
+  padding:24px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7),var(--glass-hi);
+}
+.feat-mock .row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:18px}
+.feat-mock .row small{color:var(--text-muted);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;font-weight:700}
+
+/* -- Macros: mini-ventana con botones Grabar/Reproducir + lista de pasos -- */
+.macro-state{display:inline-flex;align-items:center;gap:6px;color:var(--text-dim);font-size:11.5px;font-weight:700;text-transform:none;letter-spacing:0}
+.macro-state .dot{width:6px;height:6px;border-radius:50%;background:var(--text-muted);transition:background .3s,box-shadow .3s}
+.macro-state.rec .dot{background:var(--danger);box-shadow:0 0 8px var(--danger)}
+.macro-state.play .dot{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.macro-state.done .dot{background:var(--ok);box-shadow:0 0 6px var(--ok)}
+.macro-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.mbtn{
+  display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--text-dim);
+  background:rgba(255,255,255,.06);border:1px solid var(--glass-brd);border-radius:100px;padding:7px 13px;
+  transition:color .3s ease,background .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+.mbtn svg{width:11px;height:11px;flex:none}
+.mbtn .mdot{width:7px;height:7px;border-radius:50%;background:var(--text-muted);flex:none;transition:background .3s,box-shadow .3s}
+.mbtn.rec.active{color:#fff;background:rgba(248,113,113,.16);border-color:rgba(248,113,113,.5);box-shadow:0 0 18px -6px rgba(248,113,113,.55)}
+.mbtn.rec.active .mdot{background:var(--danger);box-shadow:0 0 8px var(--danger)}
+.mbtn.play.active{color:#0a0a0c;background:var(--accent);border-color:var(--accent);box-shadow:0 0 18px -6px rgba(150,108,255,.6)}
+.macro-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;min-height:172px}
+.macro-steps li{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 6px;border-bottom:1px solid var(--hairline-2);font-size:13px;color:var(--text-dim);
+  opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease,background .2s ease,border-radius .2s ease;
+}
+.macro-steps li:last-child{border-bottom:0}
+.macro-steps li.in{opacity:1;transform:none}
+.macro-steps li b{color:var(--text);font-weight:600}
+.macro-steps li .t{color:var(--text-muted);font-size:11.5px;font-variant-numeric:tabular-nums;flex:none}
+.macro-steps li.active{background:rgba(150,108,255,.14);border-radius:8px;border-bottom-color:transparent}
+.macro-steps li.active .t{color:var(--accent)}
+
+/* -- Capas NYX: mini-teclado esquemático que gana una capa cian al mantener NYX -- */
+.nyx-state{color:var(--text-dim);font-size:11.5px;font-weight:700;text-transform:none;letter-spacing:0;transition:color .3s}
+.nyx-state.on{color:var(--cyan)}
+.nyx-kbd{display:flex;gap:6px;margin-bottom:16px}
+.nk{
+  flex:1 1 0;min-width:0;height:52px;border-radius:9px;
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+  border:1px solid var(--hairline);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 14px -8px rgba(0,0,0,.6);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  transition:background .35s ease,border-color .35s ease,box-shadow .35s ease,transform .15s ease;
+}
+.nk-label{font-size:12px;font-weight:700;color:var(--text-dim);transition:opacity .16s ease,transform .16s ease,color .35s ease,font-size .16s ease;padding:0 2px;white-space:nowrap;overflow:hidden;text-overflow:clip}
+/* las etiquetas de capa (Discord, Macro 1...) son más largas que una letra sola:
+   un pelo más pequeñas para que quepan sin recortarse en la tecla angosta */
+.nk.layered .nk-label{font-size:10.5px;letter-spacing:-.01em}
+.nk-mod{flex:1.25 1 0}
+.nk-mod.pressed{
+  background:var(--cyan-soft);border-color:rgba(0,220,255,.55);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 20px -4px rgba(0,220,255,.55);
+  transform:translateY(1px);
+}
+.nk-mod.pressed .nk-label{color:var(--cyan)}
+.nk.layered{background:var(--cyan-soft);border-color:rgba(0,220,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 14px -6px rgba(0,220,255,.4)}
+.nk.layered .nk-label{color:var(--cyan)}
+.nk-label.swap{opacity:0;transform:translateY(-5px)}
+.nyx-caption{color:var(--text-muted);font-size:12.5px;text-align:center;margin:0}
+.nyx-caption b{color:var(--text-dim)}
+
+/* ---- Destellos de color detrás del vidrio (el backdrop-filter los difumina) ---- */
+.has-glow{position:relative;isolation:isolate}
+.has-glow > .wrap{position:relative;z-index:1}
+.glow-field{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.glow-field::before,.glow-field::after{
+  content:"";position:absolute;width:52%;height:66%;border-radius:50%;filter:blur(60px);
+}
+.glow-field::before{left:-6%;top:22%;background:radial-gradient(closest-side,rgba(150,108,255,.55),transparent 72%)}
+.glow-field::after{right:-6%;bottom:10%;background:radial-gradient(closest-side,rgba(0,220,255,.48),transparent 72%)}
+
+/* ---- Lumyx ---- */
+.lumyx{
+  position:relative;
+  background:
+    radial-gradient(700px 400px at 15% 20%,rgba(0,220,255,.10),transparent 60%),
+    radial-gradient(700px 500px at 85% 80%,rgba(150,108,255,.12),transparent 60%),
+    var(--bg-2);
+  border-top:0;border-bottom:1px solid var(--hairline-2);
+}
+/* divisor con gradiente violeta→cian: marca la entrada a la sección de color */
+.lumyx::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent-line) 30%,rgba(0,220,255,.32) 70%,transparent);
+}
+.lumyx-inner{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
+/* lockup Lumyx centrado estilo hero, más grande y con glow doble (violeta+cian) */
+.lumyx-head{text-align:center;margin-bottom:48px}
+.lumyx-logo{
+  height:clamp(96px,13vw,160px);width:auto;display:inline-block;
+  filter:drop-shadow(0 6px 26px rgba(150,108,255,.28)) drop-shadow(0 2px 14px rgba(0,220,255,.18));
+}
+.lumyx-inner h2{font-size:clamp(30px,4.4vw,46px);margin-bottom:16px}
+.lumyx-inner p.big{color:var(--text-dim);font-size:17px;margin-bottom:26px}
+.lumyx-list{display:flex;flex-direction:column;gap:14px;margin-bottom:8px}
+.lumyx-list li{display:flex;gap:13px;align-items:flex-start;list-style:none}
+.lumyx-list .tick{
+  flex:none;width:22px;height:22px;border-radius:6px;background:var(--cyan-soft);border:1px solid rgba(0,220,255,.3);
+  display:flex;align-items:center;justify-content:center;color:var(--cyan);margin-top:2px;
+}
+.lumyx-list .tick svg{width:13px;height:13px}
+.lumyx-list b{color:var(--text)}
+.lumyx-list span{color:var(--text-dim);font-size:14.5px}
+ul{margin:0;padding:0}
+
+/* Mockup RGB */
+.rgb-mock{
+  position:relative;
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);
+  border:1px solid var(--glass-brd);border-radius:var(--r-card);
+  padding:26px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7),var(--glass-hi);
+}
+/* ---- Borde de acento animado (violeta→cian que se desliza lento) ----
+   Anillo de 1px hecho con máscara; MUY sutil. Solo en los mockups "vivos". */
+.rgb-mock::before,.eq-mock::before,.feat-mock::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(115deg,transparent 22%,var(--accent) 44%,var(--cyan) 56%,transparent 80%);
+  background-size:240% 240%;opacity:.55;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  animation:borderSlide 7s linear infinite;
+}
+.eq-mock::before{animation-duration:9s;animation-direction:reverse}
+.macro-mock::before{animation-duration:8s}
+.nyx-mock::before{animation-duration:10s;animation-direction:reverse}
+@keyframes borderSlide{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.rgb-mock .row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.rgb-mock .row small{color:var(--text-muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.rgb-strip{height:64px;border-radius:10px;margin-bottom:22px;
+  background:linear-gradient(90deg,#966cff,#00dcff,#4ade80,#fbbf24,#f87171,#966cff);
+  background-size:300% 100%;animation:flow 6s linear infinite;box-shadow:inset 0 0 30px rgba(0,0,0,.35);
+}
+@keyframes flow{to{background-position:300% 0}}
+.leds{display:grid;grid-template-columns:repeat(10,1fr);gap:9px;margin-bottom:22px}
+.led{aspect-ratio:1;border-radius:50%;background:#2a2a34}
+.chips{display:flex;gap:9px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:600;color:var(--text-dim);background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(8px) saturate(1.2);backdrop-filter:blur(8px) saturate(1.2);border:1px solid var(--glass-brd);border-radius:100px;padding:6px 13px;cursor:default}
+.chip.on{color:#0a0a0c;background:var(--cyan);border-color:var(--cyan)}
+/* chips de efecto RGB (clicables) */
+.rgb-mock .chips .chip{cursor:pointer;transition:color .2s,background .2s,border-color .2s}
+.rgb-mock .chips .chip:hover{color:var(--text);border-color:rgba(0,220,255,.4)}
+
+/* ---- Audio / EQ ---- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.split.rev .txt{order:2}
+.eq-mock{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));-webkit-backdrop-filter:blur(20px) saturate(1.35);backdrop-filter:blur(20px) saturate(1.35);border:1px solid var(--glass-brd);border-radius:var(--r-card);padding:26px;box-shadow:0 30px 80px -30px rgba(0,0,0,.7),var(--glass-hi)}
+.eq-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.eq-top small{color:var(--text-muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.eq-demo-tag{font-size:11px;color:var(--text-muted);border:1px solid var(--hairline);border-radius:100px;padding:3px 10px;font-weight:600}
+.play-btn{
+  display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#0a0a0c;border:0;
+  font-family:var(--font);font-weight:700;font-size:14px;padding:9px 16px;border-radius:var(--r-ctrl);cursor:pointer;
+  transition:transform .2s var(--ease),color .2s ease,box-shadow .25s ease;box-shadow:0 8px 24px -10px rgba(150,108,255,.6);
+}
+.play-btn:hover{transform:translateY(-1px);color:#fff}
+.play-btn svg{width:16px;height:16px}
+.eq-bars{display:flex;align-items:flex-end;gap:6px;height:184px;margin-bottom:18px}
+.eq-bars .b{
+  flex:1;height:20%;min-height:5px;border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,var(--accent),rgba(150,108,255,.6));
+  transition:height .5s cubic-bezier(.2,.7,.3,1);
+}
+.eq-presets{display:flex;gap:8px;flex-wrap:wrap}
+.eq-presets .chip{cursor:pointer;transition:color .2s,background .2s,border-color .2s,opacity .2s}
+.eq-presets .chip:hover{color:var(--text);border-color:rgba(255,255,255,.18)}
+.eq-presets .chip.on{color:#0a0a0c;background:var(--accent);border-color:var(--accent)}
+/* perfiles deshabilitados hasta pulsar Play */
+.eq-presets.locked .chip{opacity:.4;pointer-events:none;cursor:not-allowed}
+/* misma escala que .lumyx-inner h2/p.big: son secciones gemelas (spotlight + mockup glass) */
+.split .txt h2{font-size:clamp(30px,4.4vw,46px);margin-bottom:16px}
+.split .txt p{color:var(--text-dim);font-size:17px;margin-bottom:14px}
+.mini-list{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.mini-list li{display:flex;gap:11px;color:var(--text-dim);font-size:15px;list-style:none;align-items:flex-start}
+.mini-list .tick{flex:none;color:var(--accent);margin-top:3px}
+.mini-list .tick svg{width:16px;height:16px}
+
+/* ---- Aviso anti-cheat ---- */
+.notice{
+  border:1px solid var(--glass-brd);
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+  -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);box-shadow:var(--glass-hi),var(--glass-sh);
+  border-radius:var(--r-card);padding:22px 24px;display:flex;gap:16px;align-items:flex-start;
+}
+.notice .ico{flex:none;color:var(--accent);margin-top:2px}
+.notice h3{font-size:16px;margin-bottom:6px;color:var(--text)}
+.notice p{color:var(--text-dim);font-size:14.5px}
+.notice b{color:var(--text)}
+
+/* ---- CTA final ---- */
+.cta{
+  text-align:center;
+  /* el resplandor nace DENTRO de la sección (no en el borde) para que no se vea una línea dura contra la sección anterior */
+  background:radial-gradient(620px 340px at 50% 42%,rgba(150,108,255,.14),transparent 70%);
+  padding:100px 0;
+}
+.cta h2{font-size:clamp(30px,5vw,48px);margin-bottom:16px}
+.cta p{color:var(--text-dim);font-size:18px;max-width:48ch;margin:0 auto 34px}
+.free-note{color:var(--text-dim);font-size:13.5px;margin-top:72px;padding-top:8px} /* --text-muted no cumplía 4.5:1 aquí */
+
+/* ---- Footer ---- */
+/* Tratamiento glass coherente con el resto: wash ambiental de color (barato, sin blur)
+   + divisor superior con gradiente violeta→cian, igual lenguaje que .lumyx::before. */
+footer{
+  position:relative;
+  background:
+    radial-gradient(620px 300px at 8% -15%,rgba(150,108,255,.08),transparent 62%),
+    radial-gradient(620px 340px at 94% 115%,rgba(0,220,255,.07),transparent 62%),
+    var(--bg-2);
+  border-top:0;padding:52px 0 40px;
+}
+footer::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent-line) 30%,rgba(0,220,255,.32) 70%,transparent);
+}
+.foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.foot-brand{max-width:320px}
+.foot-brand .lockup{font-size:20px;margin-bottom:14px}
+.foot-brand p{color:var(--text-muted);font-size:13.5px;line-height:1.6}
+.foot-credit{
+  display:inline-flex;align-items:center;gap:7px;margin-top:16px;
+  color:var(--text-dim);font-size:13px;font-weight:600;
+  padding:4px 12px 4px 4px;border-radius:100px;border:1px solid transparent;background:transparent;
+  transition:color .2s,background .2s,border-color .2s;
+}
+.foot-credit:hover{
+  color:var(--text);background:var(--glass);border-color:var(--glass-brd);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+}
+.foot-credit img{width:30px;height:30px;border-radius:50%;flex:none;border:1px solid var(--hairline);object-fit:cover}
+.foot-made{margin-top:12px;color:var(--text-muted);font-size:12px;line-height:1.5}
+.foot-made b{color:var(--text-dim);font-weight:600}
+.foot-cols{display:flex;gap:64px;flex-wrap:wrap}
+.foot-col h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin:0 0 14px}
+.foot-col a{display:block;color:var(--text-dim);font-size:14.5px;margin-bottom:10px;transition:color .2s}
+.foot-col a:hover{color:var(--text)}
+.kofi{color:var(--accent) !important;font-weight:600}
+.foot-bottom{margin-top:44px;padding-top:24px;border-top:1px solid var(--hairline-2);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--text-muted);font-size:13px}
+.foot-bottom a{color:var(--text-muted)}
+.foot-bottom a:hover{color:var(--text-dim)}
+
+/* ---- Galería de arquetipos (compatibilidad) ---- */
+.arch-group{margin-bottom:44px}
+.arch-group:last-child{margin-bottom:0}
+.arch-group h3{
+  font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--hairline-2);
+}
+
+/* ---- Reveal genérico ---- */
+.reveal{opacity:0;transform:translateY(24px) scale(.985);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  .reveal,.slide-l,.slide-r,.slide-u,.pin{opacity:1;transform:none;transition:none}
+  .hero-glow,.rgb-strip,.hero h1 .grad{animation:none}
+  /* lockup del hero: estático y visible, sin animación ni latido */
+  .hero-mono .mono-a,.hero-mono .mono-b,.hero-wordmark{opacity:1;transform:none;animation:none}
+  .hero-mono{animation:none;filter:drop-shadow(0 0 14px rgba(150,108,255,.35))}
+  .showcase .illus img{transition:none}
+  .showcase:hover .illus img{transform:none}
+  /* nada de movimiento nuevo: borde animado y subrayado quietos, rejilla oculta */
+  .rgb-mock::before,.eq-mock::before,.feat-mock::before{animation:none;opacity:.3}
+  .nav-links a:not(.btn)::after{transition:none}
+  body::before{display:none}
+  html{scroll-behavior:auto}
+  /* Macros/NYX: sin animación — el JS pinta un fotograma estático representativo
+     (macro con sus pasos ya grabados, capa NYX ya activa) y las transiciones CSS
+     de esos elementos quedan quietas. */
+  .macro-steps li,.nk,.nk-label,.macro-state .dot,.nyx-state,.mbtn{transition:none}
+}
+
+/* ---- Fallback si backdrop-filter NO está soportado: superficies sólidas ---- */
+@supports not ((-webkit-backdrop-filter:blur(2px)) or (backdrop-filter:blur(2px))){
+  .card,.rgb-mock,.eq-mock,.feat-mock{background:linear-gradient(180deg,var(--surface-2),var(--bg-2))}
+  .notice{background:var(--surface)}
+  .badge,.btn-ghost{background:var(--surface)}
+  .chip{background:var(--surface-2)}
+  /* sin frost, el CTA principal vuelve a violeta sólido brillante (texto oscuro legible) */
+  .btn-primary,.nav-links a.btn-primary{background:var(--accent);color:#0a0a0c;border-color:transparent}
+  .glow-field{display:none}
+}
+
+/* ---- Responsive ---- */
+/* demo-strip apila ANTES que el resto (1150px, no 900px): así la tarjeta en 2 columnas
+   nunca es más angosta que el ancho que ya cabe sin recortar las etiquetas de las teclas
+   NYX — por debajo de 1150px, cada demo pasa a ocupar la fila completa. */
+@media (max-width:1150px){
+  .demo-strip{grid-template-columns:1fr}
+}
+@media (max-width:900px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .lumyx-inner,.split,.showcase .wrap{grid-template-columns:1fr;gap:38px}
+  .split.rev .txt,.showcase.rev .illus{order:0}
+  .showcase{min-height:auto;padding:64px 0}
+  .showcase .illus{max-width:440px;margin:0 auto}
+  .showcase .copy h2,.showcase .copy p,.showcase .copy .sub{max-width:none}
+  .pin{display:none} /* evitan estorbar en móvil/tablet */
+  .nav-links{display:none}
+  .nav-links.open{
+    display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;
+    background:var(--bg-2);border-bottom:1px solid var(--hairline);padding:18px 24px;gap:18px;align-items:flex-start;
+  }
+  .menu-btn{display:block}
+}
+@media (max-width:560px){
+  .grid{grid-template-columns:1fr}
+  /* móvil: mantenemos el vidrio (ahora sí se ve, con color detrás) pero con blur más ligero */
+  .card,.feat-mock{-webkit-backdrop-filter:blur(11px) saturate(1.2);backdrop-filter:blur(11px) saturate(1.2)}
+  .feat-mock{padding:20px}
+  /* teclado NYX: dos filas de 4 en vez de 8 apretadas en una — mucho más ancho por tecla */
+  .nyx-kbd{flex-wrap:wrap;row-gap:8px}
+  .nk{flex:1 1 21%;height:46px}
+  .nk-mod{flex:1 1 30%}
+  .nk-label{font-size:11px}
+  .nk.layered .nk-label{font-size:10px}
+  /* blobs más baratos en móvil, pero siguen tiñendo el frost */
+  .glow-field::before,.glow-field::after{filter:blur(40px);width:74%;height:46%}
+  .section{padding:60px 0}
+  .hero{padding:64px 0 56px}
+  .btn{width:100%;justify-content:center}
+  .hero-cta{flex-direction:column}
+  .foot{flex-direction:column;gap:32px}
+  /* Galería: en móvil el abanico de 6 pasa a 2 filas de 3 (sin overflow horizontal) */
+  .arch-stack{flex-wrap:wrap;min-height:0;row-gap:16px}
+  .arch-stack .dev{width:30vw}
+  .arch-stack .dev+.dev{margin-left:-2vw}
+  .arch-stack .dev:nth-child(n){margin-bottom:0}   /* anula el arco: filas alineadas */
+  .arch-stack .dev:nth-child(4){margin-left:0}      /* la 2ª fila arranca centrada */
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Zynora inicio">
+      <img class="brand-wordmark" src="assets/zynora-wordmark.png" alt="Zynora">
+    </a>
+    <nav class="nav-links" id="navlinks">
+      <a href="#dispositivos">Dispositivos</a>
+      <a href="#lumyx">Lumyx RGB</a>
+      <a href="#audio">Audio</a>
+      <a class="btn btn-primary js-dl" href="Zynora-portable.zip" download="Zynora-portable.zip">Descargar gratis</a>
+    </nav>
+    <button class="menu-btn" id="menubtn" aria-label="Menú">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-ambient" aria-hidden="true"></div>
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <!-- Lockup animado: el monograma Z se ENSAMBLA de dos piezas y luego aparece ZYNORA -->
+    <div class="hero-brand" id="heroBrand">
+      <img class="hero-wordmark" src="assets/zynora-wordmark.png" alt="Zynora">
+    </div>
+    <h1>Un solo lugar para <span class="grad">todos tus periféricos</span></h1>
+    <p class="hero-sub">Mouse, teclado y control de <b>cualquier marca</b>, junto con el RGB y el audio de tu PC. Todo lo que normalmente pide varios programas de marca distintos, aquí en un único archivo gratis y portable.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary js-dl" href="Zynora-portable.zip" download="Zynora-portable.zip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+        Descargar gratis
+      </a>
+      <a class="btn btn-ghost" href="https://github.com/BR105/synora-releases">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.63.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.34 9.34 0 015 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0022 12.25C22 6.58 17.52 2 12 2z"/></svg>
+        Ver en GitHub
+      </a>
+    </div>
+    <div class="badges">
+      <span class="badge"><span class="dot"></span>Windows 10 / 11 (64-bit)</span>
+      <span class="badge">Portable · sin instalación</span>
+      <span class="badge">100% gratis</span>
+      <span class="badge" id="dlbadge" style="display:none" title="Cifra real de descargas (GitHub), verificable"><span id="dlcount"></span></span>
+    </div>
+  </div>
+</section>
+
+<!-- FRANJA compatibilidad (genérica, sin marcas) -->
+<div class="strip reveal">
+  <div class="wrap">
+    <span class="lead">Funciona con lo que ya tienes:</span>
+    <span>Sin drivers de marca</span><span>Mouse, teclados y controles</span><span>De cualquier fabricante</span>
+  </div>
+</div>
+
+<!-- SHOWCASE: RATÓN (entra desde la izquierda) -->
+<section class="showcase" id="dispositivos">
+  <div class="wrap">
+    <div class="illus glow-v slide-l" aria-hidden="true">
+      <img src="assets/hero-mouse-zynora-transparente.png" alt="Mouse gaming" loading="lazy">
+      <span class="pin" style="top:22%;left:-2%">Botón lateral → Macro 1</span>
+      <span class="pin cy" style="top:6%;right:2%">Rueda ↑↓ → Cambiar arma</span>
+      <span class="pin" style="bottom:16%;right:-2%">DPI → Perfil</span>
+    </div>
+    <div class="copy slide-r">
+      <div class="step">Mouse</div>
+      <h2>Remapea cualquier botón.</h2>
+      <p>Laterales, rueda, la inclinación del scroll, incluso el clic izquierdo con protección anti-bloqueo. Cada botón hace exactamente lo que tú quieras.</p>
+      <p class="sub">¿Por qué conformarte con los botones que ya trae? Aquí cada uno es tuyo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE: TECLADO (entra desde la derecha) -->
+<section class="showcase rev">
+  <div class="wrap">
+    <div class="illus glow-c slide-r" aria-hidden="true">
+      <img src="assets/hero-keyboard-legible-zynora-transparente.png" alt="Teclado gaming" loading="lazy">
+      <span class="pin" style="top:8%;left:0%">G → Grabar macro</span>
+      <span class="pin cy" style="top:34%;right:-1%">F1 → Discord</span>
+      <span class="pin" style="bottom:12%;left:6%">Capa NYX</span>
+    </div>
+    <div class="copy slide-l">
+      <div class="step">Teclado</div>
+      <h2>Cualquier tecla, cualquier acción.</h2>
+      <p>Convierte una tecla en otra tecla, en una acción o en una macro completa. Un diagrama visual del teclado para asignar de un vistazo.</p>
+      <p class="sub">Graba macros en vivo — teclas, clics y movimiento — y reprodúcelas fluidas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE: CONTROLES (entra desde la izquierda) -->
+<section class="showcase">
+  <div class="wrap">
+    <div class="illus glow-v slide-l" aria-hidden="true">
+      <img src="assets/hero-gamepad-zynora-transparente.png" alt="Control gaming" loading="lazy">
+      <span class="pin" style="top:12%;left:-2%">L1 → Push-to-talk</span>
+      <span class="pin cy" style="top:40%;left:2%">Cruceta → Combos</span>
+      <span class="pin" style="bottom:16%;right:-1%">Home → Perfil</span>
+    </div>
+    <div class="copy slide-r">
+      <div class="step">Controles</div>
+      <h2>Saca más de los controles que ya usas.</h2>
+      <p>Detecta tu control, pruébalo en vivo y reasigna sus botones a teclado, mouse o macros. Con perfiles propios para cada control.</p>
+      <p class="sub">Súmales funciones nuevas — y revive de paso ese control que tenías guardado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA DE ARQUETIPOS (compatibilidad genérica, sin marcas) -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow cyan">Compatibilidad</span>
+      <h2>Sea cual sea tu equipo</h2>
+      <p>Mouse, teclado o control — de cualquier forma, tamaño o marca. Si Windows lo ve, Zynora lo controla.</p>
+    </div>
+
+    <div class="arch-group">
+      <h3>Mouse</h3>
+      <div class="arch-stack">
+        <img class="dev slide-l" src="assets/devices/device-mouse-ergo-right-transparente.png" alt="Mouse ergonómico" loading="lazy">
+        <img class="dev slide-l" src="assets/devices/device-mouse-ultralight-honeycomb-transparente.png" alt="Mouse ultraligero" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-mouse-vertical-transparente.png" alt="Mouse vertical" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-mouse-mmo-sidegrid-transparente.png" alt="Mouse MMO" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-mouse-palm-large-transparente.png" alt="Mouse palm grande" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-mouse-claw-transparente.png" alt="Mouse claw" loading="lazy">
+      </div>
+    </div>
+
+    <div class="arch-group">
+      <h3>Teclados</h3>
+      <div class="arch-stack glow-c">
+        <img class="dev slide-l" src="assets/devices/device-keyboard-60-transparente.png" alt="Teclado 60%" loading="lazy">
+        <img class="dev slide-l" src="assets/devices/device-keyboard-tkl-transparente.png" alt="Teclado TKL" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-keyboard-full-transparente.png" alt="Teclado completo" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-keyboard-75-transparente.png" alt="Teclado 75%" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-keyboard-65-transparente.png" alt="Teclado 65%" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-keyboard-lowprofile-transparente.png" alt="Teclado bajo perfil" loading="lazy">
+      </div>
+    </div>
+
+    <div class="arch-group">
+      <h3>Controles</h3>
+      <div class="arch-stack">
+        <img class="dev slide-l" src="assets/devices/device-gamepad-asymmetric-pro-transparente.png" alt="Control pro" loading="lazy">
+        <img class="dev slide-l" src="assets/devices/device-gamepad-compact-transparente.png" alt="Control compacto" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-gamepad-symmetric-transparente.png" alt="Control simétrico" loading="lazy">
+        <img class="dev slide-u" src="assets/devices/device-gamepad-elite-pro-transparente.png" alt="Control elite" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-gamepad-fightpad-transparente.png" alt="Control de pelea" loading="lazy">
+        <img class="dev slide-r" src="assets/devices/device-gamepad-telescopic-mobile-transparente.png" alt="Control telescópico móvil" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÁS FUNCIONES -->
+<section class="section has-glow" style="padding-top:40px">
+  <div class="glow-field" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Todo en un .exe</span>
+      <h2>Mucho más que remapeo</h2>
+      <p>Las herramientas que normalmente exigen varios programas distintos, reunidas sin depender de los drivers de cada fabricante.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal">
+        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg></div>
+        <h3>Macros</h3>
+        <p>Grábalas en vivo, organízalas en carpetas y reprodúcelas fluidas, a la velocidad que quieras.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round"/><circle cx="18" cy="18" r="2.5"/></svg></div>
+        <h3>Capas NYX</h3>
+        <p>Duplica las funciones de tus dispositivos con una capa secundaria global. Manténla pulsada o déjala fija.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 3L4 14h7l-1 7 9-11h-7l1-7z" stroke-linejoin="round"/></svg></div>
+        <h3>Acciones</h3>
+        <p>Asigna a un botón abrir una app, un acceso directo de Windows, una página web o cualquier programa.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18"/><path d="M8 21h8M12 18v3" stroke-linecap="round"/></svg></div>
+        <h3>Perfiles por app</h3>
+        <p>El perfil cambia solo según la app en primer plano. Reconoce tus programas y tus juegos con carátula.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 15a4 4 0 014-4 5.5 5.5 0 0110.6-1.5A3.5 3.5 0 0118 16H8a4 4 0 01-4-4z" stroke-linejoin="round"/></svg></div>
+        <h3>Nube y respaldo</h3>
+        <p>Exporta todo a un archivo o sincroniza por una carpeta de tu nube favorita. Sin cuentas obligatorias.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Sólido y portable</h3>
+        <p>Un único ejecutable firmado, sin instalación ni DLLs sueltas. Para quitarlo, borra la carpeta.</p>
+      </div>
+    </div>
+
+    <!-- Demos vivos de Macros y Capas NYX — mismo listón que .rgb-mock/.eq-mock -->
+    <div class="demo-strip">
+      <div class="feat-mock macro-mock reveal" aria-hidden="true">
+        <div class="row">
+          <small>Macros · en vivo</small>
+          <small class="macro-state" id="macroState"><span class="dot"></span>Grabando</small>
+        </div>
+        <div class="macro-toolbar">
+          <span class="mbtn rec" id="macroRecBtn"><span class="mdot"></span>Grabar</span>
+          <span class="mbtn play" id="macroPlayBtn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Reproducir
+          </span>
+        </div>
+        <ul class="macro-steps" id="macroSteps"></ul>
+      </div>
+
+      <div class="feat-mock nyx-mock reveal" aria-hidden="true">
+        <div class="row">
+          <small>Capas NYX · global</small>
+          <small class="nyx-state" id="nyxState">Capa base</small>
+        </div>
+        <div class="nyx-kbd" id="nyxKbd">
+          <div class="nk nk-mod" id="nyxKey" data-base="NYX"><span class="nk-label">NYX</span></div>
+          <div class="nk" data-base="Q" data-layer="Discord"><span class="nk-label">Q</span></div>
+          <div class="nk" data-base="W" data-layer="OBS"><span class="nk-label">W</span></div>
+          <div class="nk" data-base="E" data-layer="Macro 1"><span class="nk-label">E</span></div>
+          <div class="nk" data-base="R" data-layer="Mute"><span class="nk-label">R</span></div>
+          <div class="nk" data-base="T" data-layer="Zoom+"><span class="nk-label">T</span></div>
+          <div class="nk" data-base="Y" data-layer="Perfil 2"><span class="nk-label">Y</span></div>
+          <div class="nk" data-base="U" data-layer="Captura"><span class="nk-label">U</span></div>
+        </div>
+        <p class="nyx-caption">Mantén <b>NYX</b> — todo el teclado gana una segunda función.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LUMYX -->
+<section class="section lumyx has-glow" id="lumyx">
+  <div class="glow-field" aria-hidden="true"></div>
+  <div class="wrap lumyx-head reveal">
+    <img class="lumyx-logo" src="assets/lumyx-zl3-lockup-horizontal.png" alt="Zynora Lumyx">
+  </div>
+  <div class="wrap lumyx-inner">
+    <div class="reveal">
+      <span class="eyebrow cyan">Iluminación RGB</span>
+      <h2>Todo tu RGB, en armonía.</h2>
+      <p class="big">Una sola paleta para todas tus marcas. Lumyx unifica los LEDs de mouse, teclado, placa base, GPU y RAM compatibles bajo un mismo control, con efectos fluidos.</p>
+      <ul class="lumyx-list">
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Efectos incluidos</b> — estático, respiración, arcoíris, espectro, cometa y latido.</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Editor LED por LED</b> — pinta cada zona sobre la silueta de tu dispositivo.</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Multi-fabricante</b> — se apoya en la Iluminación dinámica de Windows y en protocolos nativos.</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Paleta y dimmer</b> — elige color, intensidad y velocidad; se reaplica al arrancar.</span></li>
+      </ul>
+    </div>
+    <div class="rgb-mock reveal" aria-hidden="true">
+      <div class="row"><small>Lumyx · Efecto en vivo</small><small style="color:var(--cyan)" id="rgbLabel">● Arcoíris</small></div>
+      <div class="rgb-strip"></div>
+      <div class="leds" id="leds"></div>
+      <div class="chips" id="rgbfx" role="group" aria-label="Efectos RGB">
+        <span class="chip" data-fx="static">Estático</span>
+        <span class="chip" data-fx="breathe">Respiración</span>
+        <span class="chip on" data-fx="rainbow">Arcoíris</span>
+        <span class="chip" data-fx="comet">Cometa</span>
+        <span class="chip" data-fx="heartbeat">Latido</span>
+        <span class="chip" data-fx="wave">Ola</span>
+        <span class="chip" data-fx="spectrum">Espectro</span>
+        <span class="chip" data-fx="reactive">Reactivo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIO / EQ -->
+<section class="section has-glow" id="audio">
+  <div class="glow-field" aria-hidden="true"></div>
+  <div class="wrap split rev">
+    <div class="txt reveal">
+      <span class="eyebrow">Audio del sistema</span>
+      <h2>Ecualiza el sonido de todo tu PC</h2>
+      <p>Ajusta el audio general de Windows con presets por género y contenido, controles de tono simples y un ecualizador de 10 bandas con curva de respuesta.</p>
+      <ul class="mini-list">
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>24 presets (géneros, contenido, realces).</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Sliders de tono: graves, calidez, voz y claridad.</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Detección de tus salidas con su nombre y tipo reales.</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>El motor de audio es opcional: la app funciona igual sin él.</li>
+      </ul>
+    </div>
+    <div class="eq-mock reveal">
+      <div class="eq-top">
+        <small>Ecualizador · <span class="eq-demo-tag">demo</span></small>
+        <button class="play-btn" id="playbtn" aria-pressed="false" aria-label="Reproducir demo de audio">
+          <svg id="playicon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <span id="playlabel">Play</span>
+        </button>
+      </div>
+      <div class="eq-bars idle" id="eqbars" aria-hidden="true"></div>
+      <div class="eq-presets locked" id="eqpresets" role="group" aria-label="Perfiles de sonido">
+        <span class="chip on" data-p="gaming">Gaming</span>
+        <span class="chip" data-p="bass">Graves</span>
+        <span class="chip" data-p="voice">Voz clara</span>
+        <span class="chip" data-p="cine">Cine</span>
+        <span class="chip" data-p="clarity">Claridad</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Aviso anti-cheat (aclarado: solo el ecualizador) -->
+<section class="section" style="padding-top:0">
+  <div class="wrap reveal">
+    <div class="notice">
+      <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01" stroke-linecap="round"/></svg></span>
+      <div>
+        <h3>Compatibilidad con juegos</h3>
+        <p>El <b>remapeo, las macros y el RGB</b> funcionan con cualquier juego, sin excepciones. Solo el <b>ecualizador de audio</b> podría no aplicarse en algunos títulos competitivos con anti-trampas estrictos — y puedes desactivarlo para ese juego con un clic. Todo lo demás sigue igual.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Seguridad y transparencia -->
+<section class="section" style="padding-top:0">
+  <div class="wrap reveal">
+    <div class="notice">
+      <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <div>
+        <h3>Seguridad y transparencia</h3>
+        <p>Zynora es un proyecto independiente firmado con un <b>certificado propio</b> (todavía no uno comercial de pago), así que <b>Windows SmartScreen</b> o <b>Microsoft Defender</b> pueden mostrar una advertencia la primera vez que lo abres. Es el comportamiento normal en apps independientes sin certificado comercial — no significa que el archivo tenga nada raro, y puedes comprobarlo tú mismo.</p>
+        <p style="margin-top:12px">En VirusTotal el análisis marca <b>1/69</b>, y ese único aviso es un <b>falso positivo</b> conocido de Microsoft (<i>Wacatac.B!ml</i>), típico de apps indie sin firmar comercialmente. El enlace está siempre actualizado, así que puedes verlo en vivo cuando quieras.</p>
+        <!-- El hash es de una versión concreta del .exe. Para actualizar, reemplaza el hash en el href de abajo por el del análisis de la nueva build. -->
+        <a class="btn btn-ghost" style="margin-top:16px" href="https://www.virustotal.com/gui/file/978070f986092380ceb2a4b9cdc7090a69afcb84532d687d1b06a9b8fb52f402" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          Ver análisis en VirusTotal
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="descargar">
+  <div class="wrap reveal">
+    <h2>Descarga Zynora gratis</h2>
+    <p>Descomprime, doble clic y listo. Sin instalación, sin cuentas obligatorias, sin costo.</p>
+    <div class="hero-cta" style="margin-bottom:0">
+      <a class="btn btn-primary js-dl" href="Zynora-portable.zip" download="Zynora-portable.zip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+        Descargar gratis
+      </a>
+      <a class="btn btn-ghost" href="https://github.com/BR105/synora-releases">Ver en GitHub</a>
+    </div>
+    <p class="free-note">Proyecto independiente. No afiliado ni asociado a ninguna marca.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-brand">
+        <img class="brand-wordmark" src="assets/zynora-wordmark.png" alt="Zynora">
+        <p>Hub de entrada y audio para Windows. Remapeo genérico, macros, RGB Lumyx y ecualizador, en un solo archivo portable.</p>
+        <a class="foot-credit" href="https://www.youtube.com/@Azmo105" target="_blank" rel="noopener">
+          <img src="assets/azmo105-logo.png" alt="AZMO105" width="30" height="30" loading="lazy">
+          Hecho por AZMO105
+        </a>
+        <p class="foot-made"><b>Idea y dirección de AZMO105</b> · desarrollado con Claude (Anthropic).</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Producto</h4>
+          <a href="#dispositivos">Dispositivos</a>
+          <a href="#lumyx">Lumyx RGB</a>
+          <a href="#audio">Audio</a>
+          <a class="js-dl" href="Zynora-portable.zip" download="Zynora-portable.zip">Descargar</a>
+        </div>
+        <div class="foot-col">
+          <h4>Recursos</h4>
+          <a href="https://github.com/BR105/synora-releases">GitHub</a>
+          <a href="avisos.html">Avisos de seguridad</a>
+          <a href="privacidad.html">Política de privacidad</a>
+        </div>
+        <div class="foot-col">
+          <h4>Apóyanos</h4>
+          <a class="kofi" href="https://ko-fi.com/azmo105">☕ Apóyanos con un café</a>
+          <a href="mailto:zynorahub105@gmail.com">zynorahub105@gmail.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Zynora. Proyecto independiente. No afiliado ni asociado a ninguna marca.</span>
+      <span><a href="privacidad.html">Privacidad</a> · <a href="avisos.html">Avisos</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Menú móvil
+document.getElementById('menubtn').addEventListener('click',function(){
+  document.getElementById('navlinks').classList.toggle('open');
+});
+document.querySelectorAll('#navlinks a').forEach(function(a){
+  a.addEventListener('click',function(){document.getElementById('navlinks').classList.remove('open');});
+});
+
+// Reveal / entrada lateral al hacer scroll — RE-ANIMA cada vez que el elemento
+// vuelve a entrar al viewport (estilo Game Factor): al salir se resetea y al
+// volver a entrar se anima de nuevo (no una sola vez).
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting);});
+},{threshold:.15});
+document.querySelectorAll('.reveal,.slide-l,.slide-r,.slide-u').forEach(function(el){
+  if(el.classList.contains('dev'))return; // la galería tiene su propio observer (abajo)
+  io.observe(el);
+});
+
+// Lockup animado del hero: se dispara al cargar (el observer emite isIntersecting
+// al empezar a observar el elemento ya visible) y RE-DISPARA al volver a entrar en
+// viewport. En reduced-motion no se anima: el CSS lo deja estático y visible.
+(function(){
+  var brand=document.getElementById('heroBrand');if(!brand)return;
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var ioH=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      brand.classList.remove('play');
+      void brand.offsetWidth;      // fuerza reflow → reinicia las animaciones CSS
+      brand.classList.add('play');
+    });
+  },{threshold:.4});
+  ioH.observe(brand);
+})();
+
+// Galería "Sea cual sea tu equipo": observer APARTE con umbral más alto para que la
+// cascada por posición (extremos→centro) se dispare BIEN dentro del viewport, no al
+// asomar. Observa el contenedor y alterna .in en todos sus dispositivos a la vez,
+// así los transition-delay del CSS marcan el orden. Re-anima al salir/entrar.
+var ioDev=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    e.target.querySelectorAll('.dev').forEach(function(d){d.classList.toggle('in',e.isIntersecting);});
+  });
+},{threshold:.35});
+document.querySelectorAll('.arch-stack').forEach(function(el){ioDev.observe(el);});
+
+// Contador REAL de descargas (GitHub Releases) — solo se muestra si supera el umbral.
+(function(){
+  var UMBRAL_DESCARGAS=50; // fácil de cambiar
+  try{
+    fetch('https://api.github.com/repos/BR105/synora-releases/releases')
+      .then(function(r){return r.ok?r.json():Promise.reject();})
+      .then(function(rel){
+        var total=0;
+        (rel||[]).forEach(function(x){(x.assets||[]).forEach(function(a){total+=a.download_count||0;});});
+        if(total>=UMBRAL_DESCARGAS){
+          var b=document.getElementById('dlbadge'),c=document.getElementById('dlcount');
+          if(b&&c){c.textContent='⬇ '+total.toLocaleString('es')+' descargas';b.style.display='';}
+        }
+      })
+      .catch(function(){/* offline o fallo: badge queda oculto */});
+  }catch(e){/* sin fetch: badge oculto */}
+})();
+
+// LEDs del mockup Lumyx — selector de efectos interactivo
+(function(){
+  var box=document.getElementById('leds');if(!box)return;
+  var strip=document.querySelector('.rgb-strip');
+  if(strip)strip.style.animation='none'; // la barra la pinta el JS según el efecto activo
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var n=20,leds=[];
+  for(var i=0;i<n;i++){var d=document.createElement('div');d.className='led';box.appendChild(d);leds.push(d);}
+  var fx='rainbow';
+
+  function set(i,hue,light){
+    var l=Math.max(0,Math.min(100,light));
+    leds[i].style.background='hsl('+hue+','+(l>6?85:0)+'%,'+l+'%)';
+    leds[i].style.boxShadow=l>10?'0 0 10px hsla('+hue+',85%,60%,'+(l/100*.7)+')':'none';
+  }
+  // devuelve {hue,light} por LED en el tiempo t (segundos)
+  function frame(t){
+    var out=[];
+    for(var i=0;i<n;i++){
+      var h=270,li=55;
+      switch(fx){
+        case 'static':   h=265;li=58;break;
+        case 'breathe':  h=265;li=14+42*(0.5-0.5*Math.cos(t*1.4));break;
+        case 'rainbow':  h=(i*18+t*70)%360;li=58;break;
+        case 'spectrum': h=(t*90)%360;li=58;break;
+        case 'wave':     h=190;li=14+44*(0.5+0.5*Math.sin(t*3-i*0.6));break;
+        case 'comet':    var pos=(t*7)%n;var d=Math.min(Math.abs(i-pos),n-Math.abs(i-pos));h=(t*40)%360;li=Math.max(6,60-d*22);break;
+        case 'heartbeat':var ph=(t%1.3);var pulse=ph<0.12?ph/0.12:ph<0.24?1-(ph-0.12)/0.12:ph<0.36?(ph-0.24)/0.12:ph<0.5?1-(ph-0.36)/0.14:0;h=350;li=10+50*pulse;break;
+        case 'reactive': var seed=Math.sin(i*12.9+Math.floor(t*3)*78.2)*43758.5;seed=seed-Math.floor(seed);var f=(t*3)%1;h=(i*40)%360;li=seed>0.7?6+54*(1-f):6;break;
+      }
+      out.push([h,li]);
+    }
+    return out;
+  }
+  // La barra superior toma los MISMOS colores del efecto (gradiente de los LEDs).
+  function paintStrip(f){
+    if(!strip)return;
+    var s=[];
+    for(var i=0;i<n;i++){var l=Math.max(0,Math.min(100,f[i][1]));s.push('hsl('+f[i][0]+','+(l>6?85:0)+'%,'+l+'%) '+(i*100/(n-1)).toFixed(1)+'%');}
+    strip.style.background='linear-gradient(90deg,'+s.join(',')+')';
+  }
+  function render(t){var f=frame(t);for(var i=0;i<n;i++)set(i,f[i][0],f[i][1]);paintStrip(f);}
+
+  var raf;
+  function loop(ts){render(ts/1000);raf=requestAnimationFrame(loop);}
+  if(reduce){render(0.8);} else {raf=requestAnimationFrame(loop);}
+
+  var picker=document.getElementById('rgbfx'),label=document.getElementById('rgbLabel');
+  if(picker)picker.addEventListener('click',function(e){
+    var c=e.target.closest('.chip');if(!c)return;
+    fx=c.getAttribute('data-fx');
+    picker.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});
+    c.classList.add('on');
+    if(label)label.textContent='● '+c.textContent;
+    if(reduce)render(0.8); // repinta un fotograma representativo sin animar
+  });
+})();
+
+// ---- EQ con Web Audio API real (solo al clic del usuario) ----
+(function(){
+  var box=document.getElementById('eqbars'),btn=document.getElementById('playbtn');
+  if(!box||!btn)return;
+  var NB=22,bars=[];
+  for(var i=0;i<NB;i++){var b=document.createElement('div');b.className='b';box.appendChild(b);bars.push(b);}
+
+  // Envolvente de CAMPANA (centro alto, bordes bajos) para darle forma a las barras.
+  var env=[],mid=(NB-1)/2,sig=NB*0.34;
+  for(var e=0;e<NB;e++){env[e]=0.28+0.72*Math.exp(-Math.pow((e-mid)/sig,2));}
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var idleTimer=null;
+  function setTrans(d){bars.forEach(function(b){b.style.transition='height '+d;});}
+  // En reposo: cada barra sube/baja de forma ALEATORIA e independiente (no al unísono).
+  function idleFrame(){for(var i=0;i<NB;i++){bars[i].style.height=(env[i]*(34+Math.random()*30)).toFixed(1)+'%';}}
+  function startIdle(){setTrans('.6s cubic-bezier(.2,.7,.3,1)');idleFrame();if(!reduce&&!idleTimer){idleTimer=setInterval(idleFrame,600);}}
+  function stopIdle(){if(idleTimer){clearInterval(idleTimer);idleTimer=null;}}
+  startIdle();
+
+  var ctx,master,filter,analyser,freq,raf,playing=false,seq,stepTimer,step=0;
+  // Ganancias fuertes y bandas bien separadas para que el cambio de perfil se OIGA.
+  var profiles={
+    gaming: {type:'peaking',  freq:1800,q:2,  gain:12},  // presencia media, marcada
+    bass:   {type:'lowshelf', freq:220, q:1,  gain:17},  // graves contundentes
+    voice:  {type:'highshelf',freq:3000,q:1,  gain:16},  // agudos/voz brillantes
+    cine:   {type:'lowshelf', freq:110, q:1,  gain:16},  // sub-graves de cine
+    clarity:{type:'peaking',  freq:7000,q:2.2,gain:15}   // aire y detalle marcado
+  };
+  var current='gaming';
+  var presets=document.getElementById('eqpresets');
+
+  // escala pentatónica para un loop "gaming"
+  var notes=[220,261.63,329.63,392,440,392,329.63,261.63];
+
+  function applyProfile(){
+    if(!filter)return;var p=profiles[current];
+    filter.type=p.type;filter.frequency.value=p.freq;filter.Q.value=p.q;filter.gain.value=p.gain;
+  }
+
+  function tone(f,t,dur,type,peak){
+    var o=ctx.createOscillator(),g=ctx.createGain();
+    o.type=type||'sawtooth';o.frequency.value=f;
+    g.gain.setValueAtTime(0,t);
+    g.gain.linearRampToValueAtTime(peak||0.18,t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0008,t+dur);
+    o.connect(g);g.connect(filter);
+    o.start(t);o.stop(t+dur+0.02);
+  }
+  function kick(t){
+    var o=ctx.createOscillator(),g=ctx.createGain();
+    o.type='sine';o.frequency.setValueAtTime(140,t);
+    o.frequency.exponentialRampToValueAtTime(45,t+0.14);
+    g.gain.setValueAtTime(0.5,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.16);
+    o.connect(g);g.connect(master); // el bombo esquiva el filtro para pegar siempre
+    o.start(t);o.stop(t+0.18);
+  }
+
+  function scheduler(){
+    // programa el siguiente paso del loop (16avos a ~120bpm)
+    var t=ctx.currentTime+0.04;
+    if(step%2===0)tone(notes[(step/2)%notes.length],t,0.22,'sawtooth',0.16);
+    if(step%4===0)kick(t);
+    if(step%8===4)tone(notes[step%notes.length]*2,t,0.12,'square',0.06);
+    step=(step+1)%16;
+  }
+
+  function draw(){
+    analyser.getByteFrequencyData(freq);
+    // reparte el espectro útil entre las barras
+    var use=Math.floor(freq.length*0.7);
+    for(var i=0;i<NB;i++){
+      var idx=Math.floor(Math.pow(i/NB,1.4)*use);
+      var v=freq[idx]/255;
+      bars[i].style.height=(env[i]*(14+v*82)).toFixed(1)+'%'; // campana × audio real
+    }
+    raf=requestAnimationFrame(draw);
+  }
+
+  function start(){
+    if(!ctx){
+      var AC=window.AudioContext||window.webkitAudioContext;
+      ctx=new AC();
+      master=ctx.createGain();master.gain.value=0.38; // headroom para +17dB de los perfiles
+      filter=ctx.createBiquadFilter();
+      analyser=ctx.createAnalyser();analyser.fftSize=256;
+      freq=new Uint8Array(analyser.frequencyBinCount);
+      filter.connect(master);master.connect(analyser);analyser.connect(ctx.destination);
+      applyProfile();
+    }
+    ctx.resume();
+    box.classList.remove('idle');
+    stopIdle();setTrans('.09s linear'); // barras reactivas al audio, sin rastro
+    if(presets)presets.classList.remove('locked'); // habilita perfiles al dar Play
+    step=0;stepTimer=setInterval(scheduler,125); // 16avo ≈125ms → ~120bpm
+    draw();
+    playing=true;
+  }
+  function stop(){
+    clearInterval(stepTimer);cancelAnimationFrame(raf);
+    if(ctx)ctx.suspend();
+    box.classList.add('idle');
+    if(presets)presets.classList.add('locked'); // vuelven a bloquearse en pausa
+    startIdle(); // campana aleatoria y lenta en pausa
+    playing=false;
+  }
+
+  btn.addEventListener('click',function(){
+    if(playing){stop();}else{start();}
+    btn.setAttribute('aria-pressed',playing);
+    document.getElementById('playlabel').textContent=playing?'Pausa':'Play';
+    document.getElementById('playicon').innerHTML=playing
+      ?'<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>'
+      :'<path d="M8 5v14l11-7z"/>';
+  });
+
+  // Perfiles: cambian el BiquadFilter → se oye distinto
+  document.getElementById('eqpresets').addEventListener('click',function(e){
+    var c=e.target.closest('.chip');if(!c)return;
+    current=c.getAttribute('data-p');
+    document.querySelectorAll('#eqpresets .chip').forEach(function(x){x.classList.remove('on');});
+    c.classList.add('on');
+    applyProfile();
+  });
+})();
+
+// ---- Demo Macros: graba pasos en vivo y los reproduce en bucle ----
+(function(){
+  var list=document.getElementById('macroSteps');if(!list)return;
+  var stateEl=document.getElementById('macroState');
+  var recBtn=document.getElementById('macroRecBtn');
+  var playBtn=document.getElementById('macroPlayBtn');
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var STEPS=[
+    {k:'Tecla Q',t:'12 ms'},
+    {k:'Clic izq',t:'340 ms'},
+    {k:'Rueda ↓',t:'90 ms'},
+    {k:'Tecla Q',t:'15 ms'}
+  ];
+
+  function renderStep(s){
+    var li=document.createElement('li');
+    li.innerHTML='<b>'+s.k+'</b><span class="t">'+s.t+'</span>';
+    return li;
+  }
+
+  if(reduce){
+    // fotograma estático: la macro ya quedó grabada, con sus pasos visibles
+    STEPS.forEach(function(s){var li=renderStep(s);li.className='in';list.appendChild(li);});
+    stateEl.className='macro-state done';stateEl.innerHTML='<span class="dot"></span>'+STEPS.length+' pasos';
+    return;
+  }
+
+  var timers=[];
+  function clear(){timers.forEach(clearTimeout);timers=[];}
+  function after(ms,fn){timers.push(setTimeout(fn,ms));}
+
+  function cycle(){
+    clear();list.innerHTML='';
+    recBtn.classList.remove('active');playBtn.classList.remove('active');
+    stateEl.className='macro-state rec';stateEl.innerHTML='<span class="dot"></span>Grabando';
+    after(150,function(){recBtn.classList.add('active');});
+
+    // 1) los pasos van "apareciendo", como si el usuario los estuviera tecleando
+    STEPS.forEach(function(s,i){
+      after(500+i*480,function(){
+        var li=renderStep(s);list.appendChild(li);
+        requestAnimationFrame(function(){li.classList.add('in');});
+      });
+    });
+
+    var afterSteps=500+STEPS.length*480+300;
+    after(afterSteps,function(){
+      recBtn.classList.remove('active');
+      stateEl.className='macro-state done';stateEl.innerHTML='<span class="dot"></span>'+STEPS.length+' pasos';
+    });
+
+    // 2) se pulsa Reproducir y los pasos se resaltan uno a uno, rápido
+    var playStart=afterSteps+500;
+    after(playStart,function(){
+      playBtn.classList.add('active');
+      stateEl.className='macro-state play';stateEl.innerHTML='<span class="dot"></span>Reproduciendo';
+    });
+    STEPS.forEach(function(s,i){
+      after(playStart+220+i*260,function(){
+        var el=list.children[i];if(el)el.classList.add('active');
+      });
+      after(playStart+220+i*260+200,function(){
+        var el=list.children[i];if(el)el.classList.remove('active');
+      });
+    });
+
+    // 3) pausa breve y reinicia el bucle
+    var playEnd=playStart+220+STEPS.length*260+400;
+    after(playEnd,function(){
+      playBtn.classList.remove('active');
+      stateEl.className='macro-state';stateEl.innerHTML='<span class="dot"></span>Lista';
+    });
+    after(playEnd+1000,cycle);
+  }
+  cycle();
+})();
+
+// ---- Demo Capas NYX: al "mantener" NYX, el resto del teclado cambia de función ----
+(function(){
+  var modKey=document.getElementById('nyxKey');if(!modKey)return;
+  var stateEl=document.getElementById('nyxState');
+  var keys=Array.prototype.slice.call(document.querySelectorAll('#nyxKbd .nk:not(.nk-mod)'));
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  if(reduce){
+    // fotograma estático: la capa NYX ya está activa
+    modKey.classList.add('pressed');
+    keys.forEach(function(k){
+      k.classList.add('layered');
+      k.querySelector('.nk-label').textContent=k.getAttribute('data-layer');
+    });
+    stateEl.textContent='Capa NYX activa';stateEl.classList.add('on');
+    return;
+  }
+
+  function swapLabel(k,text){
+    var label=k.querySelector('.nk-label');
+    label.classList.add('swap');
+    setTimeout(function(){label.textContent=text;label.classList.remove('swap');},160);
+  }
+
+  var timers=[];
+  function clear(){timers.forEach(clearTimeout);timers=[];}
+  function after(ms,fn){timers.push(setTimeout(fn,ms));}
+
+  function cycle(){
+    clear();
+    // estado base: capa apagada, letras normales
+    modKey.classList.remove('pressed');
+    keys.forEach(function(k){k.classList.remove('layered');swapLabel(k,k.getAttribute('data-base'));});
+    stateEl.textContent='Capa base';stateEl.classList.remove('on');
+
+    // 1) se "mantiene pulsada" NYX
+    after(900,function(){
+      modKey.classList.add('pressed');
+      stateEl.textContent='Capa NYX activa';stateEl.classList.add('on');
+    });
+    // 2) el resto de teclas cambia de etiqueta, con leve stagger
+    keys.forEach(function(k,i){
+      after(980+i*70,function(){
+        k.classList.add('layered');
+        swapLabel(k,k.getAttribute('data-layer'));
+      });
+    });
+
+    // 3) se suelta NYX y todo vuelve a la normalidad
+    var holdEnd=980+keys.length*70+1500;
+    after(holdEnd,function(){
+      modKey.classList.remove('pressed');
+      stateEl.textContent='Capa base';stateEl.classList.remove('on');
+    });
+    keys.forEach(function(k,i){
+      after(holdEnd+i*50,function(){
+        k.classList.remove('layered');
+        swapLabel(k,k.getAttribute('data-base'));
+      });
+    });
+
+    // 4) pausa y reinicia el bucle
+    after(holdEnd+keys.length*50+1200,cycle);
+  }
+  cycle();
+})();
+</script>
+</body>
+</html>

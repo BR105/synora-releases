@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avisos de seguridad — Zynora</title>
+<meta name="description" content="Por qué Windows, Google o tu antivirus pueden mostrar un aviso al abrir Zynora, y qué hacer en cada caso.">
+<link rel="icon" type="image/png" href="assets/logo-triangle-z.png">
+<style>
+:root{
+  --bg:#0a0a0c; --bg-2:#0e0e12; --surface:#141419; --surface-2:#1a1a21; --surface-hover:#20202a;
+  --hairline:rgba(255,255,255,.08); --hairline-2:rgba(255,255,255,.05);
+  --text:#ececf1; --text-dim:#9c9ca8; --text-muted:#67677a;
+  --accent:#966cff; --accent-soft:rgba(150,108,255,.14); --accent-line:rgba(150,108,255,.35);
+  --cyan:#00dcff; --ok:#4ade80; --warn:#fbbf24; --danger:#f87171;
+  --r-card:14px; --r-ctrl:9px; --maxw:820px;
+  --font:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-color:var(--surface-2) var(--bg-2);scrollbar-width:thin}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.7;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(150,108,255,.38);color:#fff}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:var(--bg-2)}
+::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:8px;border:2px solid var(--bg-2)}
+::-webkit-scrollbar-thumb:hover{background:rgba(150,108,255,.45)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* Header (compartido) */
+header{position:sticky;top:0;z-index:50;background:rgba(10,10,12,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--hairline-2)}
+.nav{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand img{height:30px;width:auto}
+.nav .cta{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#0a0a0c;font-weight:600;font-size:14px;padding:9px 18px;border-radius:var(--r-ctrl);transition:transform .15s}
+.nav .cta:hover{transform:translateY(-2px);text-decoration:none}
+
+/* Encabezado de página */
+.pagehead{padding:64px 0 30px;text-align:center;position:relative;overflow:hidden}
+.pagehead:before{content:"";position:absolute;top:-140px;left:50%;transform:translateX(-50%);width:640px;height:420px;background:radial-gradient(closest-side,rgba(150,108,255,.16),transparent 70%);filter:blur(20px);pointer-events:none}
+/* segundo acento cian, mismo doble-tono que el resto del sitio (violeta + cian) */
+.pagehead:after{content:"";position:absolute;top:-100px;right:6%;width:380px;height:300px;background:radial-gradient(closest-side,rgba(0,220,255,.12),transparent 70%);filter:blur(20px);pointer-events:none}
+.pagehead .wrap{position:relative}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.pagehead h1{font-size:clamp(28px,5vw,42px);font-weight:700;letter-spacing:-.02em;margin:0 0 14px;line-height:1.15}
+.pagehead p.lead{color:var(--text-dim);font-size:17px;max-width:60ch;margin:0 auto}
+
+/* Contenido */
+.doc{padding:34px 0 72px}
+.doc h2{font-size:22px;font-weight:700;letter-spacing:-.01em;margin:0 0 14px;scroll-margin-top:84px}
+.doc p{color:var(--text-dim);margin:0 0 16px}
+.doc b,.doc strong{color:var(--text);font-weight:600}
+.doc ol,.doc ul{color:var(--text-dim);margin:0 0 16px;padding-left:22px}
+.doc li{margin-bottom:8px}
+.doc code{background:var(--surface-2);border:1px solid var(--hairline);border-radius:6px;padding:1px 7px;font-family:'Cascadia Code',Consolas,monospace;font-size:.9em;color:var(--text)}
+
+/* Tarjeta por aviso */
+.item{
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid var(--hairline);box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  border-radius:var(--r-card);padding:28px 30px;margin-bottom:22px;
+}
+.item.warn{border-color:rgba(251,191,36,.26);background:linear-gradient(180deg,rgba(251,191,36,.07),rgba(255,255,255,.02))}
+.item-head{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.item-num{flex:none;width:34px;height:34px;border-radius:9px;background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+.item.warn .item-num{background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.3);color:var(--warn)}
+.item-head h2{margin:0}
+.label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--text-muted);text-transform:uppercase;margin:2px 0 4px}
+
+/* Bloque VirusTotal / resultado */
+.result{
+  background:linear-gradient(180deg,rgba(74,222,128,.10),rgba(74,222,128,.03));
+  border:1px solid rgba(74,222,128,.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  border-radius:var(--r-ctrl);padding:14px 18px;margin:0 0 16px;display:flex;gap:12px;align-items:flex-start;
+}
+.result .ico{flex:none;color:var(--ok);margin-top:2px}
+.result span{color:var(--text-dim)}
+.result b{color:var(--ok)}
+.vt{display:inline-flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--hairline);border-radius:var(--r-ctrl);padding:12px 16px;color:var(--text);font-weight:500;word-break:break-all;transition:border-color .2s,background .2s}
+.vt:hover{border-color:var(--accent-line);background:var(--surface-hover);text-decoration:none}
+.vt .ico{flex:none;color:var(--accent)}
+
+.trust{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));
+  border:1px solid var(--hairline);box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  border-radius:var(--r-card);padding:28px 30px;margin-top:8px;
+}
+.trust h2{margin-bottom:16px}
+.trust ul{list-style:none;padding:0;margin:0}
+.trust li{display:flex;gap:13px;align-items:flex-start;margin-bottom:14px;color:var(--text-dim)}
+.trust .tick{flex:none;width:22px;height:22px;border-radius:6px;background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-top:2px}
+.trust .tick svg{width:13px;height:13px}
+.contact{margin-top:22px;color:var(--text-dim);font-size:15px}
+
+/* Footer (compartido) */
+footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:44px 0 36px}
+.foot{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
+.foot img{height:24px}
+.foot-links{display:flex;gap:24px;flex-wrap:wrap}
+.foot-links a{color:var(--text-dim);font-size:14px}
+.foot-links a:hover{color:var(--text);text-decoration:none}
+.kofi{color:var(--accent)!important;font-weight:600}
+.copy{color:var(--text-muted);font-size:13px;text-align:center;margin-top:26px}
+
+@media (max-width:560px){
+  .item{padding:22px 20px}
+  .foot{flex-direction:column;text-align:center;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html" aria-label="Zynora inicio"><img src="assets/zynora-wordmark.png" alt="Zynora"></a>
+    <a class="cta js-dl" href="Zynora-portable.zip" download="Zynora-portable.zip">Descargar gratis</a>
+  </div>
+</header>
+
+<div class="pagehead">
+  <div class="wrap">
+    <span class="eyebrow">Transparencia</span>
+    <h1>¿Por qué me sale un aviso al abrir Zynora?</h1>
+    <p class="lead">Zynora es una aplicación <b>nueva e independiente</b>, gratuita y portable. Por eso, la primera vez, Windows, Google o tu antivirus pueden mostrarte un aviso de precaución. <b>No significan que Zynora sea un virus</b> — aquí te explicamos cada uno y qué hacer.</p>
+  </div>
+</div>
+
+<div class="doc">
+  <div class="wrap">
+
+    <div class="item">
+      <div class="item-head">
+        <span class="item-num">1</span>
+        <h2>«Windows protegió tu PC» (SmartScreen)</h2>
+      </div>
+      <span class="label">Por qué aparece</span>
+      <p>Windows muestra esta pantalla con cualquier programa que aún no reconoce. Zynora está <b>firmada digitalmente</b>, pero con nuestro propio certificado (no con uno comercial de pago, que cuesta cientos de dólares al año), así que Windows todavía no la tiene en su lista de programas conocidos. Es un aviso de «no te conozco», no de «esto es peligroso».</p>
+      <span class="label">Qué hacer</span>
+      <ol>
+        <li>Haz clic en <b>«Más información»</b>.</li>
+        <li>Pulsa <b>«Ejecutar de todas formas»</b>.</li>
+      </ol>
+      <p>La primera vez también puedes ejecutar <b>«Abrir Zynora (primera vez).bat»</b> (incluido en la descarga) para que Windows confíe en el certificado de Zynora.</p>
+      <p>Este aviso irá desapareciendo a medida que más gente use Zynora, o cuando podamos pagar un certificado comercial.</p>
+    </div>
+
+    <div class="item">
+      <div class="item-head">
+        <span class="item-num">2</span>
+        <h2>«Google no verificó esta app»</h2>
+      </div>
+      <span class="label">Cuándo aparece</span>
+      <p><b>Solo</b> si activas la <b>sincronización con Google Drive</b>. El inicio de sesión normal (para mostrar tu correo) <b>no</b> muestra este aviso.</p>
+      <span class="label">Por qué aparece</span>
+      <p>Para usar Google Drive, Google pide una verificación que es un trámite pendiente (requiere un dominio propio y una revisión que lleva semanas). Mientras tanto, sale este aviso. <b>No afecta la seguridad de tu cuenta:</b> Zynora solo accede a una <b>carpeta privada de la aplicación</b> dentro de tu Drive, donde guarda tu archivo de perfiles. No ve ni toca el resto de tus archivos.</p>
+      <span class="label">Qué hacer</span>
+      <p>Pulsa <b>«Configuración avanzada»</b> → <b>«Ir a Zynora»</b>.</p>
+      <p>Si prefieres no ver este aviso, usa la <b>sincronización por carpeta</b> (dentro de tu Drive/OneDrive/Dropbox de escritorio), que no requiere iniciar sesión.</p>
+    </div>
+
+    <div class="item warn">
+      <div class="item-head">
+        <span class="item-num">3</span>
+        <h2>Algún antivirus podría marcar Zynora</h2>
+      </div>
+      <span class="label">Por qué</span>
+      <p>Zynora remapea teclas y botones usando mecanismos estándar de Windows que también usan otras apps legítimas y conocidas (por ejemplo <b>AutoHotkey</b>). Algunos antivirus, por precaución, marcan este tipo de programas aunque no sean dañinos. A esto se le llama <b>falso positivo</b>.</p>
+      <div class="result">
+        <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span><b>Resultado real (transparencia):</b> en el análisis público, <b>68 de 69 motores antivirus dan Zynora limpia</b>. Solo <b>Microsoft Defender</b> la marca como <code>Trojan:Win32/Wacatac.B!ml</code> — una detección heurística por inteligencia artificial (el sufijo <code>!ml</code> lo indica), que es un <b>falso positivo conocido</b> en aplicaciones independientes, firmadas con certificado propio, que remapean teclado/ratón. No es la firma de un virus real.</span>
+      </div>
+      <p>Puedes comprobarlo tú mismo:</p>
+      <a class="vt" href="https://www.virustotal.com/gui/file/978070f986092380ceb2a4b9cdc7090a69afcb84532d687d1b06a9b8fb52f402" target="_blank" rel="noopener">
+        <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4" stroke-linecap="round"/></svg></span>
+        Ver el análisis completo en VirusTotal
+      </a>
+      <p style="margin-top:16px">Si tu Windows Defender llegara a bloquear Zynora, es por ese falso positivo: puedes restaurar el archivo desde la cuarentena de Windows y añadir una exclusión para la carpeta de Zynora. Estamos trabajando para que Microsoft lo reconozca como seguro.</p>
+    </div>
+
+    <div class="trust">
+      <h2>¿Cómo sé que Zynora es de confianza?</h2>
+      <ul>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Es portable:</b> no instala nada, no modifica el registro de Windows. Para quitarla, basta con borrar la carpeta.</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>No es un keylogger:</b> no registra ni envía lo que escribes. Consulta la <a href="privacidad.html">Política de privacidad</a>.</span></li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>Análisis abierto:</b> puedes revisar el análisis de VirusTotal y las notas de cada versión.</span></li>
+      </ul>
+      <p class="contact">¿Dudas? Escríbenos a <a href="mailto:zynorahub105@gmail.com">zynorahub105@gmail.com</a> o desde el botón <b>«Comentarios»</b> dentro de la app.</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="foot">
+    <a href="index.html"><img src="assets/zynora-wordmark.png" alt="Zynora"></a>
+    <div class="foot-links">
+      <a href="index.html">Inicio</a>
+      <a href="privacidad.html">Privacidad</a>
+      <a href="https://github.com/BR105/synora-releases">GitHub</a>
+      <a class="kofi" href="https://ko-fi.com/azmo105">☕ Apóyanos con un café</a>
+    </div>
+  </div>
+  <div class="copy">© 2026 Zynora. Proyecto independiente, no afiliado a Razer, Logitech, Corsair ni Microsoft.</div>
+</footer>
+
+</body>
+</html>
