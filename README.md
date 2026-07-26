@@ -11,8 +11,8 @@ ecualizador de audio e iluminación RGB nativa (**Zynora Lumyx**).
 
 ## Descargar e instalar
 
-1. Descarga **`Zynora-0.3.0-portable.zip`** (o el ZIP de la
-   [última release](https://github.com/BR105/synora-releases/releases/latest)).
+1. Descarga desde la [página oficial](https://br105.github.io/synora-releases/)
+   (botón **Descargar gratis**) o el archivo **`Zynora-0.3.0-portable.zip`** de este repo.
 2. Descomprime la carpeta (no la ejecutes desde dentro del ZIP).
 3. La primera vez, ejecuta **«Abrir Zynora (primera vez).bat»** (doble clic, acepta
    el aviso de administrador): hace de confianza el certificado y abre la app.
