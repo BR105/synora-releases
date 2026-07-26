@@ -1,0 +1,107 @@
+# Al publicar un GitHub Release: sube Zynora.exe a VirusTotal y
+# actualiza los botones «Ver análisis» en la web (rama gh-pages).
+#
+# Requisito — secret del repo:
+#   Settings → Secrets and variables → Actions → New repository secret
+#   Name: VT_API_KEY
+name: VirusTotal on release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag del release (vacío = último). Solo prueba manual."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  vt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolver tag
+        id: tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          if [ "${{ github.event_name }}" = "release" ]; then
+            TAG="${{ github.event.release.tag_name }}"
+          elif [ -n "${{ inputs.tag }}" ]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG="$(gh release view -R "${{ github.repository }}" --json tagName -q .tagName)"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Usando release: $TAG"
+
+      - name: Descargar Zynora.exe del release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          TAG="${{ steps.tag.outputs.tag }}"
+          mkdir -p dist
+          if gh release download "$TAG" -R "${{ github.repository }}" -p "Zynora.exe" -D dist; then
+            echo "Descargado Zynora.exe"
+          else
+            echo "Sin Zynora.exe suelto; extrayendo del ZIP portable…"
+            gh release download "$TAG" -R "${{ github.repository }}" -p "*portable.zip" -D dist
+            unzip -j dist/*portable.zip "Zynora.exe" -d dist
+          fi
+          ls -lh dist/Zynora.exe
+          sha256sum dist/Zynora.exe
+
+      - name: Checkout scripts (main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: repo
+
+      - name: Checkout sitio (gh-pages)
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: site
+
+      - name: Subir a VirusTotal y actualizar enlaces
+        id: vt
+        env:
+          VT_API_KEY: ${{ secrets.VT_API_KEY }}
+        run: |
+          set -e
+          if [ -z "$VT_API_KEY" ]; then
+            echo "::error::Falta el secret VT_API_KEY. Añádelo en Settings → Secrets → Actions del repo synora-releases."
+            exit 1
+          fi
+          pip install -q requests
+          python repo/.github/scripts/vt_upload_and_link.py \
+            --exe dist/Zynora.exe \
+            --site-dir site
+
+      - name: Resumen
+        run: |
+          {
+            echo "## VirusTotal"
+            echo ""
+            echo "- SHA256: \`${{ steps.vt.outputs.sha256 }}\`"
+            echo "- Informe: ${{ steps.vt.outputs.vt_url }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publicar cambios en gh-pages
+        working-directory: site
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html avisos.html || true
+          if git diff --cached --quiet; then
+            echo "Sin cambios en HTML (hash ya actualizado)."
+            exit 0
+          fi
+          git commit -m "web: enlace VirusTotal → ${{ steps.vt.outputs.sha256 }}"
+          git push origin HEAD:gh-pages
