@@ -1,0 +1,75 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                  ZYNORA — versión portable                     ║
+║   Remapeo + macros + audio (EQ) + RGB (Zynora Lumyx)           ║
+╚═══════════════════════════════════════════════════════════════╝
+
+Zynora es PORTABLE: no se instala. Como todavía usa un certificado
+propio (no uno de pago), Windows mostraría un aviso la primera vez.
+Para evitarlo, ábrela la PRIMERA vez con el archivo de abajo.
+
+
+■  PRIMERA VEZ — un solo doble clic
+───────────────────────────────────────────────────────────────────
+  1. Extrae esta carpeta del ZIP a un sitio con permiso de escritura
+     (p. ej. el Escritorio). NO la ejecutes desde dentro del ZIP.
+
+  2. Doble clic en:   «Abrir Zynora (primera vez).bat»
+     Acepta el aviso de administrador que aparece (una sola vez).
+
+  Eso hace de confianza a Zynora, le quita la "marca de Internet"
+  (para que NO salga "Windows protegió tu PC") y la abre.
+
+  A partir de ahí, abre Zynora normal con doble clic en  Zynora.exe
+
+
+■  ¿SE SALTÓ EL PASO Y SALE "Windows protegió tu PC"?
+───────────────────────────────────────────────────────────────────
+  Pulsa  «Más información»  >  «Ejecutar de todos modos».
+  Es seguro: sale porque el certificado es propio, no de pago.
+  (O ejecuta el .bat de arriba para no volver a verlo.)
+
+
+■  QUÉ FUNCIONA SIN HACER NADA MÁS
+───────────────────────────────────────────────────────────────────
+  • Remapeo de ratón/teclado, macros, perfiles por app, DPI.
+  • RGB de teclados/ratones Razer y de dispositivos compatibles
+    con "Iluminación dinámica" de Windows.
+  • Detección de salidas de audio y batería de inalámbricos.
+
+
+■  FUNCIONES OPCIONALES
+───────────────────────────────────────────────────────────────────
+  • ECUALIZADOR: la 1ª vez que lo actives, Zynora DESCARGA el motor
+    de audio (Equalizer APO, gratis/GPLv2) y te guía; pide admin + un
+    reinicio. Opcional; solo si quieres el ecualizador.
+
+  • RGB de PLACA / VENTILADORES / GPU: aparece solo si tu hardware
+    es compatible (placas MSI, GPU NVIDIA con chip ENE…).
+    Otras marcas se irán añadiendo.
+
+  • RGB de la RAM: requiere ejecutar Zynora COMO ADMINISTRADOR e
+    instalar "PawnIO" (gratis) — Zynora te da el enlace y descarga
+    el módulo. Opcional; se puede ignorar.
+
+
+■  ¿ZYNORA SIGUE ABIERTO PERO NO VEO LA VENTANA?
+───────────────────────────────────────────────────────────────────
+  Está en la bandeja (junto al reloj). Clic en su icono para el
+  menú rápido. La «X» solo lo oculta; para cerrarlo del todo usa
+  «Salir» en el menú rápido.
+
+
+■  ARCHIVOS
+───────────────────────────────────────────────────────────────────
+  Zynora.exe ...................... la aplicación (lo único que ejecutas)
+  Abrir Zynora (primera vez).bat .. ábrela la 1ª vez (confía + abre)
+  Zynora.cer ...................... certificado público (lo usa el .bat)
+  Al usarlo, Zynora crea junto al .exe: profiles.json, macros.json,
+  eq.json, eq_apps.json, promos.json… (tu configuración). Borrarlos =
+  empezar limpio.
+
+Zynora se ejecuta en tu equipo. Para contar cuántas personas la usan, envía
+un ping anónimo de uso (un identificador aleatorio y la versión, sin tu nombre,
+correo, IP ni datos de tu equipo), como mucho una vez al día. Puedes desactivarlo
+creando un archivo vacío llamado "telemetry_off" junto a Zynora.exe.
+Versión completa, sin caducidad.
