@@ -81,7 +81,8 @@ jobs:
           pip install -q requests
           python repo/.github/scripts/vt_upload_and_link.py \
             --exe dist/Zynora.exe \
-            --site-dir site
+            --site-dir site \
+            --also repo/README.md
 
       - name: Resumen
         run: |
@@ -105,3 +106,17 @@ jobs:
           fi
           git commit -m "web: enlace VirusTotal → ${{ steps.vt.outputs.sha256 }}"
           git push origin HEAD:gh-pages
+
+      - name: Publicar README en main
+        working-directory: repo
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md || true
+          if git diff --cached --quiet; then
+            echo "README sin cambios."
+            exit 0
+          fi
+          git commit -m "docs: enlace VirusTotal → ${{ steps.vt.outputs.sha256 }}"
+          git push origin HEAD:main
