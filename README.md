@@ -1,23 +1,25 @@
-﻿# Zynora — descargas
+﻿# Zynora
 
-### Sitio web: **https://br105.github.io/synora-releases/**
-Conoce Zynora y descárgalo con el botón **Descargar gratis** (un ZIP solo con la app).
+Hub gratuito y portable para Windows: remapeo, macros, RGB (Lumyx) y ecualizador.
 
-> Este repo (`main`) tiene **solo el paquete portable**. La web vive en otra rama (`gh-pages`), no se mezcla con la descarga de la app.
+### Descargar
+**https://br105.github.io/synora-releases/**
 
-## Instalar
+## Instalación
 
-1. Extrae esta carpeta (o el ZIP de la web) a un sitio con permiso de escritura.
-2. La primera vez: **«Abrir Zynora (primera vez).bat»**.
-3. Luego: **`Zynora.exe`**. Detalle en `LEEME.txt`.
+1. Descomprime el ZIP en una carpeta (por ejemplo el Escritorio).
+2. La primera vez, ejecuta **«Abrir Zynora (primera vez).bat»**.
+3. Después abre **`Zynora.exe`**. Más detalle en `LEEME.txt`.
 
-## Archivos (lo esencial)
+## Contenido de este paquete
 
-- `Zynora.exe` — la aplicación
-- `Abrir Zynora (primera vez).bat` — primera ejecución
-- `Zynora.cer` / `LEEME.txt` — certificado y guía
-- `synora-update.json` — actualizador (interno)
+| Archivo | Uso |
+|---------|-----|
+| `Zynora.exe` | La aplicación |
+| `Abrir Zynora (primera vez).bat` | Primera ejecución (confianza del certificado) |
+| `Zynora.cer` | Certificado |
+| `LEEME.txt` | Guía rápida |
 
 ## Actualizaciones
 
-☁ Nube → Actualizaciones → Buscar actualizaciones.
+Dentro de Zynora: **Nube → Actualizaciones → Buscar actualizaciones**.
