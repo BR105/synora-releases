@@ -2,8 +2,11 @@
 
 Hub gratuito y portable para Windows: remapeo, macros, RGB (Lumyx) y ecualizador.
 
-### Descargar
+### Página web
 **https://br105.github.io/synora-releases/**
+
+### VirusTotal
+**https://www.virustotal.com/gui/file/978070f986092380ceb2a4b9cdc7090a69afcb84532d687d1b06a9b8fb52f402**
 
 ## Instalación
 

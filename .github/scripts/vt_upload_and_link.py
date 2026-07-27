@@ -6,7 +6,7 @@ Uso (en Actions):
 
 - Si el hash ya existe en VT, no vuelve a subir (ahorra cuota).
 - Espera a que el análisis termine (o timeout) antes de tocar la web.
-- Reemplaza cualquier /gui/file/<64 hex> en index.html y avisos.html.
+- Reemplaza cualquier /gui/file/<64 hex> en index.html, avisos.html y README.md.
 """
 from __future__ import annotations
 
@@ -92,24 +92,23 @@ def file_known(session: requests.Session, sha: str) -> bool:
     die(f"Consulta hash HTTP {r.status_code}: {r.text[:400]}")
 
 
-def update_site(site_dir: Path, sha: str) -> list[Path]:
+def update_files(paths: list[Path], sha: str) -> list[Path]:
     changed: list[Path] = []
-    for name in ("index.html", "avisos.html"):
-        path = site_dir / name
+    for path in paths:
         if not path.is_file():
             print(f"AVISO: no existe {path}, se omite")
             continue
         text = path.read_text(encoding="utf-8")
         new, n = HASH_RE.subn(rf"\g<1>{sha}", text)
         if n == 0:
-            print(f"AVISO: {name} no tenía enlace VT con hash de 64 hex")
+            print(f"AVISO: {path.name} no tenía enlace VT con hash de 64 hex")
             continue
         if new != text:
             path.write_text(new, encoding="utf-8", newline="\n")
             changed.append(path)
-            print(f"  {name}: {n} enlace(s) → {sha}")
+            print(f"  {path}: {n} enlace(s) → {sha}")
         else:
-            print(f"  {name}: ya apuntaba a {sha}")
+            print(f"  {path.name}: ya apuntaba a {sha}")
     return changed
 
 
@@ -117,6 +116,13 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--exe", type=Path, required=True)
     ap.add_argument("--site-dir", type=Path, required=True)
+    ap.add_argument(
+        "--also",
+        nargs="*",
+        type=Path,
+        default=[],
+        help="Archivos extra a parchear (p. ej. README.md de main)",
+    )
     ap.add_argument("--skip-upload", action="store_true", help="Solo actualizar HTML con el hash local")
     args = ap.parse_args()
 
@@ -143,7 +149,12 @@ def main() -> None:
             print(f"analysis_id={analysis_id}")
             wait_analysis(session, analysis_id)
 
-    changed = update_site(args.site_dir, sha)
+    targets = [
+        args.site_dir / "index.html",
+        args.site_dir / "avisos.html",
+        *args.also,
+    ]
+    changed = update_files(targets, sha)
     # Para el step de commit
     out = os.environ.get("GITHUB_OUTPUT")
     if out:
