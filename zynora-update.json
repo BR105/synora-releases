@@ -1,6 +1,6 @@
 {
-  "version": "0.3.0",
-  "date": "2026-07-25",
-  "notes": "0.3.0 - Calibracion de LEDs del teclado, presets de auriculares, panel de patrocinios con miniaturas, menus renovados, macros estilo Synapse y muchas mejoras de interfaz.",
-  "url": "https://github.com/BR105/synora-releases/releases/latest/download/Zynora.exe"
+  "version": "0.3.1",
+  "date": "2026-07-30",
+  "notes": "0.3.1 - Nueva silueta fotorrealista del raton con rim light, promos de YouTube y ajustes de interfaz.",
+  "url": "https://github.com/BR105/Zynora-releases/releases/latest/download/Zynora.exe"
 }
