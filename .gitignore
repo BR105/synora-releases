@@ -1,0 +1,10 @@
+# Este repo (rama main) SOLO debe contener el manifiesto de update + README + .github.
+# Los binarios/portable se distribuyen como ASSETS del Release, no como archivos del repo.
+Zynora.exe
+*.exe
+*.zip
+Zynora.cer
+*.cer
+LEEME.txt
+Abrir Zynora*.bat
+promos.json
